@@ -1,0 +1,24 @@
+int AA = 5;
+int AB = 6;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(AA, OUTPUT);
+  pinMode(AB, OUTPUT);
+  
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  digitalWrite(AA, HIGH);
+  digitalWrite(AB, LOW);
+  delay(200);
+  digitalWrite(AA, LOW);
+  digitalWrite(AB, LOW);
+  delay(5000);  //5초동안 정지
+  //digitalWrite(AA, LOW);
+ // digitalWrite(AB, HIGH);
+  //delay(100);
+}
