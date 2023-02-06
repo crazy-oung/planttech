@@ -1,0 +1,17 @@
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 16, 2); //LCD 주소
+
+
+void setup() {
+  lcd.init(); //LCD 초기화
+  lcd.backlight(); //LCD 백라이트
+
+
+}
+
+void loop() {
+  lcd.setCursor(0,0);
+  lcd.print("Hello. World"); 
+  delay(1000);
+
+}
