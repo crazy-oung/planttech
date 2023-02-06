@@ -1,0 +1,22 @@
+#include <SoftwareSerial.h>
+
+int blueTx = 3;
+int blueRx = 2;
+SoftwareSerial mySerial(blueTx, blueRx);
+
+void setup() {
+  // Open serial communications and wait for port to open:
+  Serial.begin(9600);
+  mySerial.begin(9600);
+
+  Serial.println("Goodnight moon!");
+}
+
+void loop() { // run over and over
+  if (mySerial.available()) {
+    Serial.write(mySerial.read());
+  }
+  if (Serial.available()) {
+    mySerial.write(Serial.read());
+  }
+}
