@@ -1,8 +1,6 @@
 #include <SoftwareSerial.h>
 
-int blueTx = 3;
-int blueRx = 2;
-SoftwareSerial mySerial(blueTx, blueRx);
+SoftwareSerial mySerial(2, 3);
 
 void setup() {
   // Open serial communications and wait for port to open:
