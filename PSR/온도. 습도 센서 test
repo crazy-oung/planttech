@@ -1,0 +1,58 @@
+#include <DHT11.h>  
+DHT11 dht11(A0);  
+
+void setup()
+
+{
+  Serial.begin(9600); 
+}
+
+
+void loop()
+
+{
+
+  float temp, humi; //온도와 습도 값이 저장될 변수 온습도값 소수 float 
+
+                          
+
+  int result = dht11.read(humi, temp);  // 현재 온습도값 계산, 온습도 감지O --> 0 리턴
+  
+  if (result == 0)  // 온습도 측정 O일때
+  {
+
+    Serial.print("temperature:"); 
+
+    Serial.print(temp); //온도값 출력
+
+    Serial.print(" humidity:");
+
+    Serial.print(humi); //습도값 출력
+
+    Serial.println();
+
+  }
+
+  else
+
+  {
+
+    Serial.println();
+
+    Serial.print("Error No :"); //result 값이 0이 아닐 때
+
+    Serial.print(result);
+
+    Serial.println();
+
+  }
+
+
+
+  
+
+  delay(DHT11_RETRY_DELAY); // DHT11에서 권장하는 딜레이함수를 사용, 정상적인 값
+
+                                  
+
+}
