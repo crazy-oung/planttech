@@ -3,10 +3,11 @@ package com.planttech.service;
 import java.util.List;
 
 import com.planttech.domain.Dht11;
+import com.planttech.domain.Page;
 
 public interface DHT11Service {
 
-	public List<Dht11> getDHT11List();
+	public List<Dht11> getDHT11List(Page page);
 
 	public int addDHT11(Dht11 dht11);
 //

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.planttech.domain.Dht11;
+import com.planttech.domain.Page;
 import com.planttech.mapper.DHT11Mapper;
 import com.planttech.service.DHT11Service;
 
@@ -19,10 +20,10 @@ public class DHT11ServiceImpl implements DHT11Service {
 
 
 	@Override
-	public List<Dht11> getDHT11List() {
+	public List<Dht11> getDHT11List(Page page) {
 		System.out.println("::: DHT11ServiceImpl - getDHT11List :::");
 		
-		return dht11Mapper.selectDHT11List();
+		return dht11Mapper.selectDHT11List(page);
 	}
 
 	@Override

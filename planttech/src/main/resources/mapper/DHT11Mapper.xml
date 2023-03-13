@@ -17,10 +17,9 @@
 
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
-	<select id="selectDHT11List" resultMap="DHT11">
-		SELECT * FROM DHT11 LIMIT 0,10
+	<select id="selectDHT11List" parameterType="com.planttech.domain.Page" resultMap="DHT11">
+		SELECT * FROM DHT11 LIMIT #{beginPage}, #{pageSize}
 	</select>
-
 	
 	<insert id="insertDHT11" parameterType="com.planttech.domain.Dht11">
 		INSERT INTO DHT11 (	  TEMPERATURE
