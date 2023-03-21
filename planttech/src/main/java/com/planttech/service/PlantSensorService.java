@@ -2,14 +2,14 @@ package com.planttech.service;
 
 import java.util.List;
 
-import com.planttech.domain.Dht11;
+import com.planttech.domain.PlantSensor;
 import com.planttech.domain.Page;
 
-public interface DHT11Service {
+public interface PlantSensorService {
 
-	public List<Dht11> getDHT11List(Page page);
+	public List<PlantSensor> getPlantSensorList(Page page);
 
-	public int addDHT11(Dht11 dht11);
+	public int addPlantSensor(PlantSensor PlantSensor);
 //
 //	// Tset 상세정보 가져오기
 //	public TsetBoard getTsetOne(int TsetId);

@@ -6,7 +6,11 @@ import lombok.Data;
 @Data
 public class Plant {
 
-	private int plantId;
+	private int plantNo;
+	private int userId;
+	
 	private String plantName;
+	private String plantNickname;
+	
 
 }

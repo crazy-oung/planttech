@@ -5,18 +5,20 @@
 
 <mapper namespace="com.planttech.mapper.TestMapper">
 
-	<!-- InquiryHistoryAnswer 객체 -->
 	<resultMap type="com.planttech.domain.Plant" id="Plant">
-		<result column="plant_id" property="plantId"></result>
-		<result column="plant_name" property="plantName"></result>
+		<result column="PLANT_NO" property="plantNo"></result>
+		<result column="PLANT_NM" property="plantName"></result>
 	</resultMap>
 
 
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
-
-	<!-- 유저 활동지 통계 -->
+	
+	
 	<select id="selectPlant" resultMap="Plant">
-		SELECT * FROM plant LIMIT 0,100
+		SELECT  PLANT_NO
+			  , PLANT_NM
+		  FROM 	PLANT 
+  	 	 LIMIT 	0, 100
 	</select>
 
 </mapper>
