@@ -11,6 +11,7 @@
 	<artifactId>plantech</artifactId>
 	<version>0.0.1</version>
 	<name>planttech</name>
+	<packaging>war</packaging>
 	<description>API for planttech</description>
 	<properties>
 		<java.version>17</java.version>
@@ -29,6 +30,13 @@
 			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
 			<version>2.0.3</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		      <artifactId>spring-boot-starter-tomcat</artifactId>
+		      <scope>provided</scope> <!-- 안되어 있는 경우 변경! -->
+		</dependency>
+
 		
 
 		<!-- 
