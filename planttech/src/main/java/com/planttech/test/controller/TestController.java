@@ -1,4 +1,4 @@
-package com.planttech.demo.controller;
+package com.planttech.test.controller;
 
 import java.util.List;
 
