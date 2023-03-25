@@ -1,0 +1,122 @@
+#include <DHT.h>  // 온습도 센서 라이블러리
+
+#include <OneWire.h>
+#include <DallasTemperature.h>  //DS18B20 물온도 센서 라이브러리
+
+#include <LiquidCrystal_I2C.h>   //LCD 라이브러리
+#define ONE_WIRE_BUS D7   //물 온도센서
+#define DHTPIN D6         // DHT11 센서의 DATA를 연결한 DIGITAL 포트 (온습도 센서)
+#define DHTTYPE DHT11       // DHT11을 사용함을 명시
+
+OneWire oneWire(ONE_WIRE_BUS);
+DHT dht(DHTPIN, DHTTYPE);
+
+
+DallasTemperature sensors(&oneWire);
+LiquidCrystal_I2C lcd(0x27, 16, 2); //LCD 주소
+
+
+// 전역변수 선언
+/////////////////////////////////////////// 온습도 센서
+float temp = 0.0;
+float humi = 0.0; 
+float f = 0.0;
+/////////////////////////////////////////// 조도센서
+
+int cds = 0;
+
+////////////////////////////////////////// 물온도 센서
+
+float waterTemp = 0.0;
+
+/////////////////////////////////////////
+
+void temp_humi(void){ //온습도 센서 함수
+temp = dht.readTemperature();
+humi = dht.readHumidity(); 
+f = dht.readTemperature(true);
+
+if (isnan(humi) || isnan(temp) || isnan(f)) {
+    Serial.println(F("Failed to read from DHT sensor!"));
+    return;
+  }
+    Serial.print("temperature:"); 
+
+    Serial.print(temp); //온도값 출력
+
+    Serial.print(" humidity:");
+
+    Serial.print(humi); //습도값 출력
+
+    Serial.println();
+
+}
+
+void CDS(void){  //조도센서 함수
+  cds = analogRead(A0);
+  Serial.print("CDS: ");
+  Serial.println(cds);
+  
+}
+
+void WTemp(){
+  Serial.print("Requesting temperatures...");
+  sensors.requestTemperatures(); // Send the command to get temperatures
+  Serial.println("DONE");
+
+  waterTemp = sensors.getTempCByIndex(0);
+
+// Check if reading was successful
+  if(waterTemp != DEVICE_DISCONNECTED_C) 
+  {
+    Serial.print("Temperature for the device 1 (index 0) is: ");
+    Serial.println(waterTemp);
+  } 
+  else
+  {
+    Serial.println("Error: Could not read temperature data");
+  }
+
+
+}
+
+void Display_LCD(void){
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print(cds); 
+
+}
+
+
+void setup(void){
+Serial.begin(115200);
+dht.begin();  //온습도
+sensors.begin();  // 물온도
+lcd.init(); //LCD 초기화
+lcd.backlight(); //LCD 백라이트
+
+}
+
+void loop(void){
+
+  delay(2000);
+
+  temp_humi(); //온습도 센서 함수
+
+  delay(2000);
+
+  CDS();  //조도센서 함수
+
+  delay(2000);
+
+  WTemp(); //물온도센서 함수
+  
+  delay(2000);
+
+  Display_LCD();  //LCD 표시
+
+  delay(2000);
+
+
+}
