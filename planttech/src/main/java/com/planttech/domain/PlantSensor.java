@@ -17,6 +17,6 @@ public class PlantSensor {
 	private float waterTemp;
 	private float light;
 
-	private Timestamp PlantSensorTimestamp;
+	private Timestamp plantSensorTimestamp;
 
 }

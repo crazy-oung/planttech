@@ -25,25 +25,20 @@ public class PlantSensorController {
 	
 	@GetMapping
 	public List<PlantSensor> getPlantSensorDefalutList(	  @RequestParam(defaultValue = "0") int page
-											, @RequestParam(defaultValue = "10") int pageSize
-											, @RequestParam(defaultValue="") String userId) {
-		System.out.println("::: GET -  getPlantSensorDefalutList :::");
+														, @RequestParam(defaultValue = "10") int pageSize
+														, @RequestParam(defaultValue="") String userId) {
+		System.out.println("::: GET -  getPlantSensor DefalutList :::");
 		
-		
-		Page pageParameters = new Page();
+		Page pageParameters 		= new Page();
 		pageParameters.beginPage 	= page * pageSize;
 		pageParameters.pageSize 	= pageSize;
 		pageParameters.userId		= userId;
 		
 		System.out.println(pageParameters.toString());
-		
-		
 		return PlantSensorService.getPlantSensorList(pageParameters);
 	}
 	
-
-	
-	
+	// 센서 데이터 기록
 	@PostMapping
 	public int addPlantSensor(@RequestBody PlantSensor plantSensor) {
 		
@@ -52,5 +47,9 @@ public class PlantSensorController {
 		System.out.println(plantSensor.toString());
 		return PlantSensorService.addPlantSensor(plantSensor);
 	}
+	
+	
+	
+	
 	
 }

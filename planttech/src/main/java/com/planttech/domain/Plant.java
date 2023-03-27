@@ -7,7 +7,7 @@ import lombok.Data;
 public class Plant {
 
 	private int plantNo;
-	private int userId;
+	private int userNo;
 	
 	private String plantName;
 	private String plantNickname;
