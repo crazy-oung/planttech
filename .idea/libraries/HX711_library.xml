@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="HX711_library">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/LHG/HX711_library.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
