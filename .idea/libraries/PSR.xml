@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="PSR">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/PSR/DHT11_library.zip!/" />
+      <root url="jar://$PROJECT_DIR$/PSR/SoftwareSerial.h.zip!/" />
+      <root url="jar://$PROJECT_DIR$/PSR/LiquidCrystal_I2C.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
