@@ -1,19 +1,16 @@
 package com.example.plant.Fragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
-import com.example.plant.adapter.HomeAdapter
 import com.example.plant.adapter.PlantAdapter
 import com.example.plant.databinding.FragmentPlantBinding
 import com.example.plant.model.Plant
 import java.util.*
+
 
 class PlantFragment : Fragment(R.layout.fragment_plant) {
 
@@ -26,28 +23,41 @@ class PlantFragment : Fragment(R.layout.fragment_plant) {
         val binding = FragmentPlantBinding.inflate(inflater, container, false)
 
         val data = mutableListOf(
-            Plant(plantName = "토마토", plantScore = 100, startDate = Date(System.currentTimeMillis())),
-            Plant(plantName = "콩나물", plantScore = 80, startDate = Date(System.currentTimeMillis())),
-            Plant(plantName = "바나나", plantScore = 0, startDate = Date(System.currentTimeMillis()))
+            Plant(plantName = "토마토", plantScore = 100, startDate = "32일째"),
+            Plant(plantName = "콩나물", plantScore = 80, startDate = "16일째"),
+            Plant(plantName = "바나나", plantScore = 0, startDate = "4일째")
         )
 
         plantAdapter = context?.let { PlantAdapter(data) }!!
         binding.plantRcv.adapter = plantAdapter
 
-        val intent = Intent(this.context, CameraFragment::class.java)
         recyclerView = binding.plantRcv
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = PlantAdapter(data)
-
 
         plantAdapter.setItemClickListener(object :PlantAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
             }
         })
 
+        setHasOptionsMenu(true)
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_up, menu)
+        super.onCreateOptionsMenu(menu!!, inflater)
+    }
 
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.add -> {
+                true
+            }
+            R.id.delete -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }

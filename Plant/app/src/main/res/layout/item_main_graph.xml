@@ -4,32 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/green"
     android:layout_margin="30dp">
 
-    <TextView
-        android:id="@+id/plantGraph"
-        android:layout_width="wrap_content"
-        android:layout_height="61dp"
-        android:layout_margin="20dp"
-        android:text="@string/plant_growth_graph"
-        android:textColor="@color/black"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/barChart"
+
+    <View
+        android:id="@+id/rectangle_3"
+        android:layout_width="0dp"
+        android:layout_height="320dp"
+        android:background="@drawable/rectangle_2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
 
     <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/barChart"
-        android:layout_height="300dp"
-        android:layout_width="match_parent"
+        android:id="@+id/homeBarChart"
+        android:layout_width="316dp"
+        android:layout_height="225dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/plantGraph"
-        />
+        app:layout_constraintBottom_toBottomOf="@+id/rectangle_3"
+        app:layout_constraintLeft_toLeftOf="@+id/rectangle_3"
+        app:layout_constraintRight_toRightOf="@+id/rectangle_3"
+        app:layout_constraintTop_toTopOf="@+id/rectangle_3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="80dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,9 +14,9 @@
     <string name="good">좋음</string>
     <string name="soso">그럭저럭</string>
     <string name="bad">나쁨</string>
-    <string name="my_plant_list">내 식물 리스트</string>
+    <string name="my_plant_list">Plant List</string>
     <string name="plant_growth_graph">식물 성장 그래프</string>
-    <string name="my_plant_stats">내 식물 통계</string>
+    <string name="my_plant_stats">Plant Graph</string>
     <string name="board">게시판</string>
 
 </resources>

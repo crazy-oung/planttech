@@ -4,25 +4,23 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
+import com.example.plant.model.CameraRecyclerInViewModel
 import com.example.plant.model.RecyclerInViewModel
 import com.example.plant.model.multi_type1
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
 
-class HomeAdapter(private val context: Context, private val data: List<Float>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var datas = mutableListOf<RecyclerInViewModel>()
+class CameraAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    var datas = mutableListOf<CameraRecyclerInViewModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view : View
         return when(viewType) {
             multi_type1 -> {
                 view = LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_main_plant,
+                    R.layout.item_camera_display,
                     parent,
                     false
                 )
@@ -30,7 +28,7 @@ class HomeAdapter(private val context: Context, private val data: List<Float>) :
             }
             else -> {
                 view = LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_main_graph,
+                    R.layout.item_camera_info,
                     parent,
                     false
                 )
@@ -58,7 +56,6 @@ class HomeAdapter(private val context: Context, private val data: List<Float>) :
             else -> {
                 (holder as MultiViewHolder2).bind(datas[position])
                 holder.setIsRecyclable(false)
-
             }
         }
     }
@@ -71,39 +68,25 @@ class HomeAdapter(private val context: Context, private val data: List<Float>) :
 */
     inner class MultiViewHolder1(view : View) : RecyclerView.ViewHolder(view) {
 
-        private val palntName: TextView = view.findViewById(R.id.plantName)
-        private val temp: TextView = view.findViewById(R.id.temp)
-        private val humidity: TextView = view.findViewById(R.id.humidity)
+        private var video : ImageView = view.findViewById(R.id.CamaerView)
         //private val imgProfile: ImageView = view.findViewById(R.id.exampleView)
 
-        fun bind(item: RecyclerInViewModel) {
-            palntName.text = item.plantName
-            temp.text = item.temp.toString()
-            humidity.text = item.humidity.toString()
-
+        fun bind(item: CameraRecyclerInViewModel) {
+            video.setImageBitmap(item.cameraView)
         }
     }
     inner class MultiViewHolder2(view: View) : RecyclerView.ViewHolder(view) {
 
-        val chart: BarChart = itemView.findViewById(R.id.homeBarChart)
+        private val plantName: TextView = view.findViewById(R.id.camera_Info_PlantName)
+        private val plantState: TextView = view.findViewById(R.id.camera_Info_PlantState)
+        private val temp: TextView = view.findViewById(R.id.camera_Info_temp)
+        private val humidity: TextView = view.findViewById(R.id.camera_Info_humi)
 
-        fun bind(item: RecyclerInViewModel) {
-            val entries = mutableListOf<BarEntry>()
-            for (i in data.indices) {
-                entries.add(BarEntry(i.toFloat(), data[i]))
-            }
-
-            val dataSet = BarDataSet(entries, "Label")
-            val barData = BarData(dataSet)
-
-            chart.data = barData
-            chart.description.isEnabled = false
-            chart.axisLeft.isEnabled = false
-            chart.axisRight.isEnabled = false
-            chart.legend.isEnabled = false
-            chart.setDrawValueAboveBar(false)
-            chart.setFitBars(true)
-            chart.invalidate()
+        fun bind(item: CameraRecyclerInViewModel) {
+            plantName.text = item.plantName
+            plantState.text = item.plantState
+            temp.text = item.temp.toString()
+            humidity.text = item.humidity.toString()
         }
     }
 }

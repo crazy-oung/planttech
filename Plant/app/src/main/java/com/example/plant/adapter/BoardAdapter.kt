@@ -11,7 +11,7 @@ import com.example.plant.model.Plant
 class BoardAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_plant, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_board, parent, false)
         return ViewHolder(view)
     }
 
@@ -30,9 +30,9 @@ class BoardAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<BoardA
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.myPlantName)
-        val score: TextView = itemView.findViewById((R.id.plantScore))
-        val date: TextView = itemView.findViewById(R.id.startDate)
+        val name: TextView = itemView.findViewById(R.id.board_myPlantName)
+        val score: TextView = itemView.findViewById((R.id.board_plantScore))
+        val date: TextView = itemView.findViewById(R.id.board_startDate)
 
 
     }

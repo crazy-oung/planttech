@@ -1,10 +1,13 @@
 package com.example.plant.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.plant.Fragment.CameraFragment
 import com.example.plant.R
 import com.example.plant.model.Plant
 
@@ -24,8 +27,16 @@ class PlantAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<PlantA
         holder.score.text = mylist[position].plantScore.toString()
         holder.date.text = mylist[position].startDate.toString()
 
-        holder.itemView.setOnClickListener{
-            itemClickListner.onClick(it,position)
+        holder.itemView.setOnClickListener { v ->
+            val activity = v!!.context as AppCompatActivity
+            val bundle = Bundle()
+            bundle.putString("name", mylist[position].plantName)
+            val cameraFragment = CameraFragment()
+            cameraFragment.arguments = bundle
+            activity.supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, cameraFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
