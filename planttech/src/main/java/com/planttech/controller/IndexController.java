@@ -15,7 +15,7 @@ public class IndexController {
 
 //	@Autowired IndexService IndexService;
 
-	@Operation(summary = "INDEX controller", description = "non REST API, For visiting Index page")
+	
 	@GetMapping
 	public String getIndexPage(HttpSession session) {
 		System.out.println("::: GET(NON REST) - planttech home :::");

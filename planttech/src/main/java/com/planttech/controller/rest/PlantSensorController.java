@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.planttech.service.PlantSensorService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Plant sensor", description = "식물 환경 정보 API")
 @RestController
-@RequestMapping("/PlantSensor")
+@RequestMapping("/plant-sensor")
 public class PlantSensorController {
 	
 	@Autowired
@@ -24,27 +28,24 @@ public class PlantSensorController {
 	
 	
 	@GetMapping
+	@Operation(summary = "식물 환경 정보 가져오기", description = "유저 고유 번호로 해당 유저의 식물 환경 제어 센서의 상태 값 정보를 가져옵니다.")
 	public List<PlantSensor> getPlantSensorDefalutList(	  @RequestParam(defaultValue = "0") int page
-											, @RequestParam(defaultValue = "10") int pageSize
-											, @RequestParam(defaultValue="") String userId) {
-		System.out.println("::: GET -  getPlantSensorDefalutList :::");
+														, @RequestParam(defaultValue = "10") int pageSize
+														, @RequestParam(defaultValue="") int userNo) {
+		System.out.println("::: GET -  getPlantSensor DefalutList :::");
 		
-		
-		Page pageParameters = new Page();
+		Page pageParameters 		= new Page();
 		pageParameters.beginPage 	= page * pageSize;
 		pageParameters.pageSize 	= pageSize;
-		pageParameters.userId		= userId;
+		pageParameters.userNo		= userNo;
 		
 		System.out.println(pageParameters.toString());
-		
-		
 		return PlantSensorService.getPlantSensorList(pageParameters);
 	}
 	
-
-	
-	
+	// 센서 데이터 기록
 	@PostMapping
+	@Operation(summary = "식물 환경 정보 저장하기", description = "유저 고유 번호로 해당 유저의 식물 환경 제어 센서의 상태 값 정보를 저장니다.")
 	public int addPlantSensor(@RequestBody PlantSensor plantSensor) {
 		
 		System.out.println("::: POST -  addPlantSensor :::");
@@ -52,5 +53,9 @@ public class PlantSensorController {
 		System.out.println(plantSensor.toString());
 		return PlantSensorService.addPlantSensor(plantSensor);
 	}
+	
+	
+	
+	
 	
 }
