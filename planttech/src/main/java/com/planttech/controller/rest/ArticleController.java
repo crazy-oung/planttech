@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class ArticleController {
 	
 	@Autowired
-	private PlantSensorService PlantSensorService;
+	private PlantSensorService ArticleService;
 	
 	@GetMapping
 	public int getArticleList() {
