@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Plant sensor", description = "식물 환경 정보 API")
 @RestController
-@RequestMapping("/PlantSensor")
+@RequestMapping("/plant-sensor")
 public class PlantSensorController {
 	
 	@Autowired
