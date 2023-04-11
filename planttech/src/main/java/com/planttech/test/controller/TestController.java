@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.planttech.domain.Plant;
 import com.planttech.service.TestService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Test", description = "테스트 API")
 @RestController
 public class TestController {
 	@Autowired private TestService testService;
