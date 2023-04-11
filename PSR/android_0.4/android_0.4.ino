@@ -13,7 +13,6 @@
 
 
 
-
 int LED_Pin = D2;
 int AA = D5;
 int AB = D6;
@@ -27,6 +26,7 @@ struct tm *lc;          // 내가 원하는대로 날짜형식 작성을 위해 
 WiFiClient client;
 HTTPClient http;
 HTTPClient http2;
+HTTPClient http3;
 
 
 
@@ -107,8 +107,12 @@ void loop() {
     strcat(httpUrl, userNo);
     http.begin(client, httpUrl); // 요청을 보낼 URL 입력
     http2.begin(client, "");  // 
-    http2.addHeader("Content-Type", "application/json");
+    char httpUrl3[] = "";
+    strcat(httpUrl3, userNo);
+    http3.begin(client, httpUrl3);
     http.addHeader("Content-Type", "application/json");
+    http2.addHeader("Content-Type", "application/json");
+    http3.addHeader("Content-Type", "application/json");
     // GET 요청을 할때 전송 방식을 정한다.
 
     Serial.print("[HTTP] 수집한 값의 GET/POST 요청을 시도합니다...\n");
@@ -116,8 +120,12 @@ void loop() {
 
     int httpCode = http.GET(); // 위에 작성한 URL로 GET 요청을 보낸다.
     int httpCode2 = http2.GET(); // 위에 작성한 URL로 GET 요청을 보낸다.
-
-
+    String POSTBODY = "";
+    StaticJsonBuffer<200> jsonBuffer3;
+    JsonObject& root3 = jsonBuffer3.createObject();
+    // root3["waterPumpTf"] = 0;
+    // root3["userNo"] = 0;
+    // root3.printTo(POSTBODY);
     
     if (httpCode > 0 && httpCode2 > 0) {
       // HTTP 헤더를 전송하고 그에 대한 응답을 핸들링하는 과정
@@ -180,6 +188,19 @@ void loop() {
           Serial.println("Water OFF");
           digitalWrite(AA, LOW);
           digitalWrite(AB, LOW);
+          int httpCode3 = http3.POST(POSTBODY); // 위에 작성한 URL로 POST 요청을 보낸다.
+          if (httpCode3 > 0) {
+          // HTTP 헤더를 전송하고 그에 대한 응답을 핸들링하는 과정
+          Serial.printf("[HTTP3] 응답 Code : %d\n", httpCode3);
+
+          // HTTP 응답 200, 즉 정상응답이면 서버로부터 수신된 응답을 출력한다.
+          if (httpCode3 == HTTP_CODE_OK) {
+            const String& payload = http3.getString();
+            Serial.print("서버로부터 수신된 응답 : ");
+            Serial.println(payload);
+            Serial.println("");
+          }
+          }
           //Water_Pump 0 post
         }
       }
@@ -197,6 +218,7 @@ void loop() {
 
     http.end();
     http2.end();
+    http3.end();
   }
   delay(1000);
 }
