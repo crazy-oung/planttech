@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Senesor control", description = "센서 제어 API")
 @RestController
-@RequestMapping("/SensorControl")
+@RequestMapping("/sensor-control")
 public class SensorControlController {
 	
 	@Autowired
@@ -36,7 +36,7 @@ public class SensorControlController {
 	}	
 	
 	// 센서 제어
-	@PostMapping("/WP")
+	@PostMapping("/water-pump")
 	@Operation(summary = "식물 물 펌프 센서 제어", description = "유저 고유 번호로 해당 유저 식물의 물 펌프 센서의 상태 값을 수정합니다.")
 	public int addPlantSensorWataerPump(@RequestParam int userNo, @RequestParam int waterPumpTf) {
 	
@@ -47,7 +47,7 @@ public class SensorControlController {
 		return PlantSensorService.addPlantSensorWataerPump(userNo, waterPumpTf);
 	}
 	
-	@PostMapping("/LED")
+	@PostMapping("/led")
 	@Operation(summary = "식물 LED 센서 제어", description = "유저 고유 번호로 해당 유저 식물의 LED 센서의 상태 값을 수정합니다.")
 	public int addPlantSensorLED(@RequestParam int userNo, @RequestParam int ledTf) {
 		
