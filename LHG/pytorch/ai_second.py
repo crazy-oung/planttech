@@ -75,5 +75,4 @@ accuracy = np.abs((y_true - y_pred_norm) / y_true) * 100
 
 print(f"input: {x_test}, predicted output: {float(y_pred[0]):.4f}, expected output: {float(y_true[0]):.4f}, accuracy: {float(accuracy[0]):.2f}%")
 
-# input: [[87 87 94 96]], predicted output: 7.5000, expected output: 7.5000, accuracy: 0.00%
-# 정확도가 0이 뜨는 문제(100이 뜨도록 바꿔야함)
+
