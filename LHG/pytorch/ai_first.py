@@ -64,5 +64,3 @@ y_pred = y_pred_norm * (np.max(y_train) - np.min(y_train)) + np.min(y_train)
 print(f"input: {x_test}, predicted output: {y_pred[0]:.4f}")
 
 
-# [43, 74, 56, 84]의 입력값에 대해 약 211.6cm의 콩나물이 예측된 것
-# 콩나물의 길이가 너무 크게 예측되는 문제를 해결해야 함
