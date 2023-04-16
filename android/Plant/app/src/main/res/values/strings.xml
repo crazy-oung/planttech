@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Plant</string>
+    <string name="title">Plant Test!</string>
+    <string name="id">ID</string>
+    <string name="name">Name</string>
+    <string name="temp">Temp</string>
+    <string name="add">Add</string>
+    <string name="update">UPDATE</string>
+    <string name="delete">DELETE</string>
+    <string name="PlanTech">PlanTech</string>
+    <string name="plant_name">Plant Name</string>
+    <string name="present_temp">현재 온도 :</string>
+    <string name="present_humidity">현재 습도 :</string>
+    <string name="good">좋음</string>
+    <string name="soso">그럭저럭</string>
+    <string name="bad">나쁨</string>
+    <string name="my_plant_list">내 식물 리스트</string>
+    <string name="plant_growth_graph">식물 성장 그래프</string>
+    <string name="my_plant_stats">내 식물 통계</string>
+    <string name="board">게시판</string>
+
+</resources>

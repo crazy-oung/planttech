@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.planttech.mapper.PlantSensorMapper">
+
+	<!-- 객체 -->
+	<resultMap type="com.planttech.domain.PlantSensor" id="plantSensor">
+		<result column="PLANT_SR_NO" property="plantSensorNo"></result>
+		<result column="PLANT_NO" property="plantNo"></result>
+		<result column="SR_DHT_NO" property="dhtNo"></result>
+		<result column="SR_PR_NO" property="photoRegistorNo"></result>
+		<result column="SR_WT_NO" property="waterTempNo"></result>
+		
+		<result column="PLANT_SR_HUMI" property="humi"></result>
+		<result column="PLANT_SR_TEMP" property="temp"></result>
+		<result column="PLANT_SR_LIGHT" property="light"></result>
+		<result column="PLANT_SR_WT" property="waterTemp"></result>
+		
+		<result column="PLANT_SR_CREATETIME" property="plantSensorTimestamp"></result>
+	</resultMap>
+	
+	<resultMap type="com.planttech.domain.SensorControlTf" id="sensorControlTf">
+		<result column="SR_CTRL_NO" property="sensorControlNo"></result>
+		<result column="USER_NO" property="userNo"></result>
+		
+		<result column="SR_WP_TF" property="waterPumpTf"></result>
+		<result column="SR_LED_TF" property="ledTf"></result>
+		
+		<result column="SR_UPDATETIME" property="sensorUpdateTimestamp"></result>
+	</resultMap>
+
+	
+	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+
+	<select id="selectPlantSensorList" parameterType="com.planttech.domain.Page" resultMap="plantSensor">
+		SELECT    PLANT_SR_NO
+				, PLANT_NO
+				, SR_DHT_NO
+				, SR_PR_NO
+				, SR_WT_NO
+				, PLANT_SR_HUMI
+				, PLANT_SR_TEMP
+				, PLANT_SR_WT
+				, PLANT_SR_LIGHT
+				, PLANT_SR_CREATETIME
+		  FROM PLANT_SR 
+	  ORDER BY PLANT_SR_CREATETIME DESC
+	  	 LIMIT #{beginPage}, #{pageSize}
+	</select>
+	
+	<insert id="insertPlantSensor" parameterType="com.planttech.domain.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
+		
+		INSERT INTO 
+		  PLANT_SR (  PLANT_NO
+					, SR_DHT_NO
+					, SR_PR_NO
+					, SR_WT_NO
+					, PLANT_SR_HUMI
+					, PLANT_SR_TEMP
+					, PLANT_SR_LIGHT
+					, PLANT_SR_WT	) 			
+			VALUES (  #{plantNo}
+					, #{dhtNo}
+					, #{photoRegistorNo}
+					, #{waterTempNo}
+					, #{humi}
+					, #{temp}
+					, #{light}
+					, #{waterTemp} 			)			
+	</insert>
+	
+	
+	<select id="selectSensorControl" resultMap="sensorControlTf">
+		SELECT    SR_CTRL_NO
+				, USER_NO
+				, SR_WP_TF
+				, SR_LED_TF
+				, SR_UPDATETIME
+		  FROM SR_CTRL
+	     WHERE USER_NO = #{userNo}
+	</select>
+	
+	<update id="updatePlantSensorWaterPump" >
+		UPDATE SR_CTRL 
+		   SET SR_WP_TF = #{waterPumpTf} 		
+		 WHERE USER_NO = #{userNo}		
+	</update>
+	
+	<update id="updatePlantSensorLed" >
+		UPDATE SR_CTRL 
+		   SET SR_LED_TF = #{ledTf} 		
+		 WHERE USER_NO = #{userNo}		
+	</update>
+	
+	
+	
+
+</mapper>
