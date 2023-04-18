@@ -1,0 +1,94 @@
+import random
+
+# 실제 센서값
+get_data = []
+
+# 정규화된 센서값
+data = []
+
+# 온도 : 0℃ ~ 50℃, 오차: +-2℃
+# 습도: 상대습도 20% ~ 90%, 오차: +-5%
+# 조도: 0(어두움) ~ 1024(밝음), 일반 방에서의 조도 값: 80 ~ 130
+# 물 온도: -55℃ ~ 125℃
+# 위의 값에 맞게 배열 데이터 생성
+
+for i in range(100):
+    plant_num = i + 1
+    temp = round(random.uniform(0, 50), 1)
+    humidity = round(random.uniform(20, 90), 1)
+    light = random.randint(0, 1024)
+    water_temp = round(random.uniform(-55, 125), 1)
+
+    get_data.append([plant_num, temp, humidity, light, water_temp])
+
+    # 대기온도 정규화
+    if 14.25 <= temp <= 26.25:
+        temp_norm = 1.0
+    elif (1.75 <= temp < 14.25) or (26.25 < temp <= 38.75):
+        temp_norm = 0.5
+    else:
+        temp_norm = 0.0
+
+    # 물 온도 정규화
+    if 14.25 <= water_temp <= 26.25:
+        water_temp_norm = 1.0
+    elif (1.75 <= water_temp < 14.25) or (26.25 < water_temp <= 38.75):
+        water_temp_norm = 0.5
+    else:
+        water_temp_norm = 0.0
+
+    # 습도 정규화
+    if 72.5 <= humidity <= 90:
+        humidity_norm = 1.0
+    elif 37.5 <= humidity < 72.5:
+        humidity_norm = 0.5
+    else:
+        humidity_norm = 0.0
+
+    # 조도 정규화
+    if 60 <= light <= 316:
+        light_norm = 1.0
+    elif (0 <= light < 60) or (316 < light <= 768):
+        light_norm = 0.5
+    else:
+        light_norm = 0.0
+
+    data.append([plant_num, temp_norm, humidity_norm, light_norm, water_temp_norm])
+
+print("plants = ", get_data)
+print("normalized_data = ", data)
+
+# 정규화된 센서값에 따른 식물상태값
+status = []
+
+for plant in data:
+    temp_norm, humidity_norm, light_norm, water_temp_norm = plant[1:]
+
+    # 대기 온도, 습도, 조도, 물 온도 모두 1인 경우
+    if temp_norm == humidity_norm == light_norm == water_temp_norm == 1:
+        status.append(1)
+    # 대기 온도, 습도, 물 온도 중 하나라도 0인 경우
+    elif 0 in [temp_norm, humidity_norm, water_temp_norm]:
+        status.append(0)
+    # 대기 온도, 습도, 물 온도가 모두 0.5이고 조도가 0.5 이상인 경우
+    elif temp_norm == humidity_norm == water_temp_norm == 0.5 and light_norm <= 0.5:
+        status.append(0.5)
+    # 대기 온도, 습도, 물 온도가 모두 0.5이고 조도가 0인 경우
+    elif temp_norm == humidity_norm == water_temp_norm == 0.5 and light_norm == 0:
+        status.append(0)
+    # 대기 온도, 습도, 물 온도 중 두 개가 0.5이고 나머지 하나가 1인 경우
+    elif sorted([temp_norm, humidity_norm, water_temp_norm]) == [0.5, 0.5, 1]:
+        status.append(0.5)
+    # 대기 온도, 습도, 물 온도 중 두 개가 1이고 나머지 하나가 0.5인 경우
+    elif sorted([temp_norm, humidity_norm, water_temp_norm]) == [0.5, 1, 1]:
+        if light_norm == 0:
+            status.append(0.5)
+        else:
+            status.append(1)
+    # 대기 온도, 습도, 물 온도 모두 1인 경우
+    elif temp_norm == humidity_norm == water_temp_norm == 1:
+        status.append(1)
+    else:
+        status.append(0)
+
+print("state_data = ", status)
