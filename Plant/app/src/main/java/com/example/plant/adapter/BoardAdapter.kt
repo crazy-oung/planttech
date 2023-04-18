@@ -33,8 +33,6 @@ class BoardAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<BoardA
         val name: TextView = itemView.findViewById(R.id.board_myPlantName)
         val score: TextView = itemView.findViewById((R.id.board_plantScore))
         val date: TextView = itemView.findViewById(R.id.board_startDate)
-
-
     }
 
     interface ItemClickListener{

@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+
         val homeFragment = HomeFragment()
         val plantFragment = PlantFragment()
         val graphFragment = GraphFragment()

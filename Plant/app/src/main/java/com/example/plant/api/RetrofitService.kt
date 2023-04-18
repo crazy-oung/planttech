@@ -1,6 +1,7 @@
 package com.example.plant.api
 
 import com.example.plant.model.LedResponse
+import com.example.plant.model.LoginResponse
 import com.example.plant.model.PlantInfo
 import com.example.plant.model.SensorControlTf
 import retrofit2.Call
@@ -17,4 +18,11 @@ interface RetrofitService {
     @POST("SensorControl/LED")
     fun LEDRequest(@Query("userNo") userNo: Int, @Query("ledTf") ledTf: Int ): Call<LedResponse>
 
+    @POST("userCheck")
+    fun getLogin(@Query("id") id : String, @Query("password") password : String) : Call<LoginResponse>
+
+    @POST("userRegister")
+    fun userRegister(
+        // 유저 정보
+    ) : Call<LoginResponse>
 }
