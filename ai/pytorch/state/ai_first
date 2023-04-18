@@ -1,0 +1,45 @@
+import torch
+
+# 위에서 주어진 데이터를 사용하여 텐서를 생성합니다.
+plants =  [[1, 42.4, 26.4, 323, 3.7], [2, 39.5, 73.6, 246, 60.6], [3, 11.0, 78.8, 898, -31.4], [4, 36.4, 68.2, 881, 16.9], [5, 40.4, 84.5, 550, 111.3], [6, 12.1, 64.3, 967, 99.1], [7, 22.9, 42.1, 940, 103.9], [8, 27.8, 84.2, 388, 70.3], [9, 20.9, 71.6, 475, 110.7], [10, 18.2, 71.7, 636, 44.0]]
+normalized_data =  [[1, 0.0, 0.0, 0.5, 0.5], [2, 0.0, 1.0, 1.0, 0.0], [3, 0.5, 1.0, 0.0, 0.0], [4, 0.5, 0.5, 0.0, 1.0], [5, 0.0, 1.0, 0.5, 0.0], [6, 0.5, 0.5, 0.0, 0.0], [7, 1.0, 0.5, 0.0, 0.0], [8, 0.5, 1.0, 0.5, 0.0], [9, 1.0, 0.5, 0.5, 0.0], [10, 1.0, 0.5, 0.5, 0.0]]
+state_data =  [0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0]
+weights =  [0.8, 0.1, 0.1, 0.0]
+
+# 훈련용 데이터를 준비합니다.
+x_train = torch.tensor(normalized_data, dtype=torch.float)
+y_train = torch.tensor(state_data, dtype=torch.float)
+
+# 모델을 정의합니다.
+class PlantModel(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(4, 1)
+
+    def forward(self, x):
+        return self.linear(x).squeeze()
+
+model = PlantModel()
+
+# 손실 함수와 최적화 알고리즘을 설정합니다.
+criterion = torch.nn.MSELoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+
+# 모델을 훈련합니다.
+for epoch in range(100):
+    optimizer.zero_grad()
+    y_pred = model(x_train[:, 1:])  # 식물번호는 사용하지 않습니다.
+    loss = criterion(y_pred, y_train)
+    loss.backward()
+    optimizer.step()
+
+    if epoch % 10 == 0:
+        print(f'Epoch {epoch}: loss = {loss.item()}')
+
+# 훈련된 모델을 사용하여 새로운 데이터의 상태를 예측합니다.
+new_plants = [[11, 15.8, 63.9, 765, -23.5], [12, 33.7, 74.6, 512, 45.9], [13, 19.6, 81.2, 730, 66.2]]
+normalized_new_plants = [[11, 0.5, 0.5, 0.0, 0.0], [12, 0.5, 1.0, 0.5, 0.0], [13, 1.0, 1.0, 0.0, 0.5]]
+x_test = torch.tensor(normalized_new_plants, dtype=torch.float)
+with torch.no_grad():
+    y_test = model(x_test[:, 1:]).numpy()
+print(f'Predicted state for new plants: {y_test}')
