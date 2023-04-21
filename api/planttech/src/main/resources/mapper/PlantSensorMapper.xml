@@ -9,6 +9,7 @@
 	<resultMap type="com.planttech.domain.PlantSensor" id="plantSensor">
 		<result column="PLANT_SR_NO" property="plantSensorNo"></result>
 		<result column="PLANT_NO" property="plantNo"></result>
+		<result column="WH_PLANT_NO" property="warehousePlantNo"></result>
 		<result column="SR_DHT_NO" property="dhtNo"></result>
 		<result column="SR_PR_NO" property="photoRegistorNo"></result>
 		<result column="SR_WT_NO" property="waterTempNo"></result>
@@ -37,6 +38,7 @@
 	<select id="selectPlantSensorList" parameterType="com.planttech.domain.Page" resultMap="plantSensor">
 		SELECT    PLANT_SR_NO
 				, PLANT_NO
+				, WH_PLANT_NO
 				, SR_DHT_NO
 				, SR_PR_NO
 				, SR_WT_NO
@@ -54,6 +56,7 @@
 		
 		INSERT INTO 
 		  PLANT_SR (  PLANT_NO
+		  			, WH_PLANT_NO
 					, SR_DHT_NO
 					, SR_PR_NO
 					, SR_WT_NO
@@ -62,6 +65,7 @@
 					, PLANT_SR_LIGHT
 					, PLANT_SR_WT	) 			
 			VALUES (  #{plantNo}
+					, #{warehousePlantNo}
 					, #{dhtNo}
 					, #{photoRegistorNo}
 					, #{waterTempNo}
