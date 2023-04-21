@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Senesor control", description = "센서 제어 API")
+@Tag(name = "Senesor Control", description = "센서 제어")
 @RestController
 @RequestMapping("/sensor-control")
 public class SensorControlController {

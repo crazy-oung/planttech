@@ -11,7 +11,6 @@ import com.planttech.domain.Page;
 
 @Mapper
 public interface PlantSensorMapper {
-	// Test Data 로 plant 
 	public List<PlantSensor> selectPlantSensorList(Page page);
 	
 	public int insertPlantSensor(PlantSensor plantSensor);

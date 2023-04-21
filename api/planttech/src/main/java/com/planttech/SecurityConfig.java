@@ -25,7 +25,7 @@ public class SecurityConfig {
                         new AntPathRequestMatcher("/h2-console/**"))
             .and()
 		        .formLogin()
-		        .loginPage("/loginForm")
+		        .loginPage("/user/login")
 		        .defaultSuccessUrl("/")
 		    .and()
 		        .logout()
