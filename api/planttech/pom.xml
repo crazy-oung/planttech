@@ -31,28 +31,22 @@
 			<version>2.0.3</version>
 		</dependency>
 		
+		<!-- war 빌드 설정 -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		      <artifactId>spring-boot-starter-tomcat</artifactId>
-		      <scope>provided</scope> <!-- 안되어 있는 경우 변경! -->
+		      <scope>provided</scope> 
 		</dependency>
-
-		
-
-		<!-- 
 		
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>3.0.0</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		-->
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -97,9 +91,16 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
