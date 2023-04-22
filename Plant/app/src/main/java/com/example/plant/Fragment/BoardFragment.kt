@@ -40,6 +40,7 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
 
         boardAdapter.setItemClickListener(object : BoardAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
+                // 게시글 댓글 이동
             }
         })
 
