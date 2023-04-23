@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
+import com.example.plant.model.BoardComment
 import com.example.plant.model.Plant
 
-class BoardContentAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<BoardContentAdapter.ViewHolder>() {
+class BoardContentAdapter(var mylist: MutableList<BoardComment>) : RecyclerView.Adapter<BoardContentAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_board, parent, false)
@@ -20,28 +21,19 @@ class BoardContentAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = mylist[position].plantName
-        holder.score.text = mylist[position].plantScore.toString()
-        holder.date.text = mylist[position].startDate.toString()
+        holder.userid.text = mylist[position].userId
+        holder.content.text = mylist[position].content
+        holder.date.text = mylist[position].date.toString()
 
-        holder.itemView.setOnClickListener{
-            itemClickListner.onClick(it,position)
-        }
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.board_myPlantName)
-        val score: TextView = itemView.findViewById((R.id.board_plantScore))
-        val date: TextView = itemView.findViewById(R.id.board_startDate)
+        val userid: TextView = itemView.findViewById(R.id.cmt_userid_tv)
+        val content: TextView = itemView.findViewById((R.id.cmt_content_tv))
+        val date: TextView = itemView.findViewById(R.id.cmt_date_tv)
     }
 
-    interface ItemClickListener{
-        fun onClick(view: View,position: Int)
+    fun resetRcv(){
+        notifyDataSetChanged()
     }
-    //를릭 리스너
-    private lateinit var itemClickListner: ItemClickListener
-    fun setItemClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListner = itemClickListener
-    }
-
 }
