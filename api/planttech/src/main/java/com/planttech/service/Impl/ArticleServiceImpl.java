@@ -39,6 +39,32 @@ public class ArticleServiceImpl implements ArticleService {
 		return 0;
 	}
 
+	@Override
+	public int modifyArticle(Article article) {
+		System.out.println("::: - modifyArticle :::");
+		
+		try {
+			return articleMapper.updateArticle(article);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public int removeArticle(Article article) {
+		System.out.println("::: - removeArticle :::");
+		
+		try {
+			return articleMapper.deleteArticle(article);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
 	
 
 }

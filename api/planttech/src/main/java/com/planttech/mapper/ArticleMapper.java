@@ -13,6 +13,8 @@ public interface ArticleMapper {
 
 	public List<Article> selectArticleList(Page page);
 	public int insertArticle(Article article);
+	public int updateArticle(Article article);
+	public int deleteArticle(Article article);
 
 
 

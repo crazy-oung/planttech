@@ -34,8 +34,30 @@
 				, ARTICLE_CRAETETIME
 				, ARTICLE_MODIFYTIME 
 		  FROM 	  ARTICLE
-   	  ORDER BY ARTICLE_CRAETETIME DESC
-		 LIMIT 0,1000;
+		 WHERE 	  ARTICLE_ACTIVE = 1
+	<if test="searchKeyword != null">
+		   AND 	  ARTICLE_TITLE LIKE CONCAT('%',#{searchKeyword},'%')
+	</if>	
+	<if test="tab == '최신순' or tab == null">
+	  ORDER BY    ARTICLE_CRAETETIME DESC
+	</if>
+	     LIMIT
+	 <choose>
+	 	<when test="beginPage != 0 and beginPage != null">
+	 		 	  #{beginPage}
+	 	</when>
+	 	<otherwise>
+	 			  0
+	 	</otherwise>
+	 </choose>
+	 <choose>
+	 	<when test="pageSize != 0 and pageSize != null">
+	 		 	  , #{pageSize}
+	 	</when>
+	 	<otherwise>
+	 		 	  , 10
+	 	</otherwise>
+	 </choose>
 	</select>
 	
 	<insert id="insertArticle" parameterType="com.planttech.domain.Article" useGeneratedKeys="true" keyProperty="articleNo">
@@ -53,6 +75,25 @@
 					, #{articleContent}
 					, #{articleProductPrice} )			
 	</insert>
+	
+	<update id="updateArticle" parameterType="com.planttech.domain.Article" useGeneratedKeys="true" keyProperty="articleNo">
+		UPDATE 	ARTICLE 
+		   SET 	ARTICLE_TITLE 			= #{articleTitle}
+		   	  , ARTICLE_SUBJECT			= #{articleSubject}
+		   	  , ARTICLE_CONTENT			= #{articleContent}
+		   	  , PLANT_NO				= #{plantNo}
+		   	  , ARTICLE_PRODUCT_PRICE 	= #{articleProductPrice}
+    	 WHERE 	USER_NO 				= #{userNo} 
+    	   AND  ARTICLE_NO 				= #{articleNo} 
+    	   AND  ARTICLE_ACTIVE			= 1
+	</update>
+	
+	
+	<update id="deleteArticle" parameterType="com.planttech.domain.Article" useGeneratedKeys="true" keyProperty="articleNo">
+		UPDATE 	ARTICLE 
+		   SET 	ARTICLE_ACTIVE 		= 0 
+    	 WHERE 	USER_NO = #{userNo} AND ARTICLE_NO = #{articleNo}				
+	</update>
 
 	
 </mapper>
