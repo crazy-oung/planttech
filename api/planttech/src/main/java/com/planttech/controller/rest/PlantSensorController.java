@@ -38,7 +38,6 @@ public class PlantSensorController {
 		Page pageParameters 		= new Page();
 		pageParameters.setBeginPage(page * pageSize);
 		pageParameters.setPageSize(pageSize);
-		pageParameters.setUserNo(userNo);
 		
 		System.out.println(pageParameters.toString());
 		return PlantSensorService.getPlantSensorList(pageParameters);

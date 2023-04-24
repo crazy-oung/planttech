@@ -18,6 +18,6 @@ public interface PlantSensorMapper {
 	public SensorControlTf selectSensorControl(int userNo);
 	public int insertPlantSensorCtrl(int userNo);
 	public int updatePlantSensorWaterPump(int userNo, int waterPumpTf);
-	public int updatePlantSensorLed(int userNo, int ledTf);
+	public int updatePlantSensorHumidifier(int userNo, int humidifierTf);
 
 }

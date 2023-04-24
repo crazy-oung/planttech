@@ -13,13 +13,13 @@
 		<result column="SR_DHT_NO" property="dhtNo"></result>
 		<result column="SR_PR_NO" property="photoRegistorNo"></result>
 		<result column="SR_WT_NO" property="waterTempNo"></result>
-		
+
 		<result column="PLANT_SR_HUMI" property="humi"></result>
 		<result column="PLANT_SR_TEMP" property="temp"></result>
 		<result column="PLANT_SR_LIGHT" property="light"></result>
 		<result column="PLANT_SR_WT" property="waterTemp"></result>
 		
-		<result column="PLANT_SR_CREATETIME" property="plantSensorTimestamp"></result>
+		<result column="PLANT_SR_CREATETIME" property="plantSensorCreatetime"></result>
 	</resultMap>
 	
 	<resultMap type="com.planttech.domain.SensorControlTf" id="sensorControlTf">
@@ -27,9 +27,10 @@
 		<result column="USER_NO" property="userNo"></result>
 		
 		<result column="SR_WP_TF" property="waterPumpTf"></result>
-		<result column="SR_LED_TF" property="ledTf"></result>
+		<result column="SR_HUMD_TF" property="humidifierTf"></result>
 		
-		<result column="SR_UPDATETIME" property="sensorUpdateTimestamp"></result>
+		<result column="SR_CREATETIME" property="sensorCreatetime"></result>
+		<result column="SR_MODIFYTIME" property="sensorModifytime"></result>
 	</resultMap>
 
 	
@@ -79,9 +80,12 @@
 	<select id="selectSensorControl" resultMap="sensorControlTf">
 		SELECT    SR_CTRL_NO
 				, USER_NO
+				, SR_WP_NO
+				, SR_HUMD_NO
 				, SR_WP_TF
-				, SR_LED_TF
-				, SR_UPDATETIME
+				, SR_HUMD_TF
+				, SR_CREATETIME
+				, SR_MODIFYTIME
 		  FROM SR_CTRL
 	     WHERE USER_NO = #{userNo}
 	</select>
@@ -92,9 +96,9 @@
 		 WHERE USER_NO = #{userNo}		
 	</update>
 	
-	<update id="updatePlantSensorLed" >
+	<update id="updatePlantSensorHumidifier" >
 		UPDATE SR_CTRL 
-		   SET SR_LED_TF = #{ledTf} 		
+		   SET SR_HUMD_TF = #{humidifierTf} 		
 		 WHERE USER_NO = #{userNo}		
 	</update>
 	

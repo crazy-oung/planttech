@@ -47,15 +47,15 @@ public class SensorControlController {
 		return PlantSensorService.addPlantSensorWataerPump(userNo, waterPumpTf);
 	}
 	
-	@PostMapping("/led")
-	@Operation(summary = "식물 LED 센서 제어", description = "유저 고유 번호로 해당 유저 식물의 LED 센서의 상태 값을 수정합니다.")
-	public int addPlantSensorLED(@RequestParam int userNo, @RequestParam int ledTf) {
+	@PostMapping("/humidifier")
+	@Operation(summary = "식물 가습기 센서 제어", description = "유저 고유 번호로 해당 유저 식물의 가습기 센서의 상태 값을 수정합니다.")
+	public int addPlantSensorHumidifier(@RequestParam int userNo, @RequestParam int humidifierTf) {
 		
-		System.out.println("::: POST -  addPlantSensor LED :::");
+		System.out.println("::: POST -  addPlantSensorHumidifier :::");
 
-		System.out.println(userNo + " " +  ledTf);
+		System.out.println(userNo + " " +  humidifierTf);
 		
-		return PlantSensorService.addPlantSensorLED(userNo, ledTf);
+		return PlantSensorService.addPlantSensorHumidifier(userNo, humidifierTf);
 	}
 	
 	

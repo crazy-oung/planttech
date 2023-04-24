@@ -14,6 +14,6 @@ public interface PlantSensorService {
 	
 	public SensorControlTf getUserSensorControl(int userNo);
 	public int addPlantSensorWataerPump(int userNo, int waterPumpTf);
-	public int addPlantSensorLED(int userNo, int lefTf);
+	public int addPlantSensorHumidifier(int userNo, int humidifierTf);
 
 }

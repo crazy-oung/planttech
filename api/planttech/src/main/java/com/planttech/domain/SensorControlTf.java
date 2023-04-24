@@ -9,9 +9,14 @@ public class SensorControlTf {
 	private int sensorControlNo;
 	private int userNo;
 	
+	private int waterpumpNo;
+	private int humidifierNo;
+	private int warehousePlantNo;
+	
 	private int waterPumpTf;
-	private int ledTf;
+	private int humidifierTf;
 
-	private Timestamp sensorUpdateTimestamp;
+	private Timestamp sensorCreatetime;
+	private Timestamp sensorModifytime;
 
 }
