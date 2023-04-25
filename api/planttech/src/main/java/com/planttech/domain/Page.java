@@ -1,17 +1,18 @@
 package com.planttech.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 public class Page {
 	
-	private int beginPage 	= 0;
-	private int pageSize 	= 10;
-	
-	// 검색 탭 필터
-	private String tab		= "최신순";
-	
-	// 검색 키워드 필터
+	@Schema(description = "페이지 번호", example = "0", deprecated = false)
+	private int beginPage;
+	@Schema(description = "페이지 당 페이지수", example = "10", deprecated = false)
+	private int pageSize;
+	@Schema(description = "검색 필터", example = "최신순", deprecated = false)
+	private String tab;
+	@Schema(description = "검색 키워드", example = "테스트", deprecated = false)
 	private String searchKeyword;
 
 }
