@@ -18,7 +18,7 @@ import com.planttech.service.PlantSensorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Plant sensor", description = "식물 환경 정보 API")
+@Tag(name = "Plant Sensor", description = "식물 환경 정보 센서")
 @RestController
 @RequestMapping("/plant-sensor")
 public class PlantSensorController {
@@ -32,12 +32,12 @@ public class PlantSensorController {
 	public List<PlantSensor> getPlantSensorDefalutList(	  @RequestParam(defaultValue = "0") int page
 														, @RequestParam(defaultValue = "10") int pageSize
 														, @RequestParam(defaultValue="") int userNo) {
+		
 		System.out.println("::: GET -  getPlantSensor DefalutList :::");
 		
 		Page pageParameters 		= new Page();
-		pageParameters.beginPage 	= page * pageSize;
-		pageParameters.pageSize 	= pageSize;
-		pageParameters.userNo		= userNo;
+		pageParameters.setBeginPage(page * pageSize);
+		pageParameters.setPageSize(pageSize);
 		
 		System.out.println(pageParameters.toString());
 		return PlantSensorService.getPlantSensorList(pageParameters);

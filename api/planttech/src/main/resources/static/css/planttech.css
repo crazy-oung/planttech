@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap');
+::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment
+	{
+	height: 0px;
+	background: #e7ffe3;
+}
+
+::selection {
+	background: #e7ffe3;
+	color: #000040;
+}
+
+.hov-g:hover {
+	background: rgba(163, 216, 161, .2);
+}
+
+.hov-p:hover {
+	background: rgba(163, 216, 161, .2);
+}
+
+#contents {
+	min-height: 100% !important; 
+}
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.NotoSans{
+	font-family: 'Noto Sans KR', sans-serif !important;
+}

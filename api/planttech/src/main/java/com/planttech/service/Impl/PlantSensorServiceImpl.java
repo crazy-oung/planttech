@@ -61,9 +61,9 @@ public class PlantSensorServiceImpl implements PlantSensorService {
 	}
 
 	@Override
-	public int addPlantSensorLED(int userNo, int ledTf) {
+	public int addPlantSensorHumidifier(int userNo, int humidifierTf) {
 		try {
-			return PlantSensorMapper.updatePlantSensorLed(userNo, ledTf);
+			return PlantSensorMapper.updatePlantSensorHumidifier(userNo, humidifierTf);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

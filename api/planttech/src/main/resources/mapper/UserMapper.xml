@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.planttech.mapper.UserMapper">
+
+	<resultMap type="com.planttech.domain.User" id="User">
+		<result column="USER_NO" property="userNo" />
+		<result column="USER_ID" property="userId" />
+		<result column="USER_EMAIL" property="userEmail" />
+		<result column="USER_NM" property="userName" />
+		<result column="USER_NICKNM" property="userNickname" />
+		<result column="USER_PW" property="userPw" />
+		<result column="USER_BIRTHDATE" property="userBirthdate" />
+		<result column="USER_CREATETIME" property="userCreatetime" />
+		<result column="USER_MODIFYTIME" property="userModifytime" />
+		<result column="USER_TYPE" property="userType" />
+	</resultMap>
+
+
+	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
+	
+	<select id="selectUserId" resultMap="User">
+		SELECT  USER_ID
+			  , USER_NM
+			  , USER_NO
+		  FROM 	USER 
+  	 	 WHERE 	USER_ID = #{userId}
+  	 	   AND 	USER_PW = #{userPw}
+	</select>
+	
+	<insert id="insertUser" parameterType="com.planttech.domain.User" useGeneratedKeys="true" keyProperty="userNo">
+		INSERT INTO 
+		  	   USER (  USER_ID
+		  			 , USER_EMAIL
+		  			 , USER_NM
+		  			 , USER_NICKNM
+		  			 , USER_PW
+		  			 , USER_BIRTHDATE
+		  			 , USER_TYPE 	) 			
+			 VALUES (  #{userId}
+			 		 , #{userEmail} 
+			 		 , #{userName} 
+			 		 , #{userNickname} 
+			 		 , #{userPw} 
+			 		 , #{userBirthdate} 
+			 		 , 0 			)		
+	</insert>
+
+</mapper>
