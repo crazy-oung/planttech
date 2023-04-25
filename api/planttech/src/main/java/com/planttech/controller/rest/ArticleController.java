@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.planttech.domain.Article;
@@ -15,6 +17,10 @@ import com.planttech.domain.Page;
 import com.planttech.service.ArticleService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Article", description = "식물 거래")
@@ -36,7 +42,7 @@ public class ArticleController {
 	
 	@PostMapping()
 	@Operation(summary = "식물 거래글 추가", description = "식물 거래글을 올립니다. 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
-	public int addArticle(Article article) {
+	public int addArticle(@Parameter(description = "거래 글 내용", in = ParameterIn.HEADER) @RequestBody  Article article) {
 		System.out.println("::: addArticle :::"); 
 		System.out.println(article.toString()); 
 		
@@ -45,7 +51,7 @@ public class ArticleController {
 	
 	@PutMapping()
 	@Operation(summary = "식물 거래글 수정", description = "식물 거래글을 수정합니다. 파라미터 값은 거래글 추가와 같으며 마찬가지로 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
-	public int modifyArticle(Article article) {
+	public int modifyArticle(@RequestBody Article article) {
 		System.out.println("::: updateArticle :::"); 
 		System.out.println(article.toString()); 
 		
@@ -55,8 +61,11 @@ public class ArticleController {
 	
 	@DeleteMapping()
 	@Operation(summary = "식물 거래글 삭제", description = "식물 거래글을 삭제합니다. 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
-	public int removeArticle(Article article) {
+	public int removeArticle(@RequestParam int articleNo) {
 		System.out.println("::: removeArticle :::"); 
+		Article article = new Article();
+		
+		article.setArticleNo(articleNo);
 		System.out.println(article.toString()); 
 		
 		return articleService.removeArticle(article);
