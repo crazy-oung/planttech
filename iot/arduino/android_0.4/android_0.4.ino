@@ -13,7 +13,7 @@
 
 
 
-int LED_Pin = D2;
+int hum_pin = D2;
 int AA = D5;
 int AB = D6;
 
@@ -39,7 +39,7 @@ void setup() {
   configTime(-(3600 * 9), 0, "1.kr.pool.ntp.org"); // 9시간 시차, 서머타임 적용 X
 
 
-  pinMode (LED_Pin, OUTPUT);
+  pinMode(hum_pin, OUTPUT);
   pinMode(AA, OUTPUT);
   pinMode(AB, OUTPUT);
 
@@ -152,7 +152,7 @@ void loop() {
       DynamicJsonBuffer jsonBuffer2; 
     //json데이터를 유동적으로 다룰  수 있는 메모리 공간
       JsonObject& root = jsonBuffer.parseObject(result);
-      String LED = root["ledTf"];
+      String Humidifier_Sensor = root["humidifierTf"];
       String Water_Pump = root["waterPumpTf"];
 
       JsonArray &root2 = jsonBuffer2.parseArray(result2);
@@ -162,15 +162,15 @@ void loop() {
       float Humi_ = HUMI.toFloat();  //문자열을 float로 변환
 
 
-      if(LED=="1"){  // LED 켜짐
+      if(Humidifier_Sensor=="1"){  // 가습기 켜짐
         //digitalWrite(LED_Pin,1);
-        Serial.println("LED ON");
-        digitalWrite (LED_Pin, HIGH);
+        Serial.println("가습기 ON");
+        digitalWrite(hum_pin, HIGH);
       }
-      else if(LED=="0") {  // LED 꺼짐
+      else if(Humidifier_Sensor=="0") {  // 가습기 꺼짐
         //digitalWrite(LED_Pin,0);
-        Serial.println("LED OFF");
-        digitalWrite (LED_Pin, LOW);
+        Serial.println("가습기 OFF");
+        digitalWrite(hum_pin, LOW);
       }
 
       if(Water_Pump == "1"){ //워터펌프 켜짐
