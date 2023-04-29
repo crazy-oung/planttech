@@ -5,16 +5,13 @@
 #include <WiFiClient.h>
 #include <time.h>
 
-
-
-#define SERVER_IP ""  // db서버의 주소
 #define STASSID ""   // WiFi SSID 입력
 #define STAPSK  ""   // WiFi 비밀번호 입력
 
 
 
-int hum_pin = D2;
-int AA = D5;
+int hum_pin = D5;
+int AA = D8;
 int AB = D6;
 
 String result = "";
@@ -39,7 +36,7 @@ void setup() {
   configTime(-(3600 * 9), 0, "1.kr.pool.ntp.org"); // 9시간 시차, 서머타임 적용 X
 
 
-  pinMode(hum_pin, OUTPUT);
+  pinMode (hum_pin, OUTPUT);
   pinMode(AA, OUTPUT);
   pinMode(AB, OUTPUT);
 
@@ -106,12 +103,10 @@ void loop() {
     char httpUrl[] = "";  // 센서 제어 데이터 GET
     strcat(httpUrl, userNo);
     http.begin(client, httpUrl); // 요청을 보낼 URL 입력
-    http2.begin(client, "");  // 
     char httpUrl3[] = "";
     strcat(httpUrl3, userNo);
     http3.begin(client, httpUrl3);
     http.addHeader("Content-Type", "application/json");
-    http2.addHeader("Content-Type", "application/json");
     http3.addHeader("Content-Type", "application/json");
     // GET 요청을 할때 전송 방식을 정한다.
 
@@ -119,7 +114,7 @@ void loop() {
 
 
     int httpCode = http.GET(); // 위에 작성한 URL로 GET 요청을 보낸다.
-    int httpCode2 = http2.GET(); // 위에 작성한 URL로 GET 요청을 보낸다.
+
     String POSTBODY = "";
     StaticJsonBuffer<200> jsonBuffer3;
     JsonObject& root3 = jsonBuffer3.createObject();
@@ -127,39 +122,26 @@ void loop() {
     // root3["userNo"] = 0;
     // root3.printTo(POSTBODY);
     
-    if (httpCode > 0 && httpCode2 > 0) {
+    if (httpCode > 0) {
       // HTTP 헤더를 전송하고 그에 대한 응답을 핸들링하는 과정
       Serial.printf("[HTTP] 응답 Code : %d\n", httpCode);
-      Serial.printf("[HTTP2] 응답 Code : %d\n", httpCode2);
       // HTTP 응답 200, 즉 정상응답이면 서버로부터 수신된 응답을 출력한다.
-      if (httpCode == httpCode2 == HTTP_CODE_OK) {
+      if (httpCode == HTTP_CODE_OK) {
         const String& payload = http.getString();
-        const String& payload2 = http.getString();
         Serial.print("서버로부터 수신된 응답 : ");
         Serial.println(payload);
         Serial.println("");
-        Serial.print("서버로부터 수신된 응답 : ");
-        Serial.println(payload2);
-        Serial.println("");
+
       }
 
       result = http.getString();
-      result2 = http2.getString();
       Serial.println(result);
-      Serial.println(result2);
       //위주소에서 가져온 값을 저장하고 시리얼모니터에 출력
       DynamicJsonBuffer jsonBuffer; 
-      DynamicJsonBuffer jsonBuffer2; 
     //json데이터를 유동적으로 다룰  수 있는 메모리 공간
       JsonObject& root = jsonBuffer.parseObject(result);
       String Humidifier_Sensor = root["humidifierTf"];
       String Water_Pump = root["waterPumpTf"];
-
-      JsonArray &root2 = jsonBuffer2.parseArray(result2);
-      JsonObject& parsed = root2[0];
-      String HUMI = parsed["humi"];
-      Serial.print("HUMI: "); Serial.println(HUMI);
-      float Humi_ = HUMI.toFloat();  //문자열을 float로 변환
 
 
       if(Humidifier_Sensor=="1"){  // 가습기 켜짐
@@ -174,35 +156,40 @@ void loop() {
       }
 
       if(Water_Pump == "1"){ //워터펌프 켜짐
-
-        if(Humi_ < 90.0){  //습도 90 이하일 경우
           // 물줘
-          Serial.println("Water ON");
-          digitalWrite(AA, HIGH);
-          digitalWrite(AB, LOW);
-          //delay(2000);
+        Serial.println("Water ON");
+        digitalWrite(AA, HIGH);
+        digitalWrite(AB, LOW);
+        //delay(2000);
 
-        }
-        else if (Humi_ >= 90.0){
-          // 물 그만줘
-          Serial.println("Water OFF");
-          digitalWrite(AA, LOW);
-          digitalWrite(AB, LOW);
-          int httpCode3 = http3.POST(POSTBODY); // 위에 작성한 URL로 POST 요청을 보낸다.
-          if (httpCode3 > 0) {
-          // HTTP 헤더를 전송하고 그에 대한 응답을 핸들링하는 과정
-          Serial.printf("[HTTP3] 응답 Code : %d\n", httpCode3);
+        
+        // else if (Humi_ >= 90.0){
+        //   // 물 그만줘
+        //   Serial.println("Water OFF");
+        //   digitalWrite(AA, LOW);
+        //   digitalWrite(AB, LOW);
+        //   int httpCode3 = http3.POST(POSTBODY); // 위에 작성한 URL로 POST 요청을 보낸다.
+        //   if (httpCode3 > 0) {
+        //   // HTTP 헤더를 전송하고 그에 대한 응답을 핸들링하는 과정
+        //   Serial.printf("[HTTP3] 응답 Code : %d\n", httpCode3);
 
-          // HTTP 응답 200, 즉 정상응답이면 서버로부터 수신된 응답을 출력한다.
-          if (httpCode3 == HTTP_CODE_OK) {
-            const String& payload = http3.getString();
-            Serial.print("서버로부터 수신된 응답 : ");
-            Serial.println(payload);
-            Serial.println("");
-          }
-          }
-          //Water_Pump 0 post
-        }
+        //   // HTTP 응답 200, 즉 정상응답이면 서버로부터 수신된 응답을 출력한다.
+        //   if (httpCode3 == HTTP_CODE_OK) {
+        //     const String& payload = http3.getString();
+        //     Serial.print("서버로부터 수신된 응답 : ");
+        //     Serial.println(payload);
+        //     Serial.println("");
+        //   }
+        //   }
+        //   //Water_Pump 0 post
+        // }
+      }
+
+      else if (Water_Pump == "0"){
+      Serial.println("Water OFF");
+      digitalWrite(AA, LOW);
+      digitalWrite(AB, LOW);
+
       }
       else{
         Serial.println("워터 펌프 꺼짐 ");
@@ -213,11 +200,9 @@ void loop() {
 
     } else {    // 에러발생시 에러내용을 출력한다.
       Serial.printf("[HTTP]초 POST 요청이 실패했습니다. 오류 : %s\n", http.errorToString(httpCode).c_str());
-      Serial.printf("[HTTP]초 POST 요청이 실패했습니다. 오류 : %s\n", http2.errorToString(httpCode2).c_str());
     }
 
     http.end();
-    http2.end();
     http3.end();
   }
   delay(1000);
