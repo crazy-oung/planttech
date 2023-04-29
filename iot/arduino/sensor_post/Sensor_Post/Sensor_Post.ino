@@ -17,8 +17,8 @@
 #define DHTTYPE DHT11       // DHT11을 사용함을 명시
 
 #define SERVER_IP "  "  // db서버의 주소
-#define STASSID "  "   // WiFi SSID 입력
-#define STAPSK  "  "   // WiFi 비밀번호 입력
+#define STASSID ";"   // WiFi SSID 입력
+#define STAPSK  ""   // WiFi 비밀번호 입력
 
 
 OneWire oneWire(ONE_WIRE_BUS);
@@ -209,7 +209,7 @@ void loop() {
 
     Serial.print("[HTTP] 서버 연결을 시도합니다...\n");
 
-    http.begin(client, "  "); // 요청을 보낼 URL 입력
+    http.begin(client, ""); // 요청을 보낼 URL 입력
     //http.begin(client, "  "); // 요청을 보낼 URL 입력
     http.addHeader("Content-Type", "application/json");
     // POST 요청을 할때 전송 방식을 정한다.
@@ -219,7 +219,9 @@ void loop() {
     String POSTBODY = "";
     StaticJsonBuffer<200> jsonBuffer;
     JsonObject& root = jsonBuffer.createObject();
+    root["plantSensorNo"] = 0;
     root["plantNo"] = 0;
+    root["warehousePlantNo"] = 0;
     root["dhtNo"] = 0;
     root["photoRegistorNo"] = 0;
     root["waterTempNo"] = 0;
