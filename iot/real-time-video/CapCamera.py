@@ -1,13 +1,17 @@
 import cv2
 import socketio
 import base64
-import datetime
+from datetime import datetime
+from threading import Thread
+
+from State import *
+from remove_bg import *
 
 # Flask-SocketIO 클라이언트 생성
 sio = socketio.Client()
 
 # Flask-SocketIO 서버와 연결될 때 호출되는 이벤트 핸들러
-@sio.event  
+@sio.event
 def connect():
     print('connected to server')
 
@@ -24,22 +28,58 @@ def send_video(frame):
 
     # 'video' 이벤트를 사용하여 영상 데이터를 Flask-SocketIO 서버로 전송합니다.
     sio.emit('video1', data)
-
-# Flask-SocketIO 서버에 연결합니다.
-sio.connect('http://220.68.82.79:4000')
+def get_today_state() : # 하루에 한 번씩 정해진 시간마다 상태 얻기
+#    i = 0
+#   now = datetime.now()
+#    if (i == 0) and (now.hour ==  11) and (now.minute == 7) and (now.second == 0) :
+#       i = 1
+    rm_bg()
+    state = get_state()
+    print(state)
 
 # IP 카메라에서 영상을 불러옵니다.
-cap = cv2.VideoCapture('rtsp://admin:uoclab2023@192.168.0.36:10554/tcp/av0_0')
+# cap = cv2.VideoCapture('rtsp://admin:uoclab2023@192.168.221.198:10554/tcp/av0_0')
 
-while True:
-    ret, frame = cap.read()
-    if ret:
-        # 영상 프레임을 Flask-SocketIO 서버로 전송합니다.
-        send_video(frame)
-        print('영상전송완료!')
+def cap_camera() :
 
-    else:
-        break
+    cap = cv2.VideoCapture(0)
+    i = 0
 
-cap.release()
-cv2.destroyAllWindows()
+    while True:
+        ret, frame = cap.read()
+    
+        if ret:
+    
+            height, width = frame.shape[:2]
+    
+            # 줄일 해상도
+            new_height, new_width = height // 2, width // 2
+    
+            # 프레임의 해상도를 줄임
+            frame = cv2.resize(frame, (new_width, new_height))
+
+            send_video(frame)
+#            cv2.imwrite(r'C:\Users\user\Desktop\SendCamera\SendCamera\today_plant.png', frame)
+
+        else:
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+if __name__ == "__main__" :
+    sio.connect('http://220.68.82.79:4000')     # Nas의 Flask-SocketIO 서버에 연결
+
+    th1 = Thread(target=cap_camera)
+    th2 = Thread(target=get_today_state)
+
+    th1.start()
+
+    i = 0
+    
+    while True :
+        now = datetime.now()
+        if i == 0 and now.hour == 11 and now.minute == 54 and now.second == 30 :
+            # 시간은 나중에 0시 0분 0초로 설정해야함. 지금은 확인차 시간 임의 설정
+            th2.start()
+            i = 1
