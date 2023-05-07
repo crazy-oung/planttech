@@ -29,13 +29,10 @@ def send_video(frame):
     # 'video' 이벤트를 사용하여 영상 데이터를 Flask-SocketIO 서버로 전송합니다.
     sio.emit('video1', data)
 def get_today_state() : # 하루에 한 번씩 정해진 시간마다 상태 얻기
-#    i = 0
-#   now = datetime.now()
-#    if (i == 0) and (now.hour ==  11) and (now.minute == 7) and (now.second == 0) :
-#       i = 1
     rm_bg()
     state = get_state()
     print(state)
+    sio.emit('state', state)
 
 # IP 카메라에서 영상을 불러옵니다.
 # cap = cv2.VideoCapture('rtsp://admin:uoclab2023@192.168.221.198:10554/tcp/av0_0')
