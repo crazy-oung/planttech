@@ -24,12 +24,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User verifyUser(User user) {
 		System.out.println("::: - verifyUser :::");
-		return userMapper.selectUserId(user);
+		String userPw = user.getUserPw();
+		
+		user = userMapper.selectUserByUserId(user.getUserId());
+		
+		if (passwordEncoder.matches(userPw, user.getUserPw())) {
+			user.setUserPw("PROTECTED");
+			return user;
+		}
+		
+		return null;
 	}
 	
 	@Override
 	public User getUserByUserId(String userId) {
 		System.out.println("::: - getUserByUserId :::");
+		System.out.println("userId: " +userId); 
+		
 		return userMapper.selectUserByUserId(userId);
 	}
 	

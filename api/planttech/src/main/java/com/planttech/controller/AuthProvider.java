@@ -23,14 +23,21 @@ public class AuthProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String userId = 	(String) authentication.getPrincipal(); 
-        String userPw = 	(String) authentication.getCredentials(); 
+    	System.out.println("::: AuthProvider.authenticate :::");
+    	
+    	UsernamePasswordAuthenticationToken token;
+    	System.out.println(authentication.toString());
+    	PasswordEncoder passwordEncoder = userService.passwordEncoder();    
+        String userId 					= (String) authentication.getPrincipal(); 
+        String userPw 					= (String) authentication.getCredentials(); 
+        User user 						= userService.getUserByUserId(userId);
+        
+        if(user != null) System.out.println(user);
+        else 			 System.out.println("user null");
+        System.out.println(userId + " " + userPw);
 
-        PasswordEncoder passwordEncoder = userService.passwordEncoder();    
-        UsernamePasswordAuthenticationToken token;
-        User user = userService.getUserByUserId(userId);
 
-        if (user != null && passwordEncoder.matches(userPw, user.getUserPw())) { // 일치하는 user 정보가 있는지 확인
+        if (user != null && passwordEncoder.matches(userPw, user.getUserPw())) { 
             List<GrantedAuthority> roles = new ArrayList<>();
             roles.add(new SimpleGrantedAuthority("USER")); // 권한 부여
 

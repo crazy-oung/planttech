@@ -31,6 +31,12 @@
   	 	   AND 	USER_PW = #{userPw}
 	</select>
 	
+	<select id="selectUserByUserId" resultMap="User">
+		SELECT  *
+		  FROM 	USER 
+  	 	 WHERE 	USER_ID = #{userId}
+	</select>
+	
 	<insert id="insertUser" parameterType="com.planttech.domain.User" useGeneratedKeys="true" keyProperty="userNo">
 		INSERT INTO 
 		  	   USER (  USER_ID
