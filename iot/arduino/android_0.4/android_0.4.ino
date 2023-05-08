@@ -22,8 +22,7 @@ String result2 = "";
 struct tm *lc;          // 내가 원하는대로 날짜형식 작성을 위해 필요한 구조체
 WiFiClient client;
 HTTPClient http;
-HTTPClient http2;
-HTTPClient http3;
+//HTTPClient http3;
 
 
 
@@ -105,9 +104,9 @@ void loop() {
     http.begin(client, httpUrl); // 요청을 보낼 URL 입력
     char httpUrl3[] = "";
     strcat(httpUrl3, userNo);
-    http3.begin(client, httpUrl3);
+    //http3.begin(client, httpUrl3);
     http.addHeader("Content-Type", "application/json");
-    http3.addHeader("Content-Type", "application/json");
+    //http3.addHeader("Content-Type", "application/json");
     // GET 요청을 할때 전송 방식을 정한다.
 
     Serial.print("[HTTP] 수집한 값의 GET/POST 요청을 시도합니다...\n");
@@ -203,7 +202,7 @@ void loop() {
     }
 
     http.end();
-    http3.end();
+    //http3.end();
   }
   delay(1000);
 }
