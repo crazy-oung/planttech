@@ -102,8 +102,8 @@ void loop() {
     char httpUrl[] = "";  // 센서 제어 데이터 GET
     strcat(httpUrl, userNo);
     http.begin(client, httpUrl); // 요청을 보낼 URL 입력
-    char httpUrl3[] = "";
-    strcat(httpUrl3, userNo);
+    //char httpUrl3[] = "";
+    //strcat(httpUrl3, userNo);
     //http3.begin(client, httpUrl3);
     http.addHeader("Content-Type", "application/json");
     //http3.addHeader("Content-Type", "application/json");
@@ -114,9 +114,9 @@ void loop() {
 
     int httpCode = http.GET(); // 위에 작성한 URL로 GET 요청을 보낸다.
 
-    String POSTBODY = "";
-    StaticJsonBuffer<200> jsonBuffer3;
-    JsonObject& root3 = jsonBuffer3.createObject();
+    //String POSTBODY = "";
+    //StaticJsonBuffer<200> jsonBuffer3;
+    //JsonObject& root3 = jsonBuffer3.createObject();
     // root3["waterPumpTf"] = 0;
     // root3["userNo"] = 0;
     // root3.printTo(POSTBODY);
