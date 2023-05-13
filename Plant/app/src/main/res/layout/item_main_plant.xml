@@ -3,87 +3,92 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_main_plant"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
     android:layout_margin="30dp">
 
     <View
         android:id="@+id/rectangle_2"
         android:layout_width="wrap_content"
-        android:layout_height="248dp"
+        android:layout_height="0dp"
         android:background="@drawable/rectangle_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/exampleView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@id/plantName"
-        app:layout_constraintEnd_toEndOf="@id/rectangle_2"
-        app:layout_constraintStart_toStartOf="@id/rectangle_2"
-        app:layout_constraintTop_toTopOf="@id/rectangle_2"
-        app:srcCompat="@drawable/smile" />
-
     <TextView
-        android:id="@+id/plantName"
+        android:id="@+id/name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/plant_name"
-        android:textSize="24sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="적상추"
+        android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/rectangle_2"
-        app:layout_constraintEnd_toEndOf="@+id/rectangle_2"
-        app:layout_constraintStart_toStartOf="@+id/rectangle_2"
-        app:layout_constraintTop_toTopOf="@+id/exampleView" />
+        app:layout_constraintBottom_toTopOf="@id/plant_state_tv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/temp_text"
+        android:id="@+id/plant_state_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/present_temp"
-        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:text="Good"
+        android:textSize="40dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/humidity_text"
-        app:layout_constraintEnd_toStartOf="@+id/temp"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@+id/rectangle_2"
-        app:layout_constraintTop_toBottomOf="@id/plantName" />
+        app:layout_constraintBottom_toTopOf="@+id/home_plant_guideline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_tv" />
 
-    <TextView
-        android:id="@+id/humidity_text"
+    <Button
+        android:id="@+id/state_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/present_humidity"
-        android:textSize="20sp"
+        android:layout_margin="20dp"
+        android:text="모습 보기"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/rectangle_2"
-        app:layout_constraintEnd_toStartOf="@+id/humidity"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@+id/rectangle_2"
-        app:layout_constraintTop_toBottomOf="@id/temp_text" />
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/home_plant_guideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/temp"
+    <Button
+        android:id="@+id/pump_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="5dp"
+        android:text="물 주기"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/humi_btn"
+        app:layout_constraintTop_toBottomOf="@+id/home_plant_guideline"
+        app:layout_constraintWidth="0.4" />
+
+    <Button
+        android:id="@+id/humi_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="5dp"
+        android:text="가습기 ON"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/pump_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_plant_guideline"
+        app:layout_constraintWidth="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/home_plant_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/humidity"
-        app:layout_constraintEnd_toEndOf="@id/rectangle_2"
-        app:layout_constraintStart_toEndOf="@+id/temp_text"
-        app:layout_constraintTop_toBottomOf="@id/plantName" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
-    <TextView
-        android:id="@+id/humidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/rectangle_2"
-        app:layout_constraintEnd_toEndOf="@id/rectangle_2"
-        app:layout_constraintStart_toEndOf="@+id/humidity_text"
-        app:layout_constraintTop_toBottomOf="@id/temp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

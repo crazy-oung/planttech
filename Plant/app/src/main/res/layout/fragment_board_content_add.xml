@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".Fragment.BoardContentAddFragment">
+    <data>
+    </data>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <android.widget.Button
+                    android:id="@+id/add_photo_btn"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:text="0/10"
+                    android:drawableTop="@android:drawable/ic_menu_camera" />
+
+                <View
+                    android:background="@color/gray"
+                    android:layout_height="2px"
+                    android:layout_width="match_parent"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <android.widget.Button
+                        android:id="@+id/add_plant_btn"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:drawableTop="@android:drawable/ic_menu_add"
+                        android:text="식물 등록" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/title_tv"
+                        android:padding="16dp"
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="제목"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+                <View
+                    android:background="@color/gray"
+                    android:layout_height="2px"
+                    android:layout_width="match_parent"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <EditText
+                        android:id="@+id/price_tv"
+                        android:padding="16dp"
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="가격(필수)"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:background="@color/gray"
+                    android:layout_height="2px"
+                    android:layout_width="match_parent"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <EditText
+                        android:id="@+id/caregori_tv"
+                        android:padding="16dp"
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="카테고리 입력"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:background="@color/gray"
+                    android:layout_height="2px"
+                    android:layout_width="match_parent"/>
+                <EditText
+                    android:id="@+id/content_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:hint="내용 작성"
+                    android:gravity="top"
+                    android:padding="20dp"/>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/reg_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="등록" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

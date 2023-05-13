@@ -4,6 +4,6 @@ import java.util.*
 
 data class BoardComment(
     val userId : String,
-    val date : Date,
+    val date : String,
     val content : String
 )

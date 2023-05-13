@@ -21,4 +21,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string-array name="vegi">
+        <item>토마토</item>
+        <item>사과</item>
+        <item>양배추</item>
+        <item>상추</item>
+        <item>당근</item>
+        <item>감자</item>
+        <item>콩나물</item>
+        <item>기타</item>
+    </string-array>
 </resources>

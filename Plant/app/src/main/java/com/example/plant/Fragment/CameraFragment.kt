@@ -55,10 +55,6 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
             }
         }
 
-        binding.cameraInfoPlantName.text = "[개나리]"
-        binding.cameraInfoPlantState.text = "상태 : Good"
-        binding.cameraInfoTemp.text = "온도 : 23도"
-        binding.cameraInfoHumi.text = "습도 : 78%"
 
         return binding.root
 

@@ -1,13 +1,12 @@
 package com.example.plant.api
 
-import com.example.plant.model.LedResponse
-import com.example.plant.model.LoginResponse
-import com.example.plant.model.PlantInfo
-import com.example.plant.model.SensorControlTf
+import com.example.plant.model.*
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 
 interface RetrofitService {
@@ -25,4 +24,21 @@ interface RetrofitService {
     fun userRegister(
         // 유저 정보
     ) : Call<LoginResponse>
+
+    @POST("article")
+    fun boardUp()
+
+    @GET("article")
+    fun boardGet(): Call<List<Board>>
+
+    @PUT("article")
+    fun boardUpdate()
+
+    @DELETE("article")
+    fun boardDelete()
+
+    @POST("sensor-control/humidifier")
+    fun humiRequest(@Query("userNo") userNo: Int, @Query("humidifierTf") humidifierTf: Int ): Call<LedResponse>
 }
+
+

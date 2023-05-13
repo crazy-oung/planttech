@@ -5,11 +5,11 @@
     tools:context=".Fragment.BoardContentFragment">
     <data>
     </data>
-    <?xml version="1.0" encoding="utf-8"?>
     <LinearLayout android:layout_width="match_parent"
         android:padding="16dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/white"
         >
 
         <ScrollView
@@ -83,17 +83,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="0/100"
+                        android:text="Good"
                         />
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/content_tv"
-                    android:padding="16dp"
-                    android:background="#eeeeee"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="내용 요소"
-                    />
+                    android:layout_height="242dp"
+                    android:background="#eeeeee"
+                    android:padding="16dp"
+                    android:text="내용 요소" />
 
 
 

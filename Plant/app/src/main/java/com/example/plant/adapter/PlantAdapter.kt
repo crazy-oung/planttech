@@ -24,8 +24,8 @@ class PlantAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<PlantA
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = mylist[position].plantName
-        holder.score.text = mylist[position].plantScore.toString()
-        holder.date.text = mylist[position].startDate.toString()
+        //holder.score.text = mylist[position].plantScore.toString()
+        //holder.date.text = mylist[position].startDate.toString()
 
         holder.itemView.setOnClickListener { v ->
             val activity = v!!.context as AppCompatActivity
@@ -42,8 +42,8 @@ class PlantAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<PlantA
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.myPlantName)
-        val score: TextView = itemView.findViewById((R.id.plantScore))
-        val date: TextView = itemView.findViewById(R.id.startDate)
+        //val score: TextView = itemView.findViewById((R.id.plantScore))
+        //val date: TextView = itemView.findViewById(R.id.startDate)
 
 
     }

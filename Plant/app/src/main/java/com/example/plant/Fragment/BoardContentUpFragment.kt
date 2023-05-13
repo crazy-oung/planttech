@@ -26,13 +26,14 @@ class BoardContentUpFragment : Fragment() {
         binding.regButton.setOnClickListener {
             var mNow = System.currentTimeMillis()
             var mDate = Date(mNow)
+            /*
             data = mutableListOf(
                 Board(
                     binding.titleEt.toString(),
                     "유저 아이디 추가",
                     mFormat.format(mDate),
                     binding.contentEt.toString())
-            )
+            )*/
             // userId는 로그인 이후 유저의 id를 받아서 넣음.
             // data를 API를 통해 전달
             MainActivity().supportFragmentManager.beginTransaction().replace(com.google.android.material.R.id.container, BoardFragment()).commit()
@@ -41,5 +42,4 @@ class BoardContentUpFragment : Fragment() {
 
         return binding.root
     }
-
 }

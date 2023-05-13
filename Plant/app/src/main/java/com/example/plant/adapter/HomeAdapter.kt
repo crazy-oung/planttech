@@ -1,12 +1,16 @@
 package com.example.plant.adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.plant.Fragment.CameraFragment
 import com.example.plant.R
+import com.example.plant.model.Plant
 import com.example.plant.model.RecyclerInViewModel
 import com.example.plant.model.multi_type1
 import com.github.mikephil.charting.charts.BarChart
@@ -14,96 +18,27 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 
-class HomeAdapter(private val context: Context, private val data: List<Float>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var datas = mutableListOf<RecyclerInViewModel>()
+class HomeAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view : View
-        return when(viewType) {
-            multi_type1 -> {
-                view = LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_main_plant,
-                    parent,
-                    false
-                )
-                MultiViewHolder1(view)
-            }
-            else -> {
-                view = LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_main_graph,
-                    parent,
-                    false
-                )
-                MultiViewHolder2(view)
-            }
-        }
-        //val binding = FragmentHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        //return ViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeAdapter.ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_main_plant, parent, false)
+        return ViewHolder(view)
     }
-
     override fun getItemCount(): Int {
-        return datas.size
+        return mylist.size
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return datas[position].type
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.name.text = mylist[position].plantName
+        holder.state.text = mylist[position].plantState
+        //holder.date.text = mylist[position].startDate.toString()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(datas[position].type) {
-            multi_type1 -> {
-                (holder as MultiViewHolder1).bind(datas[position])
-                holder.setIsRecyclable(false)
-            }
-            else -> {
-                (holder as MultiViewHolder2).bind(datas[position])
-                holder.setIsRecyclable(false)
+    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        val name: TextView = itemView.findViewById(R.id.name_tv)
+        val state: TextView = itemView.findViewById((R.id.plant_state_tv))
+        //val date: TextView = itemView.findViewById(R.id.startDate)
 
-            }
-        }
-    }
-/*
-    inner class ViewHolder(var binding: FragmentHomeBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: RecyclerInViewModel) {
-            binding.homeRcv
-        }
-    }
-*/
-    inner class MultiViewHolder1(view : View) : RecyclerView.ViewHolder(view) {
 
-        private val palntName: TextView = view.findViewById(R.id.plantName)
-        private val temp: TextView = view.findViewById(R.id.temp)
-        private val humidity: TextView = view.findViewById(R.id.humidity)
-        //private val imgProfile: ImageView = view.findViewById(R.id.exampleView)
-
-        fun bind(item: RecyclerInViewModel) {
-            palntName.text = item.plantName
-            temp.text = item.temp.toString()
-            humidity.text = item.humidity.toString()
-
-        }
-    }
-    inner class MultiViewHolder2(view: View) : RecyclerView.ViewHolder(view) {
-
-        val chart: BarChart = itemView.findViewById(R.id.homeBarChart)
-
-        fun bind(item: RecyclerInViewModel) {
-            val entries = mutableListOf<BarEntry>()
-            for (i in data.indices) {
-                entries.add(BarEntry(i.toFloat(), data[i]))
-            }
-
-            val dataSet = BarDataSet(entries, "Label")
-            val barData = BarData(dataSet)
-
-            chart.data = barData
-            chart.description.isEnabled = false
-            chart.axisLeft.isEnabled = false
-            chart.axisRight.isEnabled = false
-            chart.legend.isEnabled = false
-            chart.setDrawValueAboveBar(false)
-            chart.setFitBars(true)
-            chart.invalidate()
-        }
     }
 }

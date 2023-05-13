@@ -1,36 +1,34 @@
 package com.example.plant.Fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
-import com.example.plant.api.RetrofitService
-import com.example.plant.databinding.FragmentCameraBinding
-import com.example.plant.databinding.FragmentInfoBinding
+import com.example.plant.adapter.HomeAdapter
+import com.example.plant.adapter.RealInfoAdapter
 import com.example.plant.databinding.FragmentRealinfoBinding
-import com.example.plant.model.LedResponse
-import com.example.plant.model.PlantInfo
-import com.example.plant.model.SensorControlTf
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
+import com.example.plant.model.*
 
 class InfoFragment : Fragment(R.layout.fragment_realinfo) {
-
+    lateinit var recyclerView : RecyclerView
+    lateinit var realInfoAdapter: RealInfoAdapter
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         val binding = FragmentRealinfoBinding.inflate(inflater, container, false)
 
+        realInfoAdapter = context?.let { RealInfoAdapter(it) }!!
+        binding.infoRcv.adapter = realInfoAdapter
 
+        recyclerView = binding.infoRcv
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = realInfoAdapter
+
+        return binding.root
         /*
         val retrofit = Retrofit.Builder().baseUrl("http://dayounghan.com/") //http://192.168.0.21:8080/ //http://dayounghan.com/
             .addConverterFactory(GsonConverterFactory.create()).build();
@@ -75,6 +73,6 @@ class InfoFragment : Fragment(R.layout.fragment_realinfo) {
 
             })
         }*/
-        return binding.root
+
     }
 }

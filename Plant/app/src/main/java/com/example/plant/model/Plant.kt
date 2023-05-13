@@ -5,5 +5,6 @@ import java.util.Date
 data class Plant (
     val plantName  : String,
     val plantScore : Int,
-    val startDate : String)
+    val startDate : String,
+    val plantState : String )
     //val temperature  : Int)

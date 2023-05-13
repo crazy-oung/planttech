@@ -6,35 +6,195 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.BoardFragment">
 
-    <TextView
-        android:id="@+id/board"
-        android:layout_width="wrap_content"
-        android:layout_height="61dp"
-        android:layout_margin="20dp"
-        android:text="@string/board"
-        android:textColor="@color/black"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/board_rcv"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/search_et"
+        >
+
+
+        <TableRow
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <android.widget.Button
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_boader"
+                android:gravity="center"
+                android:text="곡물" />
+
+            <android.widget.Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_boader"
+                android:gravity="center"
+                android:text="과일" />
+
+            <android.widget.Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_boader"
+                android:gravity="center"
+                android:text="채소" />
+
+            <android.widget.Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_boader"
+                android:gravity="center"
+                android:text="버섯류" />
+        </TableRow>
+
+
+        <TableRow
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <android.widget.Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_boader"
+                android:gravity="center"
+                android:text="꽃" />
+
+            <android.widget.Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_boader"
+                android:gravity="center"
+                android:text="다육" />
+
+            <android.widget.Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_boader"
+                android:gravity="center"
+                android:text="수생" />
+
+            <android.widget.Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_boader"
+                android:gravity="center"
+                android:text="기타" />
+        </TableRow>
+
+    </TableLayout>
+
+    <EditText
+        android:id="@+id/search_et"
+        android:layout_width="0dp"
+        android:layout_height="30sp"
+        android:layout_margin="10dp"
+        android:background="@drawable/boader"
+        android:textColorHint="@color/gray"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline24"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:layout_constraintVertical_weight="0.8" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/board_rcv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/board" />
+        android:foregroundGravity="center"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/categori_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constrainedHeight="true"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:clickable="true"
         android:src="@android:drawable/ic_input_add"
-        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="matrix"
+        android:src="@drawable/search"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline24"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11080711" />
+
+    <View
+        android:id="@+id/categori_view"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/boader_categori"
+        app:layout_constraintTop_toBottomOf="@id/tableLayout"
+        />
+
+    <TextView
+        android:id="@+id/item_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="3개"
+        android:textSize="15dp"
+        app:layout_constraintLeft_toLeftOf="@id/categori_view"
+        app:layout_constraintTop_toTopOf="@id/categori_view"
+        app:layout_constraintBottom_toBottomOf="@id/categori_view"
+        />
+
+    <android.widget.Button
+        android:id="@+id/sort_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:text="정렬 검색"
+        android:textSize="15dp"
+        app:layout_goneMarginLeft="10dp"
+        android:background="@drawable/boader_button"
+        app:layout_constraintLeft_toRightOf="@id/item_num"
+        app:layout_constraintTop_toTopOf="@id/categori_view"
+        app:layout_constraintBottom_toBottomOf="@id/categori_view"
+        />
+
+    <android.widget.Button
+        android:id="@+id/price_search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:text="가격대 검색"
+        android:textSize="15dp"
+        app:layout_goneMarginLeft="10dp"
+        android:background="@drawable/boader_button"
+        app:layout_constraintLeft_toRightOf="@id/sort_btn"
+        app:layout_constraintTop_toTopOf="@id/categori_view"
+        app:layout_constraintBottom_toBottomOf="@id/categori_view"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

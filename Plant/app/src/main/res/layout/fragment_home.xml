@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
@@ -7,20 +7,27 @@
             name="model"
             type="com.example.plant.model.RecyclerInViewModel" />
     </data>
-        
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Fragment.HomeFragment">
-    
+        android:orientation="vertical"
+        android:background="#ECECEC">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/chatList_toolbar"
+            android:background="?android:attr/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/menu_home"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_rcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-    
-    
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:scrollbarFadeDuration="0"
+            android:scrollbars="vertical" />
+
+
+    </LinearLayout>
 </layout>
