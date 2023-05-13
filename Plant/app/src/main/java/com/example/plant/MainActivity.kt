@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+        binding.bnvMain.selectedItemId = R.id.first
     }
 
     private fun replaceFragment(fragment: Fragment) {
