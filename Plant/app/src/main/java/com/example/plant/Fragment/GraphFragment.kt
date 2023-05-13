@@ -1,7 +1,6 @@
 package com.example.plant.Fragment
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.MainActivity
 import com.example.plant.R
 import com.example.plant.adapter.GraphAdapter
-import com.example.plant.adapter.HomeAdapter
 import com.example.plant.databinding.FragmentGraphBinding
 import io.socket.client.IO
 import io.socket.client.Socket

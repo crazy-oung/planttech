@@ -8,10 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
-import com.example.plant.adapter.HomeAdapter
 import com.example.plant.adapter.RealInfoAdapter
 import com.example.plant.databinding.FragmentRealinfoBinding
-import com.example.plant.model.*
 
 class InfoFragment : Fragment(R.layout.fragment_realinfo) {
     lateinit var recyclerView : RecyclerView

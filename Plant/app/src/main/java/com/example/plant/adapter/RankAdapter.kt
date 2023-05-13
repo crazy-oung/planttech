@@ -1,26 +1,16 @@
 package com.example.plant.adapter
 
-import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plant.Fragment.CameraFragment
 import com.example.plant.R
 import com.example.plant.model.Plant
-import com.example.plant.model.RecyclerInViewModel
-import com.example.plant.model.multi_type1
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
 
-class HomeAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class RankAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<RankAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_main_plant, parent, false)
         return ViewHolder(view)
     }

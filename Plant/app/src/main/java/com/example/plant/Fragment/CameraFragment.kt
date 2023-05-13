@@ -9,22 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.MainActivity
 import com.example.plant.R
 import com.example.plant.adapter.CameraAdapter
-import com.example.plant.adapter.HomeAdapter
-import com.example.plant.adapter.PlantAdapter
 import com.example.plant.databinding.FragmentCameraBinding
-import com.example.plant.databinding.FragmentPlantBinding
-import com.example.plant.model.CameraRecyclerInViewModel
-import com.example.plant.model.Plant
-import com.example.plant.model.RecyclerInViewModel
 import io.socket.client.IO
 import io.socket.client.Socket
 import java.net.URISyntaxException
-import java.util.*
 
 class CameraFragment : Fragment(R.layout.fragment_camera) {
 
