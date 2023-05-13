@@ -46,21 +46,4 @@ class PlantFragment : Fragment(R.layout.fragment_plant) {
         setHasOptionsMenu(true)
         return binding.root
     }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_up, menu)
-        super.onCreateOptionsMenu(menu!!, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.add -> {
-                true
-            }
-            R.id.delete -> {
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 }
