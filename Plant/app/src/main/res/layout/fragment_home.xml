@@ -35,7 +35,15 @@
                 app:tabSelectedTextAppearance="@style/tabTextSizeBold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent">
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <View
+                android:background="@color/gray"
+                android:layout_height="5px"
+                android:layout_width="match_parent"
+                />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/pager"

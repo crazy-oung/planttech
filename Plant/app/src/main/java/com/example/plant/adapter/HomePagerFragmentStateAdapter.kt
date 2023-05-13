@@ -14,8 +14,8 @@ class HomePagerFragmentStateAdapter(fragmentActivity: FragmentActivity) : Fragme
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            0 -> RecommendFragment()
-            1 -> RankFragment()
+            0 -> AllFragment()
+            1 -> StarFragment()
             2 -> FruitFragment()
             3 -> VegitableFragment()
             else -> OrnamentalFragment()

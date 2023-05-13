@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
 import com.example.plant.model.Plant
 
-class RankAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<RankAdapter.ViewHolder>() {
+class StarAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<StarAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StarAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_main_plant, parent, false)
         return ViewHolder(view)
     }
@@ -20,14 +20,14 @@ class RankAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<RankAda
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = mylist[position].plantName
+        holder.variety.text = mylist[position].plantVariety
         holder.state.text = mylist[position].plantState
-        //holder.date.text = mylist[position].startDate.toString()
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.name_tv)
-        val state: TextView = itemView.findViewById((R.id.plant_state_tv))
-        //val date: TextView = itemView.findViewById(R.id.startDate)
+        val name: TextView = itemView.findViewById(R.id.item_name)
+        val variety: TextView = itemView.findViewById(R.id.item_variety)
+        val state: TextView = itemView.findViewById(R.id.item_state)
 
 
     }

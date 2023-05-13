@@ -25,10 +25,10 @@ class PlantFragment : Fragment(R.layout.fragment_plant) {
 
 
         val data = mutableListOf(
-            Plant(plantName = "토마토", plantScore = 100, startDate = "32일째", "Good"),
-            Plant(plantName = "콩나물", plantScore = 80, startDate = "16일째", "Good"),
-            Plant(plantName = "바나나", plantScore = 0, startDate = "4일째", "Soso"),
-            Plant(plantName = "연꽃", plantScore = 0, startDate = "4일째", "Bad")
+            Plant(plantName = "멋쟁이", plantScore = 100, startDate = "32일째", "토마토","Good", true),
+            Plant(plantName = "새콤달콤", plantScore = 80, startDate = "16일째", "낑깡", "Good", true),
+            Plant(plantName = "길쭉이", plantScore = 0, startDate = "4일째", "바나나","Soso", false),
+            Plant(plantName = "작은멋쟁이", plantScore = 0, startDate = "4일째", "방울토마토","Bad", false)
         )
 
         plantAdapter = context?.let { PlantAdapter(data) }!!

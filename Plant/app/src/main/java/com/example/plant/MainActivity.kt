@@ -25,18 +25,14 @@ class MainActivity : AppCompatActivity() {
 
 
         val homeFragment = HomeFragment()
-        val plantFragment = PlantFragment()
-        val graphFragment = GraphFragment()
         val boardFragment = BoardFragment()
         val infoFragment = InfoFragment()
 
         binding.bnvMain.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.first -> replaceFragment(homeFragment)
-                R.id.second -> replaceFragment(plantFragment)
-                R.id.third -> replaceFragment(graphFragment)
-                R.id.fourth -> replaceFragment(boardFragment)
-                R.id.fifth -> replaceFragment(infoFragment)
+                R.id.second -> replaceFragment(boardFragment)
+                R.id.third -> replaceFragment(infoFragment)
             }
             true
         }

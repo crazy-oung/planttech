@@ -34,9 +34,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         tabLayout = binding.tabLayout
 
         val pagerAdapter = HomePagerFragmentStateAdapter(requireActivity())
-        // 6개의 fragment add
-        pagerAdapter.addFragment(RecommendFragment())
-        pagerAdapter.addFragment(RankFragment())
+
+        pagerAdapter.addFragment(AllFragment())
+        pagerAdapter.addFragment(StarFragment())
         pagerAdapter.addFragment(FruitFragment())
         pagerAdapter.addFragment(VegitableFragment())
         pagerAdapter.addFragment(OrnamentalFragment())
@@ -50,10 +50,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         })
 
-        // tablayout attach
+        val tabList = listOf<String>("전체", "관심", "과일", "채소", "관상식물")
         viewPager?.let {
             TabLayoutMediator(tabLayout, it){ tab, position ->
-                tab.text = "Tab ${position+1}"
+                tab.text = tabList[position]
             }.attach()
         }
         /*
