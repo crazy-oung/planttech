@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val boardFragment = BoardFragment()
     private val infoFragment = InfoFragment()
     private val alamFragment = AlamFragment()
+    private val alamSettingFragment = AlamSettingFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -63,6 +64,14 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager
                     .beginTransaction()
                     .add(R.id.fragmentContainer, alamFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            2 -> {
+                supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.fragmentContainer, alamSettingFragment)
                     .addToBackStack(null)
                     .commit()
             }

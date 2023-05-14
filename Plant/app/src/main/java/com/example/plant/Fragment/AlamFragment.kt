@@ -59,7 +59,7 @@ class AlamFragment : Fragment() {
         binding.alamToolbar.title = "알림"
         binding.alamToolbar.setOnMenuItemClickListener{
             when(it.itemId) {
-                R.id.alarm -> {
+                R.id.setting -> {
                     mainActivity.changeFragment(2)
                     true
                 }
