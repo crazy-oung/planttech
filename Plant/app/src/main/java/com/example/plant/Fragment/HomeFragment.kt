@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.plant.MainActivity
 import com.example.plant.R
@@ -21,7 +23,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
     }
 
 
@@ -34,6 +35,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         tabLayout = binding.tabLayout
 
         val pagerAdapter = HomePagerFragmentStateAdapter(requireActivity())
+
 
         pagerAdapter.addFragment(AllFragment())
         pagerAdapter.addFragment(StarFragment())
@@ -71,8 +73,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = homeAdapter
         */
-        return binding.root
 
+
+        binding.homeToolbar.setOnMenuItemClickListener{
+            when(it.itemId) {
+                R.id.alarm -> {
+                    mainActivity.changeFragment(1)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        setHasOptionsMenu(true)
+
+        return binding.root
     }
 
 

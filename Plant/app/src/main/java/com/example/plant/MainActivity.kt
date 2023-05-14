@@ -16,17 +16,16 @@ import com.google.android.material.shape.MaterialShapeDrawable
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
+    private val homeFragment = HomeFragment()
+    private val boardFragment = BoardFragment()
+    private val infoFragment = InfoFragment()
+    private val alamFragment = AlamFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-
-        val homeFragment = HomeFragment()
-        val boardFragment = BoardFragment()
-        val infoFragment = InfoFragment()
 
         binding.bnvMain.setOnItemSelectedListener {
             when (it.itemId) {
@@ -37,6 +36,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
         binding.bnvMain.selectedItemId = R.id.first
+
+
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -47,4 +48,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun changeFragment(index: Int){
+        when(index){
+            0 -> {
+                supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.fragmentContainer, homeFragment)
+                    .addToBackStack(null)
+                    .commit()
+
+            }
+
+            1 -> {
+                supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.fragmentContainer, alamFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+    }
 }
