@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.planttech.mapper.ProductMapper">
+
+	<!-- 객체 -->
+	<resultMap type="com.planttech.domain.Product" id="product">
+		<result column="PRODUCT_NO" property="productNo"></result>
+		<result column="USER_NO" property="userNo"></result>
+		<result column="PLANT_NO" property="plantNo"></result>
+		
+		<result column="PRODUCT_NAME" property="productName"></result>
+		<result column="PRODUCT_CATEGORY" property="productCategory"></result>
+		<result column="PRODUCT_CONTENT" property="productContent"></result>
+		
+		<result column="PRODUCT_PRICE" property="productPrice"></result>
+		
+		<result column="PRODUCT_CRAETETIME" property="productCreatetime"></result>
+		<result column="PRODUCT_MODIFYTIME" property="productModifytime"></result>
+		
+		<result column="PRODUCT_ACTIVE" property="productActive"></result>
+	</resultMap>
+	
+	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+
+	<select id="selectArticleList" parameterType="com.planttech.domain.Page" resultMap="product">
+		SELECT 	  PRODUCT_NO
+				, USER_NO
+				, PLANT_NO
+				, PRODUCT_NAME
+				, PRODUCT_CATEGORY
+				, PRODUCT_CONTENT
+				, PRODUCT_PRICE
+				, PRODUCT_CRAETETIME
+				, PRODUCT_MODIFYTIME 
+		  FROM 	  PRODUCT
+		 WHERE 	  PRODUCT_ACTIVE = 1
+		<if test="searchKeyword != null">
+		   AND 	  PRODUCT_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+		</if>	
+		<if test="tab == '최신순' or tab == null">
+	  ORDER BY    PRODUCT_CRAETETIME DESC
+		</if>
+	     LIMIT	  <choose>
+				 	<when test="beginPage != 0 and beginPage != null">
+				 		 	  #{beginPage}
+				 	</when>
+				 	<otherwise>
+				 			  0
+				 	</otherwise>
+				 </choose>
+	 			, <choose>
+				 	<when test="pageSize != 0 and pageSize != null">
+				 		 	   #{pageSize}
+				 	</when>
+				 	<otherwise>
+				 		 	   10
+				 	</otherwise>
+				 </choose>
+	 
+	</select>
+	
+	<insert id="insertArticle" parameterType="com.planttech.domain.Product" useGeneratedKeys="true" keyProperty="productNo">
+		INSERT INTO 
+		    PRODUCT ( USER_NO
+					, PLANT_NO
+					, PRODUCT_NAME
+					, PRODUCT_CATEGORY
+					, PRODUCT_CONTENT
+					, PRODUCT_PRICE	) 			
+			VALUES (  #{userNo}
+					, #{plantNo}
+					, #{productName}
+					, #{productCategory}
+					, #{productContent}
+					, #{productPrice} )			
+	</insert>
+	
+	<update id="updateArticle" parameterType="com.planttech.domain.Product" useGeneratedKeys="true" keyProperty="productNo">
+		UPDATE 	PRODUCT 
+		   SET 	PRODUCT_NAME			= #{productName}
+		   	  , PRODUCT_CATEGORY		= #{productCategory}
+		   	  , PRODUCT_CONTENT			= #{productContent}
+		   	  , PLANT_NO				= #{plantNo}
+		   	  , PRODUCT_PRICE 			= #{productPrice}
+    	 WHERE 	USER_NO 				= #{userNo} 
+    	   AND  PRODUCT_NO 				= #{productNo} 
+    	   AND  PRODUCT_ACTIVE			= 1
+	</update>
+	
+	
+	<update id="deleteArticle" parameterType="com.planttech.domain.Product" useGeneratedKeys="true" keyProperty="productNo">
+		UPDATE 	PRODUCT 
+		   SET 	PRODUCT_ACTIVE 		= 0 
+    	 WHERE 	USER_NO = #{userNo} AND PRODUCT_NO = #{productNo}				
+	</update>
+
+	
+</mapper>

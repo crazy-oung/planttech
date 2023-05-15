@@ -1,4 +1,4 @@
-package com.planttech.test.controller;
+package com.planttech.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -13,12 +13,13 @@ import com.planttech.domain.Page;
 import com.planttech.service.PlantService;
 import com.planttech.util.StatusEnum;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Test", description = "테스트 API")
+@Tag(name = "Plant", description = "식물 API")
 @RestController
-@RequestMapping("/test")
-public class TestController {
+@RequestMapping("/plant")
+public class PlantController {
 	
 	@Autowired 
 	private PlantService 	plantService;
@@ -28,26 +29,30 @@ public class TestController {
 	private HttpHeaders 	headers = new HttpHeaders();
 	
 	
-	// test - 식물 디비 잘 불러와지는지 테스트 
+	// 식물 종류 출력
 	@GetMapping()
-	public ResponseEntity<Message> getPlantList() {
-		System.out.println("::: TEST :::");
+	@Operation(summary = "식물 종류 조회", description = "현재등록된 식물 정보/종류를 불러옵니다.")
+	public ResponseEntity<Message> getPlantList(Page page) {
+		System.out.println("::: getPlantList :::");
 		
 		try {
+			System.out.println(page.toString());
 			
 			message.setStatus(StatusEnum.OK);
-			message.setMessage("식물 디비 출력 완료");
+			message.setMessage("식물 종류");
 			message.setData(plantService.getPlantList(page));
-			return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(message, headers, HttpStatus.OK);
 			
 		} catch (Exception e) {
-			System.out.println("::: !!! ERROR !!! :::");
 			e.printStackTrace();
-			
 			message.setMessage(e.getMessage() != null? e.getMessage() : "error");
 			message.setStatus(StatusEnum.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(message, headers, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
+	
+	
+	
+	
 }

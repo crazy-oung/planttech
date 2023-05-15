@@ -19,16 +19,16 @@
 	<dependencies>
 
 
-		<!-- Swagger UI -->
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.0.3</version>
-		</dependency>
+		<!-- Swagger UI https://springdoc.org/v2/ -->
+	   <dependency>
+	      <groupId>org.springdoc</groupId>
+	      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+	      <version>2.1.0</version>
+	   </dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
-			<version>2.0.3</version>
+			<version>2.1.0</version>
 		</dependency>
 		
 		<!-- war 빌드 설정 -->

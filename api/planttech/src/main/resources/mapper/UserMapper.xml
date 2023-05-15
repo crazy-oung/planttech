@@ -5,7 +5,7 @@
 
 <mapper namespace="com.planttech.mapper.UserMapper">
 
-	<resultMap type="com.planttech.domain.User" id="User">
+	<resultMap type="com.planttech.domain.User" id="user">
 		<result column="USER_NO" property="userNo" />
 		<result column="USER_ID" property="userId" />
 		<result column="USER_EMAIL" property="userEmail" />
@@ -17,18 +17,55 @@
 		<result column="USER_MODIFYTIME" property="userModifytime" />
 		<result column="USER_TYPE" property="userType" />
 	</resultMap>
+	
+	<resultMap type="com.planttech.domain.UserMileage" id="userMileage">
+		<result column="USER_MILEAGE_NO" property="userMileageNo" />
+		<result column="USER_NO" property="userNo" />
+		<result column="USER_MILEAGE_VAL" property="userMileageValue" />
+		<result column="USER_MILEAGE_CONTENT" property="userMileageContent" />
+		<result column="USER_MILEAGE_PAYMENT" property="userMileagePayment" />
+		<result column="USER_MILEAGE_ABLE" property="userMileageAble" />
+		<result column="USER_MILEAGE_CREATETIME" property="userMileageCreatetime" />
+	</resultMap>
 
 
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
 	
-	<select id="selectUserId" resultMap="User">
+	<select id="selectUserId" resultMap="user">
 		SELECT  USER_ID
 			  , USER_NM
 			  , USER_NO
 		  FROM 	USER 
   	 	 WHERE 	USER_ID = #{userId}
   	 	   AND 	USER_PW = #{userPw}
+	</select>
+	
+	<select id="selectUserByUserId" resultMap="user">
+		SELECT  *
+		  FROM 	USER 
+  	 	 WHERE 	USER_ID = #{userId}
+	</select>
+	
+	<select id="selectUserByUserEmail" resultMap="user">
+		SELECT  USER_EMAIL
+		  FROM 	USER 
+  	 	 WHERE 	USER_EMAIL = #{userEmail}
+	</select>
+	
+	
+	<select id="selectUserTotalMileage" resultType="int">
+		SELECT  IFNULL(SUM(USER_MILEAGE_VAL), 0) AS TOT
+		  FROM 	USER_MILEAGE 
+  	 	 WHERE 	USER_NO = #{userNo}
+  	 	 AND	USER_MILEAGE_ABLE = 1
+	</select>
+	
+	<select id="selectUserMileageList" resultMap="userMileage">
+		SELECT  *
+		  FROM 	USER_MILEAGE
+  	 	 WHERE 	USER_NO = #{userNo}
+  	 	   AND	USER_MILEAGE_ABLE = 1
 	</select>
 	
 	<insert id="insertUser" parameterType="com.planttech.domain.User" useGeneratedKeys="true" keyProperty="userNo">
@@ -47,6 +84,32 @@
 			 		 , #{userPw} 
 			 		 , #{userBirthdate} 
 			 		 , 0 			)		
+			 		 
+		<selectKey keyProperty="userNo" resultType="Integer">
+		  SELECT LAST_INSERT_ID() 
+		</selectKey>
 	</insert>
+	
+	<insert id="insertUserMileage" parameterType="com.planttech.domain.UserMileage" useGeneratedKeys="true" keyProperty="userMileageNo">
+		INSERT INTO 
+  	   USER_MILEAGE (  USER_NO
+		  			 , USER_MILEAGE_VAL
+		  			 , USER_MILEAGE_CONTENT
+		  			 , USER_MILEAGE_PAYMENT ) 			
+			 VALUES (  #{userNo}
+			 		 , #{userMileageValue} 
+			 		 , #{userMileageContent} 
+			 		 , #{userMileagePayment} )		
+	</insert>
+	
+	<update id="updateUserPassword" parameterType="com.planttech.domain.User" useGeneratedKeys="true" keyProperty="userNo">
+		UPDATE	USER 
+		   SET	USER_PW 		= #{userPw}
+		 WHERE 	USER_ID 		= #{userId} 
+		   AND	USER_BIRTHDATE 	= #{userBirthdate}
+		   AND	USER_NM 		= #{userName}
+		   AND	USER_EMAIL		= #{userEmail}
+		 
+	</update>
 
 </mapper>

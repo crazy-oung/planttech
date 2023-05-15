@@ -18,7 +18,7 @@ public class IndexController {
 	
 	@GetMapping
 	public String getIndexPage(HttpSession session) {
-		System.out.println("::: GET(NON REST) - planttech home :::");
+		System.out.println("::: planttech home :::");
 
 //		System.out.println(session.getAttribute("loginUser"));
 

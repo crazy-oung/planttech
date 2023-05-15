@@ -2,215 +2,76 @@
 <html>
 
 <head>
-
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!--<meta name="description" content="">-->
-<meta name="author" content="">
-
-<title>스마트 플랜트 플랫폼: 플랜테크</title>
-
-<!-- Custom fonts for this template-->
-<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-<!-- Custom styles for this template-->
-<link href="css/sb-admin-2.css" rel="stylesheet">
-<!-- Custom styles for codeBlue -->
-<link href="css/planttech.css" rel="stylesheet">
-<style>
-#scroll a {
-  padding-top: 60px;
-}
-#scroll a span {
-  position: absolute;
-  left: 20%;
-  width: 18px;
-  height: 30px;
-  margin-left: -15px;
-  border: 2px solid #1cc88a;
-  border-radius: 50px;
-  box-sizing: border-box;
-}
-#scroll a span::before {
-  position: absolute;
-  left: 50%;
-  content: '';
-  top:2px;
-  width: 6px;
-  height: 6px;
-  margin-left: -3px;
-  background-color: #1cc88a;
-  border-radius: 100%;
-  -webkit-animation: sdb10 2s infinite;
-  animation: sdb10 2s infinite;
-  box-sizing: border-box;
-}
-
-@-webkit-keyframes sdb10 {
-  0% {
-    -webkit-transform: translate(0, 0);
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-  80% {
-    -webkit-transform: translate(0, 15px);
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes sdb10 {
-  0% {
-    transform: translate(0, 0);
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-  80% {
-    transform: translate(0, 15px);
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-.demo a {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  z-index: 2;
-  display: inline-block;
-  -webkit-transform: translate(0, -50%);
-  transform: translate(0, -50%);
-  color: #fff;
-  font : normal 400 20px/1 'Josefin Sans', sans-serif;
-  letter-spacing: .1em;
-  text-decoration: none;
-  transition: opacity .3s;
-}
-.demo a:hover {
-  opacity: .5;
-}
-</style>
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="">
+	
+	<title>스마트 플랜트 플랫폼: 플랜팅</title>
+	
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+		
+		html {
+			font-family: Noto Sans KR;
+		}
+		hr {
+			border:0;
+			height: 1px;
+			width: 90%;
+			background-color: #9ddc6d;
+		}
+		body > div  {
+			background: linear-gradient(to bottom, #d3ffcb 0%, #fafffd 100%); 
+    		height: 100vh;
+			display: flex; 
+			justify-content: center; 
+			align-items: center;
+		    flex-wrap: wrap;
+		}
+		body > div > div {
+			width: 90%;
+		}
+		h1, h2, h3, h4 {
+			color: #9ddc6d;
+			margin: 0;
+		}
+		h1 {
+			font-size :6rem;
+			margin: .7rem 0;
+    		position: relative;
+    		top: -6px;
+    		font-weight: 900;
+		}
+		h2 {
+			font-size :4rem;
+		}
+		h3 {
+			font-size :2rem;
+			font-weight: 400;
+		}
+		h4 {
+			font-weight: 300;
+			font-size : 1.5rem;
+			padding-top: 2rem;
+		}
+	</style>
 </head>
-<body id="page-top">
- 
-	<!-- Topbar -->
-	<div id="topBar"></div>
-	<!-- End of Topbar -->
-	
-	<!-- Begin Page Content -->
-	<div class="NotoSans">
-		<div class="p-3 pt-5" style="background: linear-gradient(to bottom, #b1ff91 0%, #d2f4e8 100%); height: 100vh;">
-			<div class="container text-center py-5">
-				<h4 class="text-primary mb-0 mt-2 font-weight-bold"> 
-					스마트 플랜트 플랫폼
-				</h4>
-				<hr>
-				<h1 class="text-primary display-2 mb-0 mt-0 font-weight-bold">
-					PlantTech
-				</h1>
-				<hr>
-				<br>
-				<img class="mt-1 py-5 mb-1 d-none d-lg-inline" src="/assets/img/eco_conscious.svg" width="370px"><br>
-				<h3 class="text-primary"><strong>플랜테크</strong>에서 나만의 식물을 키워보세요.</h3>
-				<div id="scroll" class="demo">
-				  <a><span></span></a>
-				</div>
-			</div>
-		</div>
-		
-		<div class="container text-center py-5 my-2" id="how">
-			<h3 class="text-primary font-size mb-0 mt-3 font-weight-bold">플랜테크와 즐거운 식물 기르기</h3>
+<body style="margin:0; width: 100%; height: 100%;">
+	<div>
+		<div align="center">
+			<h3> 
+				스마트 플랜트 플랫폼
+			</h3>
 			<hr>
-			<img class="py-5 d-none d-lg-inline" src="/assets/img/completed.svg" width="350px"><br>
-			<h4 class="text-primary mb-3"><strong>플랜테크</strong>에서는 사용자가 직접 식물을 골라 기르며 성장 과정을 직접 관찰 할 수 있습니다. </h4>
+			<h1>
+				플랜팅
+			</h1>
+			<hr style="margin-bottom:5rem;">
+			<img src="/assets/img/eco_conscious.svg" width="500px"><br>
+			<h4>신개념 식물 거래 플랫폼 <strong>플랜팅</strong></h4>
 		</div>
-		
-		<div class="alert-success">
-			<div class="container text-center py-5 my-2">
-					<h3 class="text-primary mb-0 mt-3 font-weight-bold">플랜테크 재테크!</h3>
-					<hr>
-					<img class="m-4 py-2 d-none d-lg-inline" src="/assets/icon/succulent.png" width="250px">
-					<img class="m-4 py-2 d-none d-lg-inline" src="/assets/icon/plant-pot.png" width="250px"><br>
-					<h4 class="text-primary mb-3"><strong>플랜테크</strong>에서 키운 식물을 사용자들과 주고 받으며 재테크도 해보세요!</h4>
-			</div>
-		</div>
-		
-		<div class="container text-center py-5 mb-4">
-			<h3 class="text-primary pt-2 font-weight-bold">플랜테크는 어떻게 만들어졌나요?</h3>
-			<hr>
-			<i class="fab fa-java text-primary fa-5x mx-3"></i>
-			<i class="fas fa-leaf text-primary fa-5x mx-3"></i>
-			<i class="fab fa-github text-primary fa-5x mx-3"></i>
-			<i class="fa-brands fa-git-alt text-primary fa-5x mx-3"></i>
-			<i class="fa-brands fa-python text-primary fa-5x mx-3"></i>
-			<i class="fa-brands fa-docker text-primary fa-5x mx-3"></i>
-			<i class="fa-brands fa-jenkins text-primary fa-5x mx-3"></i>
-			<hr>
-			<small>플랜테크 크루들의 💦으로 만들어졌습니다.</small>
-		</div>
-		
-		<div class="alert-primary text-center p-5" style="background: linear-gradient(to top,  rgb(188, 255, 160) 0%, #d2f4e8 100%);">
-			<div class="container text-center mb-2">
-				<h3 class="text-primary mb-0 mt-3 font-weight-bold">플랜테크 크루를 소개합니다.</h3>
-				<hr style="background-color: #264c25;">
-				<div class="row" style="justify-content: center;">
-					<div class="col-sm-2 text-center hov-p p-3 btn" align="center" style="color:#264c25">
-						<a href="https://github.com/"><img class="rounded-circle shadow" src="/assets/img/female_avatar.svg" width="100px"></a>
-						<p class="text-center my-1">박세리</p>
-						<small>아두이노</small>
-					</div>
-					<div class="col-sm-2 text-center hov-p p-3 btn" align="center" style="color:#264c25">
-						<a href="https://github.com/"><img class="rounded-circle shadow" src="/assets/img/male_avatar.svg" width="100px"></a>
-						<p class="text-center my-1">강희권</p>
-						<small>안드로이드</small>
-					</div>
-					<div class="col-sm-2 text-center hov-p p-3 btn" align="center" style="color:#264c25">
-						<a href="https://github.com/"><img class="rounded-circle shadow" src="/assets/img/male_avatar.svg" width="100px"></a>
-						<p class="text-center my-1">이현준</p>
-						<small>영상 서비스</small>
-					</div>
-					<div class="col-sm-2 text-center hov-p p-3 btn" align="center" style="color:#264c25">
-						<a href="https://github.com/"><img class="rounded-circle shadow" src="/assets/img/male_avatar.svg" width="100px"></a>
-						<p class="text-center my-1">이호건</p>
-						<small>인공지능</small>
-					</div>
-					<div class="col-sm-2 text-center hov-p p-3 btn" align="center" style="color:#264c25">
-						<a href="https://github.com/crazy-oung"><img class="rounded-circle shadow" src="/assets/img/female_avatar.svg" width="100px"></a>
-						<p class="text-center my-1">한다영</p>
-						<small>백엔드/서버</small>
-					</div>
-				</div><!-- row end -->
-			</div>
-			<!-- <small>이미지를 클릭하면 깃허브로 이동합니다.</small> -->
-		</div>
-		
-	</div><!-- content container end -->
-	
-<!-- ETC -->
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded bg-primary" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-	
-	<!-- Bootstrap core JavaScript-->
-	<script src="vendor/jquery/jquery.min.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	
-	<!-- Core plugin JavaScript-->
-	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-	
-	<!-- Custom scripts for all pages-->
-	<script src="js/sb-admin-2.min.js"></script>
-	
-
+	</div>
 </body>
 </html>
