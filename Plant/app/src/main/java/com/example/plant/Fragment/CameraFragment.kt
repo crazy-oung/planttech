@@ -38,7 +38,7 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
             Log.e("접속실패!", e.toString())
         }
         socket.connect()
-        socket.on("video2") { args: Array<Any> ->
+        socket.on("test") { args: Array<Any> ->
             val arg = args[0] as ByteArray
             mainActivity.runOnUiThread {
                 val bitmap = BitmapFactory.decodeByteArray(arg, 0, arg.size)

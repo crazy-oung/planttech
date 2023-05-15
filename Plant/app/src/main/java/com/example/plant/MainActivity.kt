@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val boardFragment = BoardFragment()
     private val infoFragment = InfoFragment()
     private val alamFragment = AlamFragment()
+    private val cameraFragment = CameraFragment()
     private val alamSettingFragment = AlamSettingFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

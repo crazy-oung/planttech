@@ -1,67 +1,68 @@
 package com.example.plant.Fragment
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.example.plant.MainActivity
 import com.example.plant.R
+import com.example.plant.adapter.HomePagerFragmentStateAdapter
 import com.example.plant.adapter.InfoAdapter
+import com.example.plant.adapter.InfoPagerFragmentStateAdapter
 import com.example.plant.databinding.FragmentInfoBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class InfoFragment : Fragment(R.layout.fragment_info) {
+
+    lateinit var mainActivity: MainActivity
+    private var viewPager: ViewPager2? = null
+    private lateinit var tabLayout: TabLayout
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         val binding = FragmentInfoBinding.inflate(inflater, container, false)
 
-        return binding.root
-        /*
-        val retrofit = Retrofit.Builder().baseUrl("http://dayounghan.com/") //http://192.168.0.21:8080/ //http://dayounghan.com/
-            .addConverterFactory(GsonConverterFactory.create()).build();
-        val service = retrofit.create(RetrofitService::class.java);
+        val pagerAdapter = InfoPagerFragmentStateAdapter(requireActivity())
 
-        service.getPlant()?.enqueue(object : Callback<List<PlantInfo>>{
-            override fun onResponse(call: Call<List<PlantInfo>>, response: Response<List<PlantInfo>>) {
-                if(response.isSuccessful){
-                    // 정상적으로 통신이 성고된 경우
-                    binding.info.text = response.body().toString()
-                    Log.d("Gooood", "onResponse 성공: ");
-                }else{
-                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                    Log.d("Baaaad", "onResponse 실패")
-                }
-            }
-            override fun onFailure(call: Call<List<PlantInfo>>, t: Throwable) {
-                // 통신 실패 (인터넷 끊킴, 예외 발생 등 시스템적인 이유)
-                Log.d("Very Baaaad", "onFailure 에러: " + t.message.toString());
+        viewPager = binding.infoPager
+        tabLayout = binding.infoTabLayout
+
+        pagerAdapter.addFragment(InfoTradeFragment())
+        pagerAdapter.addFragment(InfoProfileFragment())
+
+        // adapter 연결
+        viewPager?.adapter = pagerAdapter
+        viewPager?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int){
+                super.onPageSelected(position)
+                Log.e("ViewPagerFragment", "Page ${position+1}")
             }
         })
 
+        val tabList = listOf<String>("내 거래", "내 프로필")
+        viewPager?.let {
+            TabLayoutMediator(tabLayout, it){ tab, position ->
+                tab.text = tabList[position]
+            }.attach()
+        }
 
-        binding.postButton.setOnClickListener{
+        return binding.root
 
-            service.LEDRequest(0,binding.infoEdit2.text.toString().toInt()).enqueue(object : Callback<LedResponse>{
-                override fun onResponse(call: Call<LedResponse>, response: Response<LedResponse>) {
-                    if(response.isSuccessful){
-                        // 정상적으로 통신이 성고된 경우
-                        binding.response.text = response.body().toString()
-                        Log.d("Gooood", "onResponse 성공: ")
-                    }else{
-                        // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                        Log.d("Baaaad", "onResponse 실패" + response.code().toString())
-                    }
-                }
 
-                override fun onFailure(call: Call<LedResponse>, t: Throwable) {
-                    // 통신 실패 (인터넷 끊킴, 예외 발생 등 시스템적인 이유)
-                    Log.d("Very Baaaad", "onFailure 에러: " + t.message.toString());
-                }
 
-            })
-        }*/
+    }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        mainActivity = context as MainActivity
     }
 }
