@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.planttech.mapper.PlantMapper">
+
+	<resultMap type="com.planttech.domain.Plant" id="Plant">
+		<result column="PLANT_NO" property="plantNo"></result>
+		<result column="PLANT_NM" property="plantKoreanName"></result>
+		<result column="PLANT_DIST_NM" property="plantDistributionName"></result>
+		<result column="PLANT_SCI_NM" property="plantScientificName"></result>
+		<result column="PLANT_ENG_NM" property="plantEnglishName"></result>
+		<result column="PLANT_CATEGORY" property="plantCategory"></result>
+		<result column="PLANT_ORIGIN" property="plantOrigin"></result>
+		<result column="PLANT_TIP" property="plantCultivateTip"></result>
+		<result column="PLANT_CREATETIME" property="plantCreatetime"></result>
+		<result column="PLANT_MODIFYTIME" property="plantModifytime"></result>
+	</resultMap>
+
+
+	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
+	
+	<select id="selectPlantList" resultMap="Plant" parameterType="com.planttech.domain.Page">
+		SELECT  PLANT_NO, 
+				PLANT_NM, 
+				PLANT_DIST_NM, 
+				PLANT_SCI_NM, 
+				PLANT_ENG_NM, 
+				PLANT_CATEGORY, 
+				PLANT_ORIGIN, 
+				PLANT_TIP, 
+				PLANT_CREATETIME, 
+				PLANT_MODIFYTIME 
+		  FROM 	PLANT 
+		<if test="searchKeyword != null">
+		 WHERE 	PLANT_NM LIKE CONCAT('%',#{searchKeyword},'%')
+		</if>	
+	  ORDER BY 	<choose>
+				 	<when test="tab == '이름순'">
+				 		PLANT_NM ASC
+				 	</when>
+				 	<otherwise>
+				 		PLANT_CREATETIME DESC
+				 	</otherwise>
+				 </choose>
+	     LIMIT	  <choose>
+				 	<when test="beginPage != 0 and beginPage != null">
+				 		 	  #{beginPage}
+				 	</when>
+				 	<otherwise>
+				 			  0
+				 	</otherwise>
+				 </choose>
+	 			, <choose>
+				 	<when test="pageSize != 0 and pageSize != null">
+				 		 	   #{pageSize}
+				 	</when>
+				 	<otherwise>
+				 		 	   10
+				 	</otherwise>
+				  </choose>
+	</select>
+	
+	
+
+</mapper>
