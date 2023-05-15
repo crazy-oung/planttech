@@ -8,23 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
-import com.example.plant.adapter.RealInfoAdapter
-import com.example.plant.databinding.FragmentRealinfoBinding
+import com.example.plant.adapter.InfoAdapter
+import com.example.plant.databinding.FragmentInfoBinding
 
-class InfoFragment : Fragment(R.layout.fragment_realinfo) {
-    lateinit var recyclerView : RecyclerView
-    lateinit var realInfoAdapter: RealInfoAdapter
+class InfoFragment : Fragment(R.layout.fragment_info) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentRealinfoBinding.inflate(inflater, container, false)
-
-        realInfoAdapter = context?.let { RealInfoAdapter(it) }!!
-        binding.infoRcv.adapter = realInfoAdapter
-
-        recyclerView = binding.infoRcv
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = realInfoAdapter
+        val binding = FragmentInfoBinding.inflate(inflater, container, false)
 
         return binding.root
         /*

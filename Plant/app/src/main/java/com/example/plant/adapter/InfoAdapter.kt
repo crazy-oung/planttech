@@ -4,18 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
 import com.example.plant.model.RecyclerInViewModel
 import com.example.plant.model.multi_type1
 import com.example.plant.model.multi_type2
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
 
-class RealInfoAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class InfoAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var datas = mutableListOf<RecyclerInViewModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
