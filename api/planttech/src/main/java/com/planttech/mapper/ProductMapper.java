@@ -12,6 +12,8 @@ import com.planttech.domain.Page;
 public interface ProductMapper {
 
 	public List<Product> selectArticleList(Page page);
+	public List<Product> selectProductList(Page page);
+	
 	public int insertArticle(Product product);
 	public int updateArticle(Product product);
 	public int deleteArticle(Product product);

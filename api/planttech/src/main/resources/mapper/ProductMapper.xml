@@ -12,9 +12,7 @@
 		<result column="PLANT_NO" property="plantNo"></result>
 		
 		<result column="PRODUCT_NAME" property="productName"></result>
-		<result column="PRODUCT_CATEGORY" property="productCategory"></result>
-		<result column="PRODUCT_CONTENT" property="productContent"></result>
-		
+		<result column="PRODUCT_TYPE" property="productType"></result>
 		<result column="PRODUCT_PRICE" property="productPrice"></result>
 		
 		<result column="PRODUCT_CRAETETIME" property="productCreatetime"></result>
@@ -30,8 +28,7 @@
 				, USER_NO
 				, PLANT_NO
 				, PRODUCT_NAME
-				, PRODUCT_CATEGORY
-				, PRODUCT_CONTENT
+				, PRODUCT_TYPE
 				, PRODUCT_PRICE
 				, PRODUCT_CRAETETIME
 				, PRODUCT_MODIFYTIME 
@@ -62,18 +59,54 @@
 	 
 	</select>
 	
+	<select id="selectProductList" parameterType="com.planttech.domain.Page" resultMap="product">
+		SELECT 	  PR.PLANT_NO
+				, PL.PLANT_NM AS PRODUCT_NAME 
+				, MIN(PRODUCT_PRICE) AS PRODUCT_PRICE
+				, PRODUCT_TYPE
+				, COUNT(*) AS PRODUCT_NO
+		  FROM 	  PRODUCT AS PR
+	INNER JOIN 	  PLANT AS PL
+		 WHERE 	  PRODUCT_ACTIVE != 0 
+		   AND	  PRODUCT_TYPE 	 = 0
+		   AND 	  PR.PLANT_NO 	 = PL.PLANT_NO
+		<if test="searchKeyword != null">
+		   AND 	  PRODUCT_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+		</if>	
+		<if test="tab == '최신순' or tab == null">
+	  GROUP BY	  PLANT_NO
+	  ORDER BY    PRODUCT_CRAETETIME DESC
+		</if>
+	     LIMIT	  <choose>
+				 	<when test="beginPage != 0 and beginPage != null">
+				 		 	  #{beginPage}
+				 	</when>
+				 	<otherwise>
+				 			  0
+				 	</otherwise>
+				 </choose>
+	 			, <choose>
+				 	<when test="pageSize != 0 and pageSize != null">
+				 		 	   #{pageSize}
+				 	</when>
+				 	<otherwise>
+				 		 	   10
+				 	</otherwise>
+				 </choose>
+	 
+	</select>
+	
 	<insert id="insertArticle" parameterType="com.planttech.domain.Product" useGeneratedKeys="true" keyProperty="productNo">
 		INSERT INTO 
 		    PRODUCT ( USER_NO
 					, PLANT_NO
 					, PRODUCT_NAME
-					, PRODUCT_CATEGORY
-					, PRODUCT_CONTENT
+					, PRODUCT_TYPE
 					, PRODUCT_PRICE	) 			
 			VALUES (  #{userNo}
 					, #{plantNo}
 					, #{productName}
-					, #{productCategory}
+					, #{productType}
 					, #{productContent}
 					, #{productPrice} )			
 	</insert>
@@ -81,9 +114,8 @@
 	<update id="updateArticle" parameterType="com.planttech.domain.Product" useGeneratedKeys="true" keyProperty="productNo">
 		UPDATE 	PRODUCT 
 		   SET 	PRODUCT_NAME			= #{productName}
-		   	  , PRODUCT_CATEGORY		= #{productCategory}
-		   	  , PRODUCT_CONTENT			= #{productContent}
 		   	  , PLANT_NO				= #{plantNo}
+		   	  , PRODUCT_TYPE			= #{productType}
 		   	  , PRODUCT_PRICE 			= #{productPrice}
     	 WHERE 	USER_NO 				= #{userNo} 
     	   AND  PRODUCT_NO 				= #{productNo} 

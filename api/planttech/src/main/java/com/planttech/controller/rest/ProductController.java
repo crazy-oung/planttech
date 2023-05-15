@@ -32,7 +32,7 @@ public class ProductController {
 	@Autowired ProductService productService;
 	
 	
-	@Operation(summary = "식물 거래글 조회", description = "키워드, 카테고리, 페이지 번호, 페이지당 글 수를 이용해 거래글을 조회합니다.")
+	@Operation(summary = "입찰 목록 조회", description = "키워드, 카테고리, 페이지 번호, 페이지당 글 수를 이용해 입찰을 조회합니다.")
 	@GetMapping()
 	public List<Product> getArticleList(Page page) {
 		System.out.println("::: getArticleList :::");
@@ -41,7 +41,7 @@ public class ProductController {
 		return productService.getArticleList(page);
 	}
 	
-	@Operation(summary = "식물 거래글 상품 상세 조회", description = "조회한 거래글의 상품 고유번호를 이용해 해당상품의 상세 정보를 조회합니다.")
+	@Operation(summary = "입찰 상세", description = "해당 상품에 대한 상세 입찰 정보를 조회합니다.")
 	@GetMapping("/{productId}")
 	public int getArticleProductInfo(@PathVariable("productId") int prodcutId) {
 		System.out.println("::: getArticleProductInfo :::");
@@ -50,7 +50,7 @@ public class ProductController {
 		return prodcutId;
 	}
 	
-	@Operation(summary = "식물 거래글 추가", description = "식물 거래글을 올립니다. 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
+	@Operation(summary = "입찰 추가", description = "입찰을 추가합니다. ")
 	@PostMapping()
 	public int addArticle(@Parameter(description = "거래 글 내용", in = ParameterIn.HEADER) @RequestBody  Product article) {
 		System.out.println("::: addArticle :::"); 
@@ -59,7 +59,7 @@ public class ProductController {
 		return productService.addArticle(article);
 	}
 	
-	@Operation(summary = "식물 거래글 수정", description = "식물 거래글을 수정합니다. 파라미터 값은 거래글 추가와 같으며 마찬가지로 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
+	@Operation(summary = "입찰 정보 수정", description = "입찰 정보를 수정합니다. 파라미터 값은 입찰 추가와 같으며 마찬가지로 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
 	@PutMapping()
 	public int modifyArticle(@RequestBody Product article) {
 		System.out.println("::: updateArticle :::"); 
@@ -69,7 +69,7 @@ public class ProductController {
 	}
 	
 	
-	@Operation(summary = "식물 거래글 삭제", description = "식물 거래글을 삭제합니다. 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
+	@Operation(summary = "입찰 삭제", description = "등록한 입찰을 삭제합니다. 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
 	@DeleteMapping()
 	public int removeArticle(@RequestParam int articleNo) {
 		System.out.println("::: removeArticle :::"); 
@@ -83,7 +83,7 @@ public class ProductController {
 	
 	
 
-	@Operation(summary = "식물 경매: 즉시 구매", description = "식물 거래글에 즉시 구매 요청을 진행합니다.")
+	@Operation(summary = "식물 경매: 즉시 구매", description = "즉시 구매 요청을 진행합니다.")
 	@PostMapping("/buy")
 	public int addProductBuy(@RequestBody  Product article) {
 		System.out.println("::: addProductBuy :::"); 
@@ -92,7 +92,7 @@ public class ProductController {
 		return -1;
 	}
 	
-	@Operation(summary = "식물 경매: 입찰가 제시", description = "식물 거래글에 입찰가를 제시합니다.")
+	@Operation(summary = "식물 경매: 입찰가 제시", description = "입찰가를 제시합니다.")
 	@PostMapping("/bid")
 	public int addProductBid(@RequestBody  Product article) {
 		System.out.println("::: addProductBid :::"); 

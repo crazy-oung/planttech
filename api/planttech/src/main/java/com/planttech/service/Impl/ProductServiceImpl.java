@@ -23,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getArticleList(Page page) {
 		System.out.println("::: - getArticleList :::");
 		
-		return productMapper.selectArticleList(page);
+		return productMapper.selectProductList(page);
 	}
 
 	@Override
