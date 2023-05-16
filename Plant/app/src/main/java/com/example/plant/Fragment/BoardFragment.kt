@@ -1,5 +1,6 @@
 package com.example.plant.Fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -8,18 +9,25 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.example.plant.MainActivity
 import com.example.plant.R
 import com.example.plant.adapter.BoardAdapter
+import com.example.plant.adapter.BoardPagerFragmentStateAdapter
+import com.example.plant.adapter.HomePagerFragmentStateAdapter
 import com.example.plant.api.RetrofitService
 import com.example.plant.databinding.FragmentBoardBinding
 import com.example.plant.model.Board
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 class BoardFragment : Fragment(R.layout.fragment_board) {
-    lateinit var recyclerView : RecyclerView
-    lateinit var boardAdapter: BoardAdapter
+    lateinit var mainActivity: MainActivity
+    private var viewPager: ViewPager2? = null
+    private lateinit var tabLayout: TabLayout
     private lateinit var data : List<Board>
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,6 +50,35 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
                 2, 0, 0,
                 "난", "Good", "1M, 사진 참고", "100,000원", "2023-05-08", "1",
             ))
+
+        viewPager = binding.boardPager
+        tabLayout = binding.boardTabLayout
+
+        val pagerAdapter = BoardPagerFragmentStateAdapter(requireActivity())
+
+
+        pagerAdapter.addFragment(BoardAllListFragment())
+        pagerAdapter.addFragment(BoardRecommendListFragment())
+        pagerAdapter.addFragment(BoardRankListFragment())
+        pagerAdapter.addFragment(BoardFruitListFragment())
+        pagerAdapter.addFragment(BoardVegetableListFragment())
+        pagerAdapter.addFragment(BoardOrnamentalListFragment())
+        // adapter 연결
+        viewPager?.adapter = pagerAdapter
+        viewPager?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int){
+                super.onPageSelected(position)
+                Log.e("ViewPagerFragment", "Page ${position+1}")
+            }
+        })
+
+        val tabList = listOf<String>("전체", "추천", "랭킹", "과일", "채소", "관상식물")
+        viewPager?.let {
+            TabLayoutMediator(tabLayout, it){ tab, position ->
+                tab.text = tabList[position]
+            }.attach()
+        }
+
 /*
         service.boardGet()?.enqueue(object : Callback<List<Board>> {
             override fun onResponse(call: Call<List<Board>>, response: Response<List<Board>>) {
@@ -88,24 +125,8 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
 
         Log.d("Gooood2", data.get(0).articleTitle)
 */
-        boardAdapter = context?.let { BoardAdapter(data) }!!
-        binding.boardRcv.adapter = boardAdapter
-
-        // val intent = Intent(this.context, CameraFragment::class.java)
-        recyclerView = binding.boardRcv
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
-        recyclerView.adapter = BoardAdapter(data)
-        binding.boardRcv.setHasFixedSize(true)
 
 
-        binding.floatingActionButton.setOnClickListener{
-            val bundle = Bundle()
-            val boardContentAddFragment = BoardContentAddFragment()
-            boardContentAddFragment.arguments = bundle
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.add(R.id.fragmentContainer, boardContentAddFragment)
-                ?.addToBackStack(null)
-                ?.commit()
             /* 가습기 작동 테스트 코드
                 service.humiRequest(0, 1)?.enqueue(object : Callback<LedResponse> {
                     override fun onResponse(
@@ -125,10 +146,15 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
                        Log.d("Very Baaaad", "onFailure 에러: ")
                     }
                 })*/
-            }
 
 
-        setHasOptionsMenu(true)
         return binding.root
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        mainActivity = context as MainActivity
+    }
+
 }

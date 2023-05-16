@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".Fragment.BoardAllListFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/board_all_category_btn"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/boader_board_button"
+            android:text="카테고리" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/board_all_state_btn"
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/boader_board_button"
+            android:text="상태" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/board_all_size_btn"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/boader_board_button"
+            android:text="사이즈" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/board_all_price_btn"
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/boader_board_button"
+            android:text="가격" />
+
+    </LinearLayout>
+
+    <View
+        android:background="#E0E0E0"
+        android:layout_height="5px"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="상품"
+                    />
+
+                <TextView
+                    android:id="@+id/board_all_listNum_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="10"
+                    />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/board_all_sort_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="#00ff0000"
+                    android:text="인기순 ⇵" />
+
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/board_all_list_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_gravity="center">
+
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
