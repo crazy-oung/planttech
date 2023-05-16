@@ -1,4 +1,4 @@
-package com.planttech.controller.rest;
+package com.planttech.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

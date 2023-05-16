@@ -1,4 +1,4 @@
-package com.planttech.controller.rest;
+package com.planttech.controller;
 
 import jakarta.servlet.http.HttpSession;
 

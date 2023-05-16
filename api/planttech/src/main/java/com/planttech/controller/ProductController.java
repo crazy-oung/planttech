@@ -1,4 +1,4 @@
-package com.planttech.controller.rest;
+package com.planttech.controller;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class ProductController {
 	@Autowired ProductService productService;
 	
 	
-	@Operation(summary = "입찰 목록 조회", description = "키워드, 카테고리, 페이지 번호, 페이지당 글 수를 이용해 입찰을 조회합니다.")
+	@Operation(summary = "입찰 목록 조회", description = "키워드, 카테고리, 페이지 번호, 페이지당 글 수를 이용해 입찰을 조회합니다. 목록 출력시 productNo에 해당품목의 진행중인 입찰 수가 출력됩니다.")
 	@GetMapping()
 	public List<Product> getArticleList(Page page) {
 		System.out.println("::: getArticleList :::");
@@ -42,12 +42,12 @@ public class ProductController {
 	}
 	
 	@Operation(summary = "입찰 상세", description = "해당 상품에 대한 상세 입찰 정보를 조회합니다.")
-	@GetMapping("/{productId}")
-	public int getArticleProductInfo(@PathVariable("productId") int prodcutId) {
+	@GetMapping("/{plantNo}")
+	public int getArticleProductInfo(@PathVariable("plantNo") int plantNo) {
 		System.out.println("::: getArticleProductInfo :::");
-		System.out.println(prodcutId);
+		System.out.println(plantNo);
 		
-		return prodcutId;
+		return plantNo;
 	}
 	
 	@Operation(summary = "입찰 추가", description = "입찰을 추가합니다. ")
