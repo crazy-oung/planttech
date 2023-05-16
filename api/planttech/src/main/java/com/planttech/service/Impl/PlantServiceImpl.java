@@ -20,12 +20,20 @@ public class PlantServiceImpl implements PlantService {
 	@Autowired 
 	private PlantMapper plantMapper;
 	
-	//Report 카테고리 가져오기
+	// 식물 모두 조회
 	@Override
 	public List<Plant> getPlantList(Page page) {
 		System.out.println("::: - getPlantList :::");
 		
-		return plantMapper.selectPlantList();
+		return plantMapper.selectPlantList(page);
+	}
+	
+	// 식물 카테고리 조회 
+	@Override
+	public List<Plant> getPlantCategoryList() {
+		System.out.println("::: - getPlantCategoryList :::");
+		
+		return plantMapper.selectPlantCategoryList();
 	}
 	
 

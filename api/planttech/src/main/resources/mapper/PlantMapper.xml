@@ -63,6 +63,14 @@
 				  </choose>
 	</select>
 	
+	<select id="selectPlantCategoryList" resultType="map">
+		SELECT	PLANT_CATEGORY, 
+				COUNT(*) 		AS PLANT_NO 
+		  FROM 	PLANT 
+	  GROUP BY 	PLANT_CATEGORY
+	  ORDER BY 	PLANT_CATEGORY 	ASC
+	</select>
+	
 	
 
 </mapper>
