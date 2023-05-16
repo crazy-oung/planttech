@@ -47,7 +47,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.5"
                     app:tabIndicatorColor="@color/black"
                     app:tabIndicatorHeight="2dp"
                     app:tabSelectedTextAppearance="@style/tabTextSizeBold"

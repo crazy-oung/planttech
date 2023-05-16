@@ -65,4 +65,7 @@ dependencies {
 
     //Circle ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //CoordinatorLayout
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
 }
