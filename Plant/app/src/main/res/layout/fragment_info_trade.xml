@@ -608,6 +608,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/boader_info">
 
             <Button
@@ -616,6 +617,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
                 android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:background="#00ff0000"/>
 
             <View
@@ -630,6 +633,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
                 android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:background="#00ff0000"/>
 
             <View
@@ -644,6 +649,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
                 android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:background="#00ff0000"/>
         </LinearLayout>
 

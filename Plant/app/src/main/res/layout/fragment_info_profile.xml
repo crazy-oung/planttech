@@ -5,11 +5,215 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.InfoProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="NOOOOOOOOOOOOO"
-        android:textSize="100dp"/>
+        android:layout_height="match_parent">
+    <!-- TODO: Update blank fragment layout -->
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내 식물"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_margin="10dp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.1" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/info_buy_more_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ff0000"
+                    android:text="더보기"
+                    android:elevation="0dp"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/boader_info"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="전체"
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#D0D0D0"
+                        android:layout_marginTop="10dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="재배중"
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#D0D0D0"
+                        android:layout_marginTop="10dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="재배 완료"
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/info_profile_plant_all_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="0"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#D0D0D0"
+                        android:layout_marginBottom="10dp" />
+
+                    <TextView
+                        android:id="@+id/info_profile_plant_ing_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="-"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#D0D0D0"
+                        android:layout_marginBottom="10dp" />
+
+                    <TextView
+                        android:id="@+id/info_profile_plant_end_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="-"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="10dp"
+                android:background="#ECECEC" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="게시글"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_margin="10dp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/info_profile_mysell_rcv"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false"
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>
