@@ -126,13 +126,25 @@ public class UserController {
 	}
 	
 
-	@Operation(summary = "미완", description = "이메일 중복 검사")
+	@Operation(summary = "이메일 중복 검사", description = "이메일 중복 검사를 진행합니다.")
 	@GetMapping("/check/email")
 	public ResponseEntity<Message> getUserEmail(@RequestParam String userEmail) {
 		System.out.println("::: getUserEmail :::"); 
-		System.out.println(userEmail); 
+		message.setFailMessage();
 		
-//		userService.get
+		if (!StringUtil.isEmail(userEmail)) {
+			message.setMessage("올바르지 않은 이메일 형식입니다.");
+			return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
+		}
+		
+		if (userService.getUserByUserEmail(userEmail) == null) {;
+			message.setSuccessMessage();
+			message.setMessage("사용 가능한 이메일입니다.");
+			return new ResponseEntity<>(message, headers, HttpStatus.OK);
+		}
+		
+		message.setStatus(StatusEnum.UNAUTHORIZED);
+		message.setMessage("사용중인 이메일입니다.");
 		return new ResponseEntity<>(message, headers, HttpStatus.UNAUTHORIZED);
 	}
 	
