@@ -9,11 +9,12 @@ import com.planttech.domain.Page;
 
 public interface PlantSensorService {
 
-	public List<PlantSensor> getPlantSensorList(Page page);
-	public int addPlantSensor(PlantSensor PlantSensor);
+	public List<PlantSensor> 	getPlantSensorList(Page page);
+	public int 					addPlantSensor(PlantSensor PlantSensor);
 	
-	public SensorControlTf getUserSensorControl(int userNo);
-	public int addPlantSensorWataerPump(int userNo, int waterPumpTf);
-	public int addPlantSensorHumidifier(int userNo, int humidifierTf);
+	public SensorControlTf 	getUserSensorControl(int userNo);
+	public SensorControlTf 	addUserSensorControl(SensorControlTf sensorControlTf);
+	public int 				addPlantSensorWataerPump(int userNo, int waterPumpTf);
+	public int 				addPlantSensorHumidifier(int userNo, int humidifierTf);
 
 }

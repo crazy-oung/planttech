@@ -25,6 +25,10 @@
 	<resultMap type="com.planttech.domain.SensorControlTf" id="sensorControlTf">
 		<result column="SR_CTRL_NO" property="sensorControlNo"></result>
 		<result column="USER_NO" property="userNo"></result>
+		<result column="WH_PLANT_NO" property="warehousePlantNo"></result>
+		
+		<result column="SR_PR_NO" property="photoRegistorNo"></result>
+		<result column="SR_HUMD_NO" property="humidifierNo"></result>
 		
 		<result column="SR_WP_TF" property="waterPumpTf"></result>
 		<result column="SR_HUMD_TF" property="humidifierTf"></result>
@@ -54,7 +58,6 @@
 	</select>
 	
 	<insert id="insertPlantSensor" parameterType="com.planttech.domain.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
-		
 		INSERT INTO 
 		  PLANT_SR (  PLANT_NO
 		  			, WH_PLANT_NO
@@ -89,6 +92,22 @@
 		  FROM SR_CTRL
 	     WHERE USER_NO = #{userNo}
 	</select>
+	
+	<insert id="insertPlantSensorCtrl" parameterType="com.planttech.domain.SensorControlTf" useGeneratedKeys="true" keyProperty="sensorControlNo">
+		INSERT INTO 
+		    SR_CTRL ( USER_NO
+		  			, WH_PLANT_NO
+					, SR_WP_NO
+					, SR_HUMD_NO
+					, SR_WP_TF
+					, SR_HUMD_TF		) 			
+			VALUES (  #{userNo}
+					, #{warehousePlantNo}
+					, #{waterPumpNo}
+					, #{humidifierNo}
+					, #{waterPumpTf}
+					, #{humidifierTf}	)			
+	</insert>
 	
 	<update id="updatePlantSensorWaterPump" >
 		UPDATE SR_CTRL 

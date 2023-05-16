@@ -17,21 +17,18 @@ import com.planttech.service.PlantSensorService;
 @Service
 @Transactional
 public class PlantSensorServiceImpl implements PlantSensorService {
-	@Autowired private PlantSensorMapper PlantSensorMapper;
+	@Autowired private PlantSensorMapper plantSensorMapper;
 
 
 	@Override
 	public List<PlantSensor> getPlantSensorList(Page page) {
-		System.out.println("::: PlantSensorServiceImpl - getPlantSensorList :::");
-		
-		return PlantSensorMapper.selectPlantSensorList(page);
+		return plantSensorMapper.selectPlantSensorList(page);
 	}
 
 	@Override
 	public int addPlantSensor(PlantSensor plantSensor) {
 		try {
-			return PlantSensorMapper.insertPlantSensor(plantSensor);
-//			System.out.println(plantSensor.toString());
+			return plantSensorMapper.insertPlantSensor(plantSensor);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -40,10 +37,11 @@ public class PlantSensorServiceImpl implements PlantSensorService {
 	}
 
 	
+	
 	@Override
 	public SensorControlTf getUserSensorControl(int userNo) {
 		try {
-			return PlantSensorMapper.selectSensorControl(userNo);
+			return plantSensorMapper.selectSensorControl(userNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,9 +49,14 @@ public class PlantSensorServiceImpl implements PlantSensorService {
 	}
 	
 	@Override
+	public SensorControlTf addUserSensorControl(SensorControlTf sensorControlTf) {
+		return plantSensorMapper.insertPlantSensorCtrl(sensorControlTf);
+	}
+	
+	@Override
 	public int addPlantSensorWataerPump(int userNo, int waterPumpTf) {
 		try {
-			return PlantSensorMapper.updatePlantSensorWaterPump(userNo, waterPumpTf);
+			return plantSensorMapper.updatePlantSensorWaterPump(userNo, waterPumpTf);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,15 +66,12 @@ public class PlantSensorServiceImpl implements PlantSensorService {
 	@Override
 	public int addPlantSensorHumidifier(int userNo, int humidifierTf) {
 		try {
-			return PlantSensorMapper.updatePlantSensorHumidifier(userNo, humidifierTf);
+			return plantSensorMapper.updatePlantSensorHumidifier(userNo, humidifierTf);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	
-
-	
 
 }
