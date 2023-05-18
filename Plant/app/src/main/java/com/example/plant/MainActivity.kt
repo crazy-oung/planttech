@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private val infoFragment = InfoFragment()
     private val alamFragment = AlamFragment()
     private val cameraFragment = CameraFragment()
+    private val plantAddFragment = PlantAddFragment()
     private val alamSettingFragment = AlamSettingFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +77,15 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
             }
+
+            3 -> {
+                supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.fragmentContainer, plantAddFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+
         }
     }
 }

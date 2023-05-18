@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.PlantInfoFragment"
+    tools:context=".Fragment.BoardInfoFragment"
     android:background="@color/white"
     >
 
@@ -26,7 +26,7 @@
 
 
                         <ImageView
-                            android:id="@+id/plant_info_photo_iv"
+                            android:id="@+id/board_info_photo_iv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:contentDescription="Plant name"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/plant_info_name_tv"
+                    android:id="@+id/board_info_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -56,7 +56,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/plant_info_subName_tv"
+                    android:id="@+id/board_info_subName_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -72,7 +72,7 @@
                 android:layout_weight="1"
                 />
             <ImageButton
-                android:id="@+id/plant_info_star_btn"
+                android:id="@+id/board_info_star_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -87,58 +87,56 @@
                     android:layout_height="2dp"
                     android:layout_margin="10dp"
                     android:background="#ECECEC" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginLeft="10dp"
+                android:textSize="18dp"
+                android:text="state"
+                />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_marginLeft="10dp"
-                            android:text="state"
-                            android:textSize="18dp" />
+            <Spinner
+                android:id="@+id/board_state_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
+                android:paddingVertical="10dp"/>
 
-                        <TextView
-                            android:id="@+id/plant_info_state_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="Very Good"
-                            android:textColor="@color/black"
-                            android:textSize="26dp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/plant_info_state_exp_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="20dp"
-                        android:text="정말 좋아요 아주 좋아요!"
-                        android:textSize="18dp" />
-                </LinearLayout>
-
+        </LinearLayout>
+        </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_margin="10dp"
                     android:background="#ECECEC" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50,000 원"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="right"
+                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -155,12 +153,12 @@
                         />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/plant_info_moreInfo_rcv"
+                        android:id="@+id/board_info_moreInfo_rcv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/plant_info_tempAndHumi_rcv"
+                        android:id="@+id/board_info_quote_rcv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -183,64 +181,14 @@
                         android:layout_gravity="top"
                         android:layout_margin="10dp"
                         android:textSize="18dp"
-                        android:text="카메라 관찰"
+                        android:text="비슷한 다른 식물"
                         />
 
-                    <ImageView
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/board_otherPlant_rcv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:adjustViewBounds="true"
-                        app:srcCompat="@drawable/pngwing_com" />
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_margin="10dp"
-                    android:background="#ECECEC" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_margin="10dp"
-                    android:textSize="18dp"
-                    android:text="판매"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="10dp"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="가격"
-                        android:layout_gravity="center"
-                        />
-                    <EditText
-                        android:id="@+id/profile_edit_intro_et"
-                        android:layout_width="match_parent"
-                        android:layout_weight="0.2"
-                        android:layout_height="40dp"
-                        android:background="@drawable/boader_info"
-                        android:layout_margin="10dp"
-                        android:paddingLeft="10dp"
-                        />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="match_parent"
-                        android:layout_weight="0.8"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/boader_profile_button"
-                        android:text="결정"
-                        />
-
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
         </LinearLayout>
@@ -254,41 +202,29 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#ECECEC" />
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/plant_info_camera_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:background="@android:drawable/ic_menu_camera"
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
                 />
-
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/plant_info_water_btn"
+                android:id="@+id/board_info_water_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
                 android:layout_margin="10dp"
-                android:text="워터 펌프 작동" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/plant_info_humi_btn"
+                android:text="구매 50,000원" />
+            <View
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:layout_margin="10dp"
-                android:text="가습기 작동"  />
-
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                />
         </LinearLayout>
-
-
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

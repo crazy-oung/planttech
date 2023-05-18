@@ -35,7 +35,7 @@
                     android:layout_weight="0.1" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/info_buy_more_btn"
+                    android:id="@+id/info_plant_more_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#00ff0000"

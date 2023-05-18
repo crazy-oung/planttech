@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.Fragment.BoardContentFragment
+import com.example.plant.Fragment.BoardInfoFragment
 import com.example.plant.Fragment.CameraFragment
+import com.example.plant.Fragment.PlantInfoFragment
 import com.example.plant.R
 import com.example.plant.model.Board
 import com.example.plant.model.Plant
@@ -30,21 +32,17 @@ class BoardAllListAdapter(var mylist: List<Board>) : RecyclerView.Adapter<BoardA
         holder.variety.text = mylist[position].articleContent
         holder.state.text = mylist[position].articleSubject
 
-        /*
-        holder.itemView.setOnClickListener { v ->
-            val activity = v!!.context as AppCompatActivity
+
+        holder.itemView.setOnClickListener {
+            val activity = it.context as AppCompatActivity
             val bundle = Bundle()
-            bundle.putString("title", mylist[position].articleTitle)
-            bundle.putString("createTime", mylist[position].articleCreatetime)
-            bundle.putString("content", mylist[position].articleContent)
-            bundle.putString("price", mylist[position].articleProductPrice)
-            val boardContentFragment = BoardContentFragment()
-            boardContentFragment.arguments = bundle
-            activity.supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, boardContentFragment)
+            val boardInfoFragment = BoardInfoFragment()
+            boardInfoFragment.arguments = bundle
+            activity!!.supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, boardInfoFragment)
                 .addToBackStack(null)
                 .commit()
-        }*/
+        }
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

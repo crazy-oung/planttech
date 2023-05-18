@@ -5,11 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.adapter.FruitAdapter
-import com.example.plant.adapter.BoardAdapter
 import com.example.plant.adapter.OrnaAdapter
 import com.example.plant.adapter.VegiAdapter
 import com.example.plant.databinding.FragmentAllBinding
@@ -46,6 +44,7 @@ class AllFragment : Fragment() {
             Plant(plantName = "할미", plantScore = 80, startDate = "16일째", "할미꽃", "Good", false)
         )
 
+
         fruitAdapter = context?.let { FruitAdapter(dataFruit) }!!
         binding.homeFruitRcv.adapter = fruitAdapter
 
@@ -53,8 +52,6 @@ class AllFragment : Fragment() {
         fruitRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         fruitRecyclerView.adapter = FruitAdapter(dataFruit)
         binding.homeFruitRcv.setHasFixedSize(true)
-
-
 
         vegiAdapter = context?.let { VegiAdapter(dataVegi) }!!
         binding.homeVegiRcv.adapter = vegiAdapter

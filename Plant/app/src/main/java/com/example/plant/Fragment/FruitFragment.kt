@@ -7,11 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plant.R
 import com.example.plant.adapter.FruitAdapter
-import com.example.plant.adapter.OrnaAdapter
-import com.example.plant.adapter.VegiAdapter
-import com.example.plant.databinding.FragmentAllBinding
 import com.example.plant.databinding.FragmentFruitBinding
 import com.example.plant.model.Plant
 
@@ -38,6 +34,7 @@ class FruitFragment : Fragment() {
         fruitRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         fruitRecyclerView.adapter = FruitAdapter(dataFruit)
         binding.fruitRcv.setHasFixedSize(true)
+
         return binding.root
     }
 

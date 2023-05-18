@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
@@ -57,6 +58,16 @@ class InfoProfileFragment : Fragment() {
         recyclerView.adapter = InfoProfileAdapter(data)
         binding.infoProfileMysellRcv.setHasFixedSize(true)
 
+        binding.infoPlantMoreBtn.setOnClickListener {
+            val activity = it.context as AppCompatActivity
+            val bundle = Bundle()
+            val infoPlantMoreFragment = InfoPlantMoreFragment()
+            infoPlantMoreFragment.arguments = bundle
+            activity!!.supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, infoPlantMoreFragment)
+                .addToBackStack(null)
+                .commit()
+        }
         return binding.root
     }
 

@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
 import com.example.plant.adapter.PlantAdapter
 import com.example.plant.databinding.FragmentPlantBinding
 import com.example.plant.model.Plant
-import java.util.*
 
 
 class PlantFragment : Fragment(R.layout.fragment_plant) {
@@ -40,6 +38,13 @@ class PlantFragment : Fragment(R.layout.fragment_plant) {
 
         plantAdapter.setItemClickListener(object :PlantAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
+                val bundle = Bundle()
+                val plantInfoFragment = PlantInfoFragment()
+                plantInfoFragment.arguments = bundle
+                activity!!.supportFragmentManager.beginTransaction()
+                    .add(R.id.fragmentContainer, plantInfoFragment)
+                    .addToBackStack(null)
+                    .commit()
             }
         })
 

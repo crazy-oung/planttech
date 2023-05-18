@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +54,18 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
                 tab.text = tabList[position]
             }.attach()
         }
+
+        binding.infoProfileEditBtn.setOnClickListener {
+            val activity = it.context as AppCompatActivity
+            val bundle = Bundle()
+            val profileSetFragment = ProfileSetFragment()
+            profileSetFragment.arguments = bundle
+            activity!!.supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, profileSetFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
 
         return binding.root
 

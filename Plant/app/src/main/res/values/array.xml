@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="sortPurchaseItemList">
+        <item>구매일</item>
+        <item>구매가</item>
+        <item>이름</item>
+    </string-array>
+
+    <string-array name="sortSellItemList">
+        <item>판매일</item>
+        <item>판매가</item>
+        <item>이름</item>
+    </string-array>
+
+    <string-array name="sortTradeItemList">
+        <item>거래일</item>
+        <item>거래가</item>
+        <item>이름</item>
+    </string-array>
+
+    <string-array name="sortPlantItemList">
+        <item>시작일</item>
+        <item>이름</item>
+        <item>별명</item>
+    </string-array>
+
+    <string-array name="sortShopItemList">
+        <item>이름</item>
+        <item>가격</item>
+        <item>등록일</item>
+    </string-array>
+
+    <string-array name="plantCategory1ItemList">
+        <item>종류</item>
+        <item>B</item>
+        <item>C</item>
+    </string-array>
+
+    <string-array name="plantCategory2ItemList">
+        <item>명칭</item>
+        <item>B</item>
+        <item>ㅊ</item>
+    </string-array>
+    <string-array name="plantStateItemList">
+        <item>VeryGood</item>
+        <item>Good</item>
+        <item>Soso</item>
+        <item>Bad</item>
+        <item>VeryBad</item>
+    </string-array>
+
+</resources>

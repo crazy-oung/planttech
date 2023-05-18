@@ -92,12 +92,12 @@
                     android:layout_weight="1"
                     android:layout_height="0dp"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/board_all_sort_btn"
+                <Spinner
+                    android:id="@+id/board_all_spinner"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:background="#00ff0000"
-                    android:text="인기순 ⇵" />
+                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"/>
 
             </LinearLayout>
 

@@ -4,18 +4,16 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.plant.MainActivity
 import com.example.plant.R
-import com.example.plant.adapter.HomePagerFragmentStateAdapter
-import com.example.plant.databinding.FragmentHomeBinding
+import com.example.plant.adapter.InfoMorePurchasePagerFragmentStateAdapter
+import com.example.plant.databinding.FragmentInfoPurchaseMoreBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class InfoPurchaseMoreFragment : Fragment(R.layout.fragment_home) {
 
     lateinit var mainActivity: MainActivity
     private var viewPager: ViewPager2? = null
@@ -29,19 +27,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val binding = FragmentInfoPurchaseMoreBinding.inflate(inflater, container, false)
 
         viewPager = binding.pager
-        tabLayout = binding.tabLayout
+        tabLayout = binding.infoMoreTabLayout
 
-        val pagerAdapter = HomePagerFragmentStateAdapter(requireActivity())
+        val pagerAdapter = InfoMorePurchasePagerFragmentStateAdapter(requireActivity())
 
 
-        pagerAdapter.addFragment(AllFragment())
-        pagerAdapter.addFragment(StarFragment())
-        pagerAdapter.addFragment(FruitFragment())
-        pagerAdapter.addFragment(VegitableFragment())
-        pagerAdapter.addFragment(OrnamentalFragment())
+        pagerAdapter.addFragment(InfoPurchaseListOneFragment())
+        pagerAdapter.addFragment(InfoPurchaseListTwoFragment())
+        pagerAdapter.addFragment(InfoPurchaseListThreeFragment())
 
         // adapter 연결
         viewPager?.adapter = pagerAdapter
@@ -52,7 +48,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         })
 
-        val tabList = listOf<String>("전체", "관심", "과일", "채소", "관상식물")
+        val tabList = listOf<String>("0\n"+"전체", "0\n"+"입찰 대기", "0\n"+"종료")
         viewPager?.let {
             TabLayoutMediator(tabLayout, it){ tab, position ->
                 tab.text = tabList[position]
@@ -74,22 +70,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         recyclerView.adapter = homeAdapter
         */
 
+        binding.infoPurchaseToolbar.title = "구매 내역"
 
-        binding.homeToolbar.setOnMenuItemClickListener{
-            when(it.itemId) {
-                R.id.alarm -> {
-                    mainActivity.changeFragment(1)
-                    true
-                }
-
-                R.id.add -> {
-                    mainActivity.changeFragment(3)
-                    true
-                }
-
-                else -> false
-            }
-        }
 
         setHasOptionsMenu(true)
 
