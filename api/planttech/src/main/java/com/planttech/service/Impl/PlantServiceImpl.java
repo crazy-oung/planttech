@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.planttech.domain.Page;
-import com.planttech.domain.Plant;
+import com.planttech.domain.plant.Plant;
+import com.planttech.domain.plant.PlantCategory;
+import com.planttech.domain.search.Page;
 import com.planttech.mapper.PlantMapper;
 import com.planttech.service.PlantService;
 
@@ -30,7 +31,7 @@ public class PlantServiceImpl implements PlantService {
 	
 	// 식물 카테고리 조회 
 	@Override
-	public List<Plant> getPlantCategoryList() {
+	public List<PlantCategory> getPlantCategoryList() {
 		System.out.println("::: - getPlantCategoryList :::");
 		
 		return plantMapper.selectPlantCategoryList();

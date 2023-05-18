@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.planttech.domain.User;
-import com.planttech.domain.UserMileage;
-import com.planttech.domain.UserPlant;
+import com.planttech.domain.plant.UserPlant;
+import com.planttech.domain.user.User;
+import com.planttech.domain.user.UserMileage;
 
 
 @Mapper

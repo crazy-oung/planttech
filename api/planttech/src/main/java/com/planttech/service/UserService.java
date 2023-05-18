@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.planttech.domain.User;
-import com.planttech.domain.UserMileage;
+import com.planttech.domain.user.User;
+import com.planttech.domain.user.UserMileage;
 
 public interface UserService {
 	public User 	getUserByUserId(String userId);

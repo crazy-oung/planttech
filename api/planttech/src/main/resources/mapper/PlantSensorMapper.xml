@@ -6,7 +6,7 @@
 <mapper namespace="com.planttech.mapper.PlantSensorMapper">
 
 	<!-- 객체 -->
-	<resultMap type="com.planttech.domain.PlantSensor" id="plantSensor">
+	<resultMap type="com.planttech.domain.factory.PlantSensor" id="plantSensor">
 		<result column="PLANT_SR_NO" property="plantSensorNo"></result>
 		<result column="PLANT_NO" property="plantNo"></result>
 		<result column="WH_PLANT_NO" property="warehousePlantNo"></result>
@@ -22,7 +22,7 @@
 		<result column="PLANT_SR_CREATETIME" property="plantSensorCreatetime"></result>
 	</resultMap>
 	
-	<resultMap type="com.planttech.domain.SensorControlTf" id="sensorControlTf">
+	<resultMap type="com.planttech.domain.factory.SensorControlTf" id="sensorControlTf">
 		<result column="SR_CTRL_NO" property="sensorControlNo"></result>
 		<result column="USER_NO" property="userNo"></result>
 		<result column="WH_PLANT_NO" property="warehousePlantNo"></result>
@@ -40,7 +40,7 @@
 	
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
-	<select id="selectPlantSensorList" parameterType="com.planttech.domain.Page" resultMap="plantSensor">
+	<select id="selectPlantSensorList" parameterType="com.planttech.domain.search.Page" resultMap="plantSensor">
 		SELECT    PLANT_SR_NO
 				, PLANT_NO
 				, WH_PLANT_NO
@@ -57,7 +57,7 @@
 	  	 LIMIT #{beginPage}, #{pageSize}
 	</select>
 	
-	<insert id="insertPlantSensor" parameterType="com.planttech.domain.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
+	<insert id="insertPlantSensor" parameterType="com.planttech.domain.factory.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
 		INSERT INTO 
 		  PLANT_SR (  PLANT_NO
 		  			, WH_PLANT_NO
@@ -93,7 +93,7 @@
 	     WHERE USER_NO = #{userNo}
 	</select>
 	
-	<insert id="insertPlantSensorCtrl" parameterType="com.planttech.domain.SensorControlTf" useGeneratedKeys="true" keyProperty="sensorControlNo">
+	<insert id="insertPlantSensorCtrl" parameterType="com.planttech.domain.factory.SensorControlTf" useGeneratedKeys="true" keyProperty="sensorControlNo">
 		INSERT INTO 
 		    SR_CTRL ( USER_NO
 		  			, WH_PLANT_NO

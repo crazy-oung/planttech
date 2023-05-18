@@ -1,4 +1,4 @@
-package com.planttech.domain;
+package com.planttech.domain.ai;
 
 import java.sql.Timestamp;
 

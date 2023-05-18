@@ -6,7 +6,7 @@
 <mapper namespace="com.planttech.mapper.PlantSensorAverageMapper">
 
 	<!-- 객체 -->
-	<resultMap type="com.planttech.domain.PlantSensorAverage" id="plantSensorAverage">
+	<resultMap type="com.planttech.domain.ai.PlantSensorAverage" id="plantSensorAverage">
 		<result column="PLANT_SR_NO" property="plantSensorNo"></result>
 		<result column="PLANT_NO" property="plantNo"></result>
 		<result column="WH_PLANT_NO" property="warehousePlantNo"></result>
@@ -22,7 +22,7 @@
 		<result column="PLANT_SR_CREATETIME" property="plantSensorCreatetime"></result>
 	</resultMap>
 	
-	<resultMap type="com.planttech.domain.SensorControlTf" id="sensorControlTf">
+	<resultMap type="com.planttech.domain.factory.SensorControlTf" id="sensorControlTf">
 		<result column="SR_CTRL_NO" property="sensorControlNo"></result>
 		<result column="USER_NO" property="userNo"></result>
 		
@@ -36,7 +36,7 @@
 	
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
-	<select id="selectPlantSensorList" parameterType="com.planttech.domain.Page" resultMap="plantSensorAverage">
+	<select id="selectPlantSensorList" parameterType="com.planttech.domain.search.Page" resultMap="plantSensorAverage">
 		SELECT    PLANT_SR_NO
 				, PLANT_NO
 				, WH_PLANT_NO
@@ -53,7 +53,7 @@
 	  	 LIMIT #{beginPage}, #{pageSize}
 	</select>
 	
-	<insert id="insertPlantSensor" parameterType="com.planttech.domain.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
+	<insert id="insertPlantSensor" parameterType="com.planttech.domain.factory.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
 		
 		INSERT INTO 
 		  PLANT_SR (  PLANT_NO

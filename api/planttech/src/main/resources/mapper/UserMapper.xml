@@ -5,7 +5,7 @@
 
 <mapper namespace="com.planttech.mapper.UserMapper">
 
-	<resultMap type="com.planttech.domain.User" id="user">
+	<resultMap type="com.planttech.domain.user.User" id="user">
 		<result column="USER_NO" property="userNo" />
 		<result column="USER_ID" property="userId" />
 		<result column="USER_EMAIL" property="userEmail" />
@@ -18,7 +18,7 @@
 		<result column="USER_TYPE" property="userType" />
 	</resultMap>
 	
-	<resultMap type="com.planttech.domain.UserMileage" id="userMileage">
+	<resultMap type="com.planttech.domain.user.UserMileage" id="userMileage">
 		<result column="USER_MILEAGE_NO" property="userMileageNo" />
 		<result column="USER_NO" property="userNo" />
 		<result column="USER_MILEAGE_VAL" property="userMileageValue" />
@@ -68,7 +68,7 @@
   	 	   AND	USER_MILEAGE_ABLE = 1
 	</select>
 	
-	<insert id="insertUser" parameterType="com.planttech.domain.User" useGeneratedKeys="true" keyProperty="userNo">
+	<insert id="insertUser" parameterType="com.planttech.domain.user.User" useGeneratedKeys="true" keyProperty="userNo">
 		INSERT INTO 
 		  	   USER (  USER_ID
 		  			 , USER_EMAIL
@@ -90,7 +90,7 @@
 		</selectKey>
 	</insert>
 	
-	<insert id="insertUserMileage" parameterType="com.planttech.domain.UserMileage" useGeneratedKeys="true" keyProperty="userMileageNo">
+	<insert id="insertUserMileage" parameterType="com.planttech.domain.user.UserMileage" useGeneratedKeys="true" keyProperty="userMileageNo">
 		INSERT INTO 
   	   USER_MILEAGE (  USER_NO
 		  			 , USER_MILEAGE_VAL
@@ -102,7 +102,7 @@
 			 		 , #{userMileagePayment} )		
 	</insert>
 	
-	<update id="updateUserPassword" parameterType="com.planttech.domain.User" useGeneratedKeys="true" keyProperty="userNo">
+	<update id="updateUserPassword" parameterType="com.planttech.domain.user.User" useGeneratedKeys="true" keyProperty="userNo">
 		UPDATE	USER 
 		   SET	USER_PW 		= #{userPw}
 		 WHERE 	USER_ID 		= #{userId} 

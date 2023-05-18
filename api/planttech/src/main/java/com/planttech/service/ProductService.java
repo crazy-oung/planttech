@@ -2,9 +2,8 @@ package com.planttech.service;
 
 import java.util.List;
 
-
-import com.planttech.domain.Product;
-import com.planttech.domain.Page;
+import com.planttech.domain.search.Page;
+import com.planttech.domain.shop.Product;
 
 public interface ProductService {
 

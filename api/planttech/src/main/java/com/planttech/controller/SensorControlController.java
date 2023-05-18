@@ -1,7 +1,7 @@
 package com.planttech.controller;
 
-import com.planttech.domain.Message;
-import com.planttech.domain.SensorControlTf;
+import com.planttech.domain.factory.SensorControlTf;
+import com.planttech.domain.response.Message;
 
 import org.apache.ibatis.javassist.expr.Instanceof;
 import org.springframework.beans.factory.annotation.Autowired;

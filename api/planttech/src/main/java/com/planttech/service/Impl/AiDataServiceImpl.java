@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.planttech.domain.PlantSensor;
-import com.planttech.domain.PlantSensorAverage;
-import com.planttech.domain.Page;
+import com.planttech.domain.ai.PlantSensorAverage;
+import com.planttech.domain.factory.PlantSensor;
+import com.planttech.domain.search.Page;
 import com.planttech.mapper.PlantSensorAverageMapper;
 import com.planttech.mapper.PlantSensorMapper;
 import com.planttech.service.AiDataService;

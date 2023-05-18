@@ -1,9 +1,10 @@
-package com.planttech.domain;
+package com.planttech.domain.user;
 
 
 import java.sql.Timestamp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -14,7 +15,7 @@ public class User {
 	@Schema(description = "유저 고유번호", example = "0", deprecated = false)
 	private int userNo;
 	
-	@NotNull(message = "아이디 입력 필수")
+	@NotBlank(message = "아이디 입력 필수")
     @Pattern(regexp = "^[a-z_0-9]{1,12}$", message = "올바르지 않은 아이디 형식")
 	@Schema(description = "유저 아이디", example = "test", deprecated = false)
 	private String userId;
@@ -27,7 +28,7 @@ public class User {
 	@Size(max = 10, message = "닉네임은 20자 이내")
 	@Schema(description = "유저 닉네임", example = "뿡뿡이", deprecated = false)
 	private String userNickname;
-	@NotNull(message = "비밀번호 입력 필수")
+	@NotBlank(message = "비밀번호 입력 필수")
 	@Schema(description = "유저 비밀번호", example = "test", deprecated = false)
 	private String userPw;
 	@Schema(description = "유저 생일", example = "1999-12-01", deprecated = false)

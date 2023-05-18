@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.planttech.domain.Message;
-import com.planttech.domain.Page;
-import com.planttech.domain.Plant;
-import com.planttech.domain.PlantSensorAverage;
+import com.planttech.domain.ai.PlantSensorAverage;
+import com.planttech.domain.plant.Plant;
+import com.planttech.domain.response.ErrorMessage;
+import com.planttech.domain.response.Message;
+import com.planttech.domain.search.Page;
 import com.planttech.service.AiDataService;
 import com.planttech.service.PlantService;
 import com.planttech.util.StatusEnum;
@@ -32,32 +33,18 @@ public class AIDataController {
 	
 	@Autowired 
 	private AiDataService 	aiDataService;
-
-	private Message 		message = new Message();
-	private HttpHeaders 	headers = new HttpHeaders();
-	
 	
 	// 식물 평균 데이터 조회 
 	@GetMapping("/average")
 	@Operation(summary = "인공지능 일차별 누적 데이터 조회", description = "현재등록된 일차별 식물 평균 센서 값 정보/종류를 불러옵니다.")
-	public ResponseEntity<Message> getPlantSensorAverageList() {
+	public ResponseEntity getPlantSensorAverageList() {
 		System.out.println("::: getPlantList :::");
 		
 		try {
-			
-			message.setStatus(StatusEnum.OK);
-			message.setMessage("식물 종류");
-			message.setData(aiDataService.getPlantSensorAverageList());
-			
-			return new ResponseEntity<>(message, headers, HttpStatus.OK);
+			return new ResponseEntity<>(aiDataService.getPlantSensorAverageList(), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			
-			message.setMessage(e.getMessage() != null? e.getMessage() : "error");
-			message.setStatus(StatusEnum.INTERNAL_SERVER_ERROR);
-			message.setData(e);
-			
-			return new ResponseEntity<>(message, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new ErrorMessage("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
@@ -65,24 +52,15 @@ public class AIDataController {
 	// 센서 평균 데이터 추가
 	@PostMapping("/average")
 	@Operation(summary = "식물 정보 누적 평균값 데이터 저장", description = "평균값을 일차별로 누적합니다.")
-	public ResponseEntity<Message> addPlantSensor(@RequestBody PlantSensorAverage plantSensorAverage) {
-		
-		System.out.println("::: POST -  addPlantSensor :::");
-		System.out.println(plantSensorAverage.toString());
+	public ResponseEntity addPlantSensor(@RequestBody PlantSensorAverage plantSensorAverage) {
+		System.out.println("::: addPlantSensor :::");
 		
 		try {
 			
-			message.setStatus(StatusEnum.OK);
-			
-			return new ResponseEntity<>(message, headers, HttpStatus.OK);
+			return new ResponseEntity<>( HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			
-			message.setMessage(e.getMessage() != null? e.getMessage() : "error");
-			message.setStatus(StatusEnum.INTERNAL_SERVER_ERROR);
-			message.setData(e);
-			
-			return new ResponseEntity<>(message, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new ErrorMessage("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
@@ -91,22 +69,14 @@ public class AIDataController {
 	// 식물 평균 데이터 조회 
 	@GetMapping("/pic")
 	@Operation(summary = "인공지능 일차별 누적 데이터 조회 (TODO)", description = "현재등록된 일차별 식물 평균 센서 값 정보/종류를 불러옵니다.")
-	public ResponseEntity<Message> getPlantPictureList(@RequestParam int userNo, @RequestParam int plantWarehouseNo) {
+	public ResponseEntity getPlantPictureList(@RequestParam int userNo, @RequestParam int plantWarehouseNo) {
 		System.out.println("::: getPlantPictureList :::");
-		
 		try {
 			
-			message.setStatus(StatusEnum.OK);
-			
-			return new ResponseEntity<>(message, headers, HttpStatus.OK);
+			return new ResponseEntity<>( HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			
-			message.setMessage(e.getMessage() != null? e.getMessage() : "error");
-			message.setStatus(StatusEnum.INTERNAL_SERVER_ERROR);
-			message.setData(e);
-			
-			return new ResponseEntity<>(message, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new ErrorMessage("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
@@ -119,8 +89,6 @@ public class AIDataController {
 		
 		System.out.println(userNo);
 		
-		
-//		return aiDataService.addPlantSensorAverage(plantSensorAverage);
 		return 0;
 	}
 	

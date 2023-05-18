@@ -10,8 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.planttech.domain.User;
-import com.planttech.domain.UserMileage;
+import com.planttech.domain.user.User;
+import com.planttech.domain.user.UserMileage;
 import com.planttech.mapper.UserMapper;
 import com.planttech.service.UserService;
 import com.planttech.util.IntUtil;

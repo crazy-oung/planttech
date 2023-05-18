@@ -1,4 +1,4 @@
-package com.planttech.domain;
+package com.planttech.domain.search;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

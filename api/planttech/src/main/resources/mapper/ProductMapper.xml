@@ -6,7 +6,7 @@
 <mapper namespace="com.planttech.mapper.ProductMapper">
 
 	<!-- 객체 -->
-	<resultMap type="com.planttech.domain.Product" id="product">
+	<resultMap type="com.planttech.domain.shop.Product" id="product">
 		<result column="PRODUCT_NO" property="productNo"></result>
 		<result column="USER_NO" property="userNo"></result>
 		<result column="PLANT_NO" property="plantNo"></result>
@@ -23,7 +23,7 @@
 	
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
-	<select id="selectArticleList" parameterType="com.planttech.domain.Page" resultMap="product">
+	<select id="selectArticleList" parameterType="com.planttech.domain.search.Page" resultMap="product">
 		SELECT 	  PRODUCT_NO
 				, USER_NO
 				, PLANT_NO
@@ -59,7 +59,7 @@
 	 
 	</select>
 	
-	<select id="selectProductList" parameterType="com.planttech.domain.Page" resultMap="product">
+	<select id="selectProductList" parameterType="com.planttech.domain.search.Page" resultMap="product">
 		SELECT 	  PR.PLANT_NO
 				, PL.PLANT_NM AS PRODUCT_NAME 
 				, MIN(PRODUCT_PRICE) AS PRODUCT_PRICE
@@ -96,7 +96,7 @@
 	 
 	</select>
 	
-	<insert id="insertArticle" parameterType="com.planttech.domain.Product" useGeneratedKeys="true" keyProperty="productNo">
+	<insert id="insertArticle" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
 		INSERT INTO 
 		    PRODUCT ( USER_NO
 					, PLANT_NO
@@ -111,7 +111,7 @@
 					, #{productPrice} )			
 	</insert>
 	
-	<update id="updateArticle" parameterType="com.planttech.domain.Product" useGeneratedKeys="true" keyProperty="productNo">
+	<update id="updateArticle" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
 		UPDATE 	PRODUCT 
 		   SET 	PRODUCT_NAME			= #{productName}
 		   	  , PLANT_NO				= #{plantNo}
@@ -123,7 +123,7 @@
 	</update>
 	
 	
-	<update id="deleteArticle" parameterType="com.planttech.domain.Product" useGeneratedKeys="true" keyProperty="productNo">
+	<update id="deleteArticle" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
 		UPDATE 	PRODUCT 
 		   SET 	PRODUCT_ACTIVE 		= 0 
     	 WHERE 	USER_NO = #{userNo} AND PRODUCT_NO = #{productNo}				

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.planttech.domain.Product;
-import com.planttech.domain.Page;
+import com.planttech.domain.search.Page;
+import com.planttech.domain.shop.Product;
 import com.planttech.service.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;

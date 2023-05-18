@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.planttech.domain.Product;
-import com.planttech.domain.Page;
+import com.planttech.domain.search.Page;
+import com.planttech.domain.shop.Product;
 import com.planttech.mapper.ProductMapper;
 import com.planttech.service.ProductService;
 

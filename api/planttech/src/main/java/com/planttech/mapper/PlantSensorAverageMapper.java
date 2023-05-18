@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.planttech.domain.PlantSensor;
-import com.planttech.domain.PlantSensorAverage;
-import com.planttech.domain.SensorControlTf;
-import com.planttech.domain.Page;
+import com.planttech.domain.ai.PlantSensorAverage;
+import com.planttech.domain.factory.PlantSensor;
+import com.planttech.domain.factory.SensorControlTf;
+import com.planttech.domain.search.Page;
 
 
 @Mapper
