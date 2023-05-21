@@ -1,6 +1,5 @@
 package com.planttech.service.Impl;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,6 @@ import com.planttech.domain.user.UserMileage;
 import com.planttech.domain.user.UserNotification;
 import com.planttech.mapper.UserMapper;
 import com.planttech.service.UserService;
-import com.planttech.util.IntUtil;
-import com.planttech.util.UserUtil;
-
 
 @Service
 @Transactional

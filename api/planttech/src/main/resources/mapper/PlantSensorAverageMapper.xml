@@ -22,86 +22,8 @@
 		<result column="PLANT_SR_CREATETIME" property="plantSensorCreatetime"></result>
 	</resultMap>
 	
-	<resultMap type="com.planttech.domain.factory.SensorControlTf" id="sensorControlTf">
-		<result column="SR_CTRL_NO" property="sensorControlNo"></result>
-		<result column="USER_NO" property="userNo"></result>
-		
-		<result column="SR_WP_TF" property="waterPumpTf"></result>
-		<result column="SR_HUMD_TF" property="humidifierTf"></result>
-		
-		<result column="SR_CREATETIME" property="sensorCreatetime"></result>
-		<result column="SR_MODIFYTIME" property="sensorModifytime"></result>
-	</resultMap>
-
-	
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
-	<select id="selectPlantSensorList" parameterType="com.planttech.domain.search.Page" resultMap="plantSensorAverage">
-		SELECT    PLANT_SR_NO
-				, PLANT_NO
-				, WH_PLANT_NO
-				, SR_DHT_NO
-				, SR_PR_NO
-				, SR_WT_NO
-				, PLANT_SR_HUMI
-				, PLANT_SR_TEMP
-				, PLANT_SR_WT
-				, PLANT_SR_LIGHT
-				, PLANT_SR_CREATETIME
-		  FROM PLANT_SR 
-	  ORDER BY PLANT_SR_CREATETIME DESC
-	  	 LIMIT #{beginPage}, #{pageSize}
-	</select>
-	
-	<insert id="insertPlantSensor" parameterType="com.planttech.domain.factory.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
-		
-		INSERT INTO 
-		  PLANT_SR (  PLANT_NO
-		  			, WH_PLANT_NO
-					, SR_DHT_NO
-					, SR_PR_NO
-					, SR_WT_NO
-					, PLANT_SR_HUMI
-					, PLANT_SR_TEMP
-					, PLANT_SR_LIGHT
-					, PLANT_SR_WT	) 			
-			VALUES (  #{plantNo}
-					, #{warehousePlantNo}
-					, #{dhtNo}
-					, #{photoRegistorNo}
-					, #{waterTempNo}
-					, #{humi}
-					, #{temp}
-					, #{light}
-					, #{waterTemp} 			)			
-	</insert>
-	
-	
-	<select id="selectSensorControl" resultMap="sensorControlTf">
-		SELECT    SR_CTRL_NO
-				, USER_NO
-				, SR_WP_NO
-				, SR_HUMD_NO
-				, SR_WP_TF
-				, SR_HUMD_TF
-				, SR_CREATETIME
-				, SR_MODIFYTIME
-		  FROM SR_CTRL
-	     WHERE USER_NO = #{userNo}
-	</select>
-	
-	<update id="updatePlantSensorWaterPump" >
-		UPDATE SR_CTRL 
-		   SET SR_WP_TF = #{waterPumpTf} 		
-		 WHERE USER_NO = #{userNo}		
-	</update>
-	
-	<update id="updatePlantSensorHumidifier" >
-		UPDATE SR_CTRL 
-		   SET SR_HUMD_TF = #{humidifierTf} 		
-		 WHERE USER_NO = #{userNo}		
-	</update>
-	
 	
 	
 

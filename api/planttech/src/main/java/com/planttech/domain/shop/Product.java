@@ -8,6 +8,9 @@ import lombok.Data;
 @Data
 public class Product{
 	
+//	plant_num, status_str, price, trade_time, day_type, season
+//	plant_num(식물번호 : 정수), status_str(식물 상태 : 문자열), price(가격 : 정수), trade_time(거래일자 : 파이썬 datetime), day_type(주말/주중 : 문자열), season(계절 : 문자열)
+	
 	@Schema(description = "입찰 고유번호", example = "0", deprecated = false)
 	private int productNo;
 	@Schema(description = "유저 고유번호", example = "0", deprecated = false)

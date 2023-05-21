@@ -12,6 +12,9 @@ public class Page {
 	private int pageSize;
 	@Schema(description = "검색 필터", example = "최신순", deprecated = false)
 	private String tab;
+	@Schema(description = "화분 고유번호", example = "0", deprecated = false)
+	private int plantWarehouseNo;
+	
 	@Schema(description = "검색 키워드", example = "키워드", deprecated = false)
 	private String searchKeyword;
 

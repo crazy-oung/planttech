@@ -26,6 +26,7 @@ public class ExceptionController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public @ResponseBody ResponseEntity<ErrorMessage> methodValidException(MethodArgumentNotValidException e, HttpServletRequest request){
     	log.warn("MethodArgumentNotValidException - url:{}", request.getRequestURI());
+    	e.printStackTrace();
         ErrorMessage errMsg = buildErrorResponse(e.getBindingResult());
         return new ResponseEntity<ErrorMessage>(errMsg, HttpStatus.BAD_REQUEST);
     }
@@ -34,8 +35,17 @@ public class ExceptionController {
     @ExceptionHandler(LoginException.class)
     public @ResponseBody ResponseEntity<ErrorMessage> loginException(LoginException e, HttpServletRequest request){
     	log.warn("LoginException - url:{}", request.getRequestURI());
+    	e.printStackTrace();
         ErrorMessage errMsg = new ErrorMessage("LOGIN", "로그인이 필요합니다.");
         return new ResponseEntity<ErrorMessage>(errMsg, HttpStatus.UNAUTHORIZED);
+    }
+    
+    @ExceptionHandler(RuntimeException.class)
+    public @ResponseBody ResponseEntity<ErrorMessage> runtimeException(RuntimeException e, HttpServletRequest request){
+    	log.warn("RuntimeException - url:{}", request.getRequestURI());
+    	e.printStackTrace();
+    	ErrorMessage errMsg = new ErrorMessage("Server Error", e.getClass().getSimpleName());
+    	return new ResponseEntity<ErrorMessage>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
     
