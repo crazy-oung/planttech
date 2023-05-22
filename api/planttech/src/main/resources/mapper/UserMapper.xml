@@ -119,6 +119,7 @@
 		  FROM 	USER_MILEAGE
   	 	 WHERE 	USER_NO = #{userNo}
   	 	   AND	USER_MILEAGE_ABLE = 1
+  	  ORDER BY 	USER_MILEAGE_CREATETIME DESC
 	</select>
 	
 	
@@ -157,8 +158,9 @@
 			  , USER_NOTI_ACTIVE
 			  , USER_NOTI_TIMESTAMP
 		  FROM 	USER_NOTI 
-  	 	 WHERE 	USER_NO 		 = #{userNo}
+  	 	 WHERE 	USER_NO = #{userNo}
   	 	   AND	USER_NOTI_ACTIVE != 2 
+ 	 ORDER BY 	USER_NOTI_TIMESTAMP DESC
 	</select>
 	
 
