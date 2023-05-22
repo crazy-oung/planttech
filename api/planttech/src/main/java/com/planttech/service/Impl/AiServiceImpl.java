@@ -27,27 +27,13 @@ public class AiServiceImpl implements AiService {
 	// ==== 센서 평균 ================================================================================
 	@Override
 	public List<PlantSensorAverage> getPlantSensorAverageList(Page page) {
-		try {
-			return plantSensorAverageMapper.selectPlantSensorAverageList();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		
+		return plantSensorAverageMapper.selectPlantSensorAverageList(page);
 	}
 
 	@Override
 //	public Map<String, Object> addPlantSensorAverage(PlantSensorAverage plantSensorAverage) {
 	public int addPlantSensorAverage(PlantSensorAverage plantSensorAverage) {
-		
-		try {
-			System.out.println(plantSensorAverage.toString());
-			return plantSensorAverageMapper.insertPlantSensorAverage(plantSensorAverage);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
-		
+		return plantSensorAverageMapper.insertPlantSensorAverage(plantSensorAverage);
 	}
 	
 	// 입찰 평균가 

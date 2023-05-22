@@ -12,7 +12,8 @@ import com.planttech.domain.search.Page;
 
 @Mapper
 public interface PlantSensorAverageMapper {
-	public List<PlantSensorAverage> selectPlantSensorAverageList();
-	public int insertPlantSensorAverage(PlantSensorAverage plantSensorAverage);
+	
+	public List<PlantSensorAverage> selectPlantSensorAverageList(Page page);
+	public int 						insertPlantSensorAverage(PlantSensorAverage plantSensorAverage);
 
 }

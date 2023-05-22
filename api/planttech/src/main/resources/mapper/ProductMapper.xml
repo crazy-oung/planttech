@@ -102,13 +102,15 @@
 					, PLANT_NO
 					, PRODUCT_NAME
 					, PRODUCT_TYPE
-					, PRODUCT_PRICE	) 			
+					, PRODUCT_PRICE	
+					, PRODUCT_WEEKDAY_TF) 			
 			VALUES (  #{userNo}
 					, #{plantNo}
 					, #{productName}
 					, #{productType}
 					, #{productContent}
-					, #{productPrice} )			
+					, #{productPrice} 
+					, )			
 	</insert>
 	
 	<update id="updateArticle" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">

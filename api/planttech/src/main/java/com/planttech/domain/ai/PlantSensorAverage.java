@@ -36,7 +36,11 @@ public class PlantSensorAverage {
 	
 	@Schema(description = "센서 평균 일차", example = "1", deprecated = false)
 	private int avergaeDay;
+	@Schema(description = "계절", example = "spring", deprecated = false)
+	private String averageSeason;
 
+	@Schema(description = "센서 값 평균 날짜", deprecated = false)
+	private Timestamp plantSensorAverageTimestamp;
 	@Schema(description = "센서 값 평균 저장 날짜", example = "0", deprecated = true)
 	private Timestamp plantSensorAverageCreatetime;
 
