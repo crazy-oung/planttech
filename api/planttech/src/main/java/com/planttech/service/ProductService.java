@@ -7,13 +7,10 @@ import com.planttech.domain.shop.Product;
 
 public interface ProductService {
 
-	public List<Product> getArticleList(Page page);
-	public int addArticle(Product product);
-	public int modifyArticle(Product product);
-	public int removeArticle(Product product);
+	public List<Product> getProductList(Page page);
+	public Product getProduct(int plantNo);
+	public int addProduct(Product product);
+	public int modifyProduct(Product product);
+	public int removeProduct(Product product);
 	
-	
-	
-
-
 }

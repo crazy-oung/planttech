@@ -11,12 +11,12 @@ import com.planttech.domain.shop.Product;
 @Mapper
 public interface ProductMapper {
 
-	public List<Product> selectArticleList(Page page);
 	public List<Product> selectProductList(Page page);
+	public Product selectProduct(int plantNo);
 	
-	public int insertArticle(Product product);
-	public int updateArticle(Product product);
-	public int deleteArticle(Product product);
+	public int insertProduct(Product product);
+	public int updateProduct(Product product);
+	public int deleteProduct(Product product);
 
 }
 
