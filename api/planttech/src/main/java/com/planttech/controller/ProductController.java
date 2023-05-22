@@ -40,37 +40,35 @@ public class ProductController {
 		return new ResponseEntity<>(productService.getProduct(plantNo), HttpStatus.OK);
 	}
 	
+	@Operation(summary = "입찰 상제 등급별 가격 정보 출력", description = "해당 상품에 대한 등급별 가격 정보를 조회합니다.")
+	@GetMapping("/grades/{plantNo}")
+	public ResponseEntity getProductPriceListByGrade(@PathVariable("plantNo") int plantNo, @RequestParam int productType, @RequestParam int productInstant) {
+		
+		Product product = new Product();
+		product.setPlantNo(plantNo);
+		product.setProductType(productType);
+		product.setProductInstant(productInstant);
+		System.out.println(product.toString());
+		return new ResponseEntity<>(productService.getProductPriceListByGrade(product), HttpStatus.OK);
+	}
+	
 	@Operation(summary = "입찰 삭제", description = "등록한 입찰을 삭제합니다. 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
 	@DeleteMapping()
-	public ResponseEntity removeArticle(@RequestParam int productNo) {
+	public ResponseEntity removeProduct(@RequestParam int productNo) {
 		Product product = new Product();
 		product.setProductNo(productNo);
 		return new ResponseEntity<>(productService.removeProduct(product), HttpStatus.OK);
 	}
 	
-	@Operation(summary = "판매 입찰 추가", description = "입찰을 추가합니다. ")
-	@PostMapping("/sale")
-	public ResponseEntity sale(@RequestBody  Product product) {
+	@Operation(summary = "판매 입찰 추가", description = "입찰을 추가합니다. productType|입찰 타입 - 거래 유형 (0: 판매, 1: 구매), productInstant|거래 유형 - 즉시 거래 여부 (0: 입찰상품, 1: 즉시거래상품) 타입에 유의합니다. ")
+	@PostMapping()
+	public ResponseEntity addProduct(@RequestBody  Product product) {
 		return new ResponseEntity<>(productService.addProduct(product), HttpStatus.OK);
 	}
 
-	@Operation(summary = "식물 경매: 즉시 구매", description = "즉시 구매 요청을 진행합니다.")
-	@PostMapping("/buy")
-	public ResponseEntity buy(@RequestBody  Product product) {
-		product.setProductType(2);
-		return new ResponseEntity<>(productService.addProduct(product), HttpStatus.OK);
-	}
-	
-	@Operation(summary = "식물 경매: 입찰가 제시", description = "입찰가를 제시합니다.")
-	@PostMapping("/bid")
-	public ResponseEntity bid(@RequestBody  Product product) {
-		product.setProductType(1);
-		return new ResponseEntity<>(productService.addProduct(product), HttpStatus.OK);
-	}
-	
 	@Operation(summary = "입찰 정보 수정", description = "입찰 정보를 수정합니다. 파라미터는 입찰 추가와 같으며 마찬가지로 객체 값중 생성일자 및 수정일자는 받지 않습니다.")
 	@PutMapping()
-	public ResponseEntity modifyArticle(@RequestBody Product product) {
+	public ResponseEntity modifyProduct(@RequestBody Product product) {
 		return new ResponseEntity<>(productService.modifyProduct(product), HttpStatus.OK);
 	}
 	

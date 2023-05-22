@@ -2,6 +2,7 @@ package com.planttech.service.Impl;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getProduct(int plantNo) {
+	public Map<String, Object> getProduct(int plantNo) {
 		return productMapper.selectProduct(plantNo);
+	}
+	
+	@Override
+	public List<Map<String, Object>>  getProductPriceListByGrade(Product product) {
+		return productMapper.selectProductPriceListByGrade(product);
 	}
 	
 	@Override

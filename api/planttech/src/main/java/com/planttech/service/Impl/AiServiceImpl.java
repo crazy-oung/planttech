@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.planttech.domain.ai.PlantColor;
 import com.planttech.domain.ai.PlantSensorAverage;
 import com.planttech.domain.search.Page;
+import com.planttech.domain.shop.Product;
 import com.planttech.mapper.PlantSensorAverageMapper;
 import com.planttech.mapper.ProductMapper;
 import com.planttech.mapper.PlantColorMapper;
@@ -31,24 +32,17 @@ public class AiServiceImpl implements AiService {
 	}
 
 	@Override
-//	public Map<String, Object> addPlantSensorAverage(PlantSensorAverage plantSensorAverage) {
 	public int addPlantSensorAverage(PlantSensorAverage plantSensorAverage) {
 		return plantSensorAverageMapper.insertPlantSensorAverage(plantSensorAverage);
 	}
 	
-	// 입찰 평균가 
+	
+	// ==== 수요 공급 분석 ================================================================================
 	@Override
-	public List<PlantSensorAverage> getPlantBidAverageList(Page page) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product> getAllBidList(Page page) {
+		return productMapper.selectAllProductList(page);
 	}
 
-	@Override
-	public int addPlantBidAverage(PlantSensorAverage plantSensorAverage) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 	
 	// ==== 색채 분석 ================================================================================
 	@Override

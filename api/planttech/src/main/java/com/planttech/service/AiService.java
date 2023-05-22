@@ -5,6 +5,7 @@ import java.util.List;
 import com.planttech.domain.ai.PlantColor;
 import com.planttech.domain.ai.PlantSensorAverage;
 import com.planttech.domain.search.Page;
+import com.planttech.domain.shop.Product;
 
 public interface AiService {
 	
@@ -13,8 +14,8 @@ public interface AiService {
 	public int 							addPlantSensorAverage(PlantSensorAverage plantSensorAverage);
 	
 	
-	public List<PlantSensorAverage> 	getPlantBidAverageList(Page page);
-	public int 							addPlantBidAverage(PlantSensorAverage plantSensorAverage);
+	// 수요 공급 분석 
+	public List<Product> 		getAllBidList(Page page);
 	
 	
 	// 색채분석

@@ -10,110 +10,127 @@
 		<result column="PRODUCT_NO" property="productNo"></result>
 		<result column="USER_NO" property="userNo"></result>
 		<result column="PLANT_NO" property="plantNo"></result>
+		<result column="PLANT_SCORE_NO" property="plantScoreNo"></result>
 		
 		<result column="PRODUCT_NAME" property="productName"></result>
 		<result column="PRODUCT_TYPE" property="productType"></result>
+		<result column="PRODUCT_INSTANT" property="productInstant"></result>
+		<result column="PRODUCT_ACTIVE" property="productActive"></result>
 		<result column="PRODUCT_PRICE" property="productPrice"></result>
 		
-		<result column="PRODUCT_CRAETETIME" property="productCreatetime"></result>
-		<result column="PRODUCT_MODIFYTIME" property="productModifytime"></result>
+		<result column="PRODUCT_WEEKDAY_TF" property="productWeekdayTf"></result>
+		<result column="PRODUCT_EXPTIME" property="productExpirationTime"></result>
 		
-		<result column="PRODUCT_ACTIVE" property="productActive"></result>
+		<result column="PRODUCT_CREATETIME" property="productCreatetime"></result>
+		<result column="PRODUCT_MODIFYTIME" property="productModifytime"></result>
 	</resultMap>
 	
-	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
-
-	<select id="selectArticleList" parameterType="com.planttech.domain.search.Page" resultMap="product">
-		SELECT 	  PRODUCT_NO
-				, USER_NO
-				, PLANT_NO
-				, PRODUCT_NAME
-				, PRODUCT_TYPE
-				, PRODUCT_PRICE
-				, PRODUCT_CRAETETIME
-				, PRODUCT_MODIFYTIME 
-		  FROM 	  PRODUCT
-		 WHERE 	  PRODUCT_ACTIVE = 1
+	<!--== 객체정리 끝 ==========================================================================================-->
+	
+	<select id="selectProductList" parameterType="com.planttech.domain.search.Page" resultType="map">
+		SELECT 	  COUNT(*) 				AS productCount
+				, PR.PLANT_NO			AS plantNo
+				, PL.PLANT_NM 			AS productName 
+				, MIN(PRODUCT_PRICE) 	AS productPrice
+		  FROM 	  PRODUCT 				AS PR
+	INNER JOIN 	  PLANT 				AS PL
+		 WHERE 	  PRODUCT_ACTIVE 		!= 0 
+		   AND	  PRODUCT_TYPE 	 		= 0
+		   AND 	  PR.PLANT_NO 	 		= PL.PLANT_NO
 		<if test="searchKeyword != null">
-		   AND 	  PRODUCT_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+		   AND 	  PR.PRODUCT_NAME LIKE CONCAT('%',#{searchKeyword},'%')
 		</if>	
+	  GROUP BY	  PR.PLANT_NO
 		<if test="tab == '최신순' or tab == null">
-	  ORDER BY    PRODUCT_CRAETETIME DESC
+	  ORDER BY    PR.PRODUCT_CREATETIME DESC
 		</if>
-	     LIMIT	  <choose>
-				 	<when test="beginPage != 0 and beginPage != null">
-				 		 	  #{beginPage}
-				 	</when>
-				 	<otherwise>
-				 			  0
-				 	</otherwise>
-				 </choose>
-	 			, <choose>
-				 	<when test="pageSize != 0 and pageSize != null">
-				 		 	   #{pageSize}
-				 	</when>
-				 	<otherwise>
-				 		 	   10
-				 	</otherwise>
-				 </choose>
-	 
+	     LIMIT	  #{beginPage}, #{pageSize}
 	</select>
 	
-	<select id="selectProductList" parameterType="com.planttech.domain.search.Page" resultMap="product">
-		SELECT 	  PR.PLANT_NO
-				, PL.PLANT_NM AS PRODUCT_NAME 
-				, MIN(PRODUCT_PRICE) AS PRODUCT_PRICE
-				, PRODUCT_TYPE
-				, COUNT(*) AS PRODUCT_NO
+	<select id="selectAllProductList" parameterType="com.planttech.domain.search.Page" resultMap="product">
+		SELECT 	  PR.PRODUCT_NO 		AS PRODUCT_NO
+				, PR.USER_NO			AS USER_NO
+				, PR.PLANT_NO			AS PLANT_NO
+				, PR.WH_PLANT_NO		AS WH_PLANT_NO
+				, PR.PLANT_SCORE_NO		AS PLANT_SCORE_NO
+				, PL.PLANT_NM 			AS PRODUCT_NAME 
+				, PR.PRODUCT_TYPE		AS PRODUCT_TYPE
+				, PR.PRODUCT_INSTANT	AS PRODUCT_INSTANT
+				, PR.PRODUCT_ACTIVE		AS PRODUCT_ACTIVE
+				, PR.PRODUCT_WEEKDAY_TF	AS PRODUCT_WEEKDAY_TF
+				, PR.PRODUCT_EXPTIME	AS PRODUCT_EXPTIME
+				, PR.PRODUCT_PRICE		AS PRODUCT_PRICE
+				, PR.PRODUCT_CREATETIME		AS PRODUCT_CREATETIME
+				, PR.PRODUCT_MODIFYTIME		AS PRODUCT_MODIFYTIME
 		  FROM 	  PRODUCT AS PR
 	INNER JOIN 	  PLANT AS PL
+			ON	  PR.PLANT_NO 	 = PL.PLANT_NO
 		 WHERE 	  PRODUCT_ACTIVE != 0 
 		   AND	  PRODUCT_TYPE 	 = 0
-		   AND 	  PR.PLANT_NO 	 = PL.PLANT_NO
-		<if test="searchKeyword != null">
-		   AND 	  PRODUCT_NAME LIKE CONCAT('%',#{searchKeyword},'%')
-		</if>	
-		<if test="tab == '최신순' or tab == null">
-	  GROUP BY	  PLANT_NO
-	  ORDER BY    PRODUCT_CRAETETIME DESC
-		</if>
-	     LIMIT	  <choose>
-				 	<when test="beginPage != 0 and beginPage != null">
-				 		 	  #{beginPage}
-				 	</when>
-				 	<otherwise>
-				 			  0
-				 	</otherwise>
-				 </choose>
-	 			, <choose>
-				 	<when test="pageSize != 0 and pageSize != null">
-				 		 	   #{pageSize}
-				 	</when>
-				 	<otherwise>
-				 		 	   10
-				 	</otherwise>
-				 </choose>
-	 
+	  ORDER BY    PRODUCT_CREATETIME 	DESC
+	     LIMIT	  #{beginPage}, #{pageSize}
 	</select>
 	
-	<insert id="insertArticle" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
+	
+	<select id="selectProduct" parameterType="int" resultType="map">
+		SELECT 	  PR.PLANT_NO			AS plantNo
+				, PL.PLANT_NM 			AS productName 
+				, MIN(PR.PRODUCT_PRICE) AS productPrice
+				, PR.PRODUCT_TYPE		AS productType
+				, COUNT(*) 				AS productCount
+		  FROM 	  PRODUCT 				AS PR
+	INNER JOIN 	  PLANT 				AS PL
+			ON 	  PR.PLANT_NO 	 		= PL.PLANT_NO
+		 WHERE 	  PR.PRODUCT_ACTIVE 	!= 0 
+		   AND	  PR.PRODUCT_TYPE 	 	= 0
+		   AND	  PR.PLANT_NO			= #{plantNo}
+	  GROUP BY	  PR.PLANT_NO
+	</select>
+	
+	<select id="selectProductPriceListByGrade" parameterType="com.planttech.domain.shop.Product" resultType="map">
+		SELECT 	  PR.PLANT_NO			AS plantNo
+				, PR.PRODUCT_NO			AS productNo
+		 		, PR.WH_PLANT_NO		AS warehousePlantNo
+	 			, PR.PLANT_SCORE_NO		AS plantScoreNo
+	 			, PS.PLANT_SCORE_NM 	AS plantScoreName
+			   	, P.PLANT_NM			AS productName
+			   	, MIN(PR.PRODUCT_PRICE) AS productPrice
+		  FROM 	  PRODUCT 				AS PR
+	INNER JOIN	  PLANT					AS P
+	INNER JOIN    PRODUCT_SCORE 		AS PS
+		    ON    PS.PLANT_SCORE_NO		= PR.PLANT_SCORE_NO
+		   AND	  P.PLANT_NO			= PR.PLANT_NO
+		 WHERE    PR.PRODUCT_ACTIVE 	!= 0 
+		   AND	  PR.PLANT_NO			= #{plantNo}
+		   AND	  PR.PRODUCT_TYPE 	 	= #{productType}
+		   AND	  PR.PRODUCT_INSTANT 	= #{productInstant}
+	  GROUP BY 	  PS.PLANT_SCORE_NO
+	  ORDER BY	  PS.PLANT_SCORE_VAL	DESC
+	</select>
+	
+	<insert id="insertProduct" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
 		INSERT INTO 
 		    PRODUCT ( USER_NO
 					, PLANT_NO
+					, PLANT_SCORE_NO
 					, PRODUCT_NAME
 					, PRODUCT_TYPE
+					, PRODUCT_INSTANT
 					, PRODUCT_PRICE	
-					, PRODUCT_WEEKDAY_TF) 			
+					, PRODUCT_EXPTIME
+					, PRODUCT_WEEKDAY_TF			) 			
 			VALUES (  #{userNo}
 					, #{plantNo}
+					, #{plantScoreNo}
 					, #{productName}
 					, #{productType}
-					, #{productContent}
+					, #{productInstant}
 					, #{productPrice} 
-					, )			
+					, #{productExpirationTime} 
+					, IF(WEEKDAY(NOW()) > 4, 0, 1)	)			
 	</insert>
 	
-	<update id="updateArticle" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
+	<update id="updateProduct" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
 		UPDATE 	PRODUCT 
 		   SET 	PRODUCT_NAME			= #{productName}
 		   	  , PLANT_NO				= #{plantNo}
@@ -125,11 +142,12 @@
 	</update>
 	
 	
-	<update id="deleteArticle" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
+	<update id="deleteProduct" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
 		UPDATE 	PRODUCT 
-		   SET 	PRODUCT_ACTIVE 		= 0 
-    	 WHERE 	USER_NO = #{userNo} AND PRODUCT_NO = #{productNo}				
+		   SET 	PRODUCT_ACTIVE 	= 0 
+    	 WHERE 	USER_NO 		= #{userNo} 
+    	   AND  PRODUCT_NO 		= #{productNo}				
 	</update>
-
+	
 	
 </mapper>
