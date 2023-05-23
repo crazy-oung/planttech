@@ -33,8 +33,8 @@
 		<result column="SR_WP_TF" property="waterPumpTf"></result>
 		<result column="SR_HUMD_TF" property="humidifierTf"></result>
 		
+		<result column="SR_CTRL_TIME" property="sensorControlTime"></result>
 		<result column="SR_CREATETIME" property="sensorCreatetime"></result>
-		<result column="SR_MODIFYTIME" property="sensorModifytime"></result>
 	</resultMap>
 
 	
@@ -51,6 +51,7 @@
 				, PLANT_SR_TEMP
 				, PLANT_SR_WT
 				, PLANT_SR_LIGHT
+				, SR_CTRL_TIME
 				, PLANT_SR_CREATETIME
 		  FROM PLANT_SR 
 	  ORDER BY PLANT_SR_CREATETIME DESC
@@ -87,8 +88,8 @@
 				, SR_HUMD_NO
 				, SR_WP_TF
 				, SR_HUMD_TF
-				, SR_CREATETIME
-				, SR_MODIFYTIME
+				, SR_CTRL_TIME
+				, SR_CREATETIME	
 		  FROM SR_CTRL
 	     WHERE USER_NO = #{userNo}
 	</select>
@@ -121,7 +122,4 @@
 		 WHERE USER_NO = #{userNo}		
 	</update>
 	
-	
-	
-
 </mapper>
