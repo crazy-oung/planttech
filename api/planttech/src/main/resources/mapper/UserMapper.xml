@@ -31,16 +31,19 @@
 	<resultMap type="com.planttech.domain.user.UserNotification" id="userNotification">
 		<result column="USER_MILEAGE_NO" property="userNotificationNo" />
 		<result column="USER_NO" property="userNo" />
+		<result column="WH_PLANT_NO" property="warehoustPlantNo" />
+		<result column="PRODUCT_NO" property="productNo" />
 		<result column="USER_PLANT_NO" property="userPlantNo" />
 		<result column="USER_MILEAGE_NO" property="userMileageNo" />
 		<result column="USER_NOTI_CONTENT" property="userNotificationContent" />
 		<result column="USER_NOTI_TYPE" property="userNotificationType" />
 		<result column="USER_NOTI_ACTIVE" property="userNotificationActive" />
-		<result column="USER_NOTI_TIMESTAMP" property="userNotificatinTimestamp" />
+		<result column="USER_NOTI_READIME" property="userNotificatinReadtime" />
+		<result column="USER_NOTI_CREATETIME" property="userNotificatinCreatetime" />
 	</resultMap>
 	
 	
-	<!-- 유저 -->
+	<!-- == 유저 ========================================================================================== -->
 	<insert id="insertUser" parameterType="com.planttech.domain.user.User" useGeneratedKeys="true" keyProperty="userNo">
 		INSERT INTO 
 		  	   USER (  USER_ID
@@ -94,7 +97,7 @@
 	</select>
 	
 
-	<!-- 유저 마일리지 -->
+	<!-- == 유저 마일리지 ========================================================================================== -->
 	<insert id="insertUserMileage" parameterType="com.planttech.domain.user.UserMileage" useGeneratedKeys="true" keyProperty="userMileageNo">
 		INSERT INTO 
   	   USER_MILEAGE (  USER_NO
@@ -123,16 +126,19 @@
 	</select>
 	
 	
-	<!-- 유저 알림 -->
+	<!-- == 유저 알림 ========================================================================================== -->
 	<insert id="insertUserNotification" parameterType="com.planttech.domain.user.UserNotification" useGeneratedKeys="true" keyProperty="userNotificationNo">
 		INSERT INTO 
 		  USER_NOTI (  USER_NO
+		  			 , WH_PLANT_NO
+		  			 , PRODUCT_NO
 		  			 , USER_PLANT_NO
 		  			 , USER_MILEAGE_NO
 		  			 , USER_NOTI_CONTENT
 		  			 , USER_NOTI_TYPE
 		  			 , USER_NOTI_ACTIVE 		) 			
-			 VALUES (  #{userNo}
+			 VALUES (  SELECT IFNULL(#{userNo} , (SELECT USER_NO FROM WH_PLANT WHERE WH_PLANT_NO = #{warehousePlantNo} ))
+			 		 , #{userPlantNo} 
 			 		 , #{userPlantNo} 
 			 		 , #{userMileageNo} 
 			 		 , #{userNotificationContent} 
@@ -142,26 +148,45 @@
 	
 	<update id="updateUserNotification" parameterType="com.planttech.domain.user.UserNotification" useGeneratedKeys="true" keyProperty="userNotificationNo">
 		UPDATE	USER_NOTI 
-		   SET	USER_NOTI_ACTIVE 	= #{userNotificationActive},
-		   		USER_NOTI_CONTENT 	= #{userNotificationContent}
+		   SET	USER_NOTI_ACTIVE 	= #{userNotificationActive}
 		 WHERE 	USER_NO 			= #{userNo} 
 		   AND  USER_NOTI_NO 		= #{userNotificationNo}
 	</update>
 	
-	<select id="selectUserNotificationList" parameterType="com.planttech.domain.user.User"  resultMap="userNotification">
-		SELECT  USER_NOTI_NO
-			  , USER_NO
-			  , USER_PLANT_NO
-			  , USER_MILEAGE_NO
-			  , USER_NOTI_CONTENT
-			  , USER_NOTI_TYPE
-			  , USER_NOTI_ACTIVE
-			  , USER_NOTI_TIMESTAMP
-		  FROM 	USER_NOTI 
-  	 	 WHERE 	USER_NO = #{userNo}
-  	 	   AND	USER_NOTI_ACTIVE != 2 
- 	 ORDER BY 	USER_NOTI_TIMESTAMP DESC
+	<select id="selectUserNotificationList" resultType="map" parameterType="com.planttech.domain.user.User"  >
+	<![CDATA[
+		SELECT  USER_NOTI_NO 			AS userNotificationNo
+			  , USER_NO					AS userNo
+			  , WH_PLANT_NO				AS warehouseNo
+			  , PRODUCT_NO 				AS productNo
+			  , USER_PLANT_NO			AS userPlantNo
+			  , USER_MILEAGE_NO			AS userMileageNo
+			  , USER_NOTI_CONTENT		AS userNotificationContent
+			  , USER_NOTI_TYPE			AS userNotificationType
+			  , USER_NOTI_ACTIVE		AS userNotificationActive
+			  , USER_NOTI_CREATETIME	AS userNotificationCreatetime
+			  , USER_NOTI_READTIME		AS userNotificationReadtime
+		  	  , IFNULL(( 	SELECT 	USER_PLANT_NM AS userPlantName
+  							FROM 	USER_PLANT 
+  							WHERE 	USER_NO 	= #{userNo}
+  							AND 	WH_PLANT_NO = UN.WH_PLANT_NO		)
+						, (	SELECT 	PLANT_NM AS plantName
+  							FROM 	PLANT 
+							WHERE 	PLANT_NO = (SELECT 	PLANT_NO 
+			  									FROM 	USER_PLANT 
+			  									WHERE 	USER_NO 	= #{userNo}
+			  									AND 	WH_PLANT_NO = UN.WH_PLANT_NO)
+				)) AS userPlantName
+		  	  , ( 	SELECT 	P.PRODUCT_NAME AS productName
+		  	  		FROM 	PRODUCT	AS P 
+		  	  	    WHERE 	P.PRODUCT_NO = UN.PRODUCT_NO	
+		  	  	) AS productName
+		  FROM 	USER_NOTI 			AS UN	
+  	 	 WHERE 	USER_NO 			= #{userNo}
+  	 	   AND	USER_NOTI_ACTIVE 	!= 2 
+ 	 ORDER BY 	USER_NOTI_CREATETIME DESC
+ 	 ]]>
 	</select>
 	
-
+	
 </mapper>

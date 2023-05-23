@@ -4,8 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.planttech.mapper.ProductMapper">
-
-	<!-- 객체 -->
+	
 	<resultMap type="com.planttech.domain.shop.Product" id="product">
 		<result column="PRODUCT_NO" property="productNo"></result>
 		<result column="USER_NO" property="userNo"></result>
@@ -25,8 +24,7 @@
 		<result column="PRODUCT_MODIFYTIME" property="productModifytime"></result>
 	</resultMap>
 	
-	<!--== 객체정리 끝 ==========================================================================================-->
-	
+	<!-- == 입찰 ========================================================================================== -->
 	<select id="selectProductList" parameterType="com.planttech.domain.search.Page" resultType="map">
 		SELECT 	  COUNT(*) 				AS productCount
 				, PR.PLANT_NO			AS plantNo
@@ -141,13 +139,46 @@
     	   AND  PRODUCT_ACTIVE			= 1
 	</update>
 	
-	
 	<update id="deleteProduct" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
 		UPDATE 	PRODUCT 
 		   SET 	PRODUCT_ACTIVE 	= 0 
     	 WHERE 	USER_NO 		= #{userNo} 
     	   AND  PRODUCT_NO 		= #{productNo}				
 	</update>
+	
+	<!-- == 유저 입찰 ================================================================================ -->
+	<select id="selectUserProductList" parameterType="hashMap" resultType="hashMap">
+		SELECT 	  COUNT(*) 				AS productCount
+				, PR.PLANT_NO			AS plantNo
+				, PR.USER_NO			AS userNo
+				, PR.WH_PLANT_NO		AS warehousePlantNo
+				, PR.USER_PLANT_NO		AS userPlantNo
+				, IFNULL((	SELECT USER_PLANT_NM 
+					FROM USER_PLANT 
+					WHERE USER_PLANT_NO = PR.USER_PLANT_NO
+				  ), NULL)				AS userPlantName
+				, PL.PLANT_NM 			AS productName 
+				, PS.PLANT_SCORE_NO		AS productScoreNo
+				, PS.PLANT_SCORE_NM		AS productScoreName
+				, PR.PRODUCT_PRICE 		AS productPrice
+				, PR.PRODUCT_TYPE		AS productType
+				, PR.PRODUCT_INSTANT	AS productInstant
+				, PR.PRODUCT_ACTIVE		AS productActive
+				, PR.PRODUCT_WEEKDAY_TF AS productWeekday
+				, PR.PRODUCT_CREATETIME	AS productCreatetime
+				, PR.PRODUCT_MODIFYTIME	AS productModifytime
+				, PR.PRODUCT_BID_MILEAGE	AS productMileageUsed
+		  FROM 	  PRODUCT 				AS PR
+	INNER JOIN 	  PLANT 				AS PL
+	INNER JOIN 	  USER 					AS U
+	INNER JOIN	  PRODUCT_SCORE			AS PS
+			ON	  PL.PLANT_NO 	 		= PR.PLANT_NO
+		   AND    U.USER_NO				= PR.USER_NO
+		   AND	  PS.PLANT_SCORE_NO	= PR.PLANT_SCORE_NO
+		 WHERE 	  PR.USER_NO 			= #{userNo}
+	  ORDER BY    PR.PRODUCT_CREATETIME DESC
+	     LIMIT	  #{beginPage}, #{pageSize}
+	</select>
 	
 	
 </mapper>

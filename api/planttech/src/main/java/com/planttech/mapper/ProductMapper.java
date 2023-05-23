@@ -1,5 +1,6 @@
 package com.planttech.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,12 +8,14 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.planttech.domain.search.Page;
 import com.planttech.domain.shop.Product;
+import com.planttech.domain.user.User;
 
 
 @Mapper
 public interface ProductMapper {
 
 	public List<Product> 	selectProductList(Page page);
+	public List<Product> 	selectUserProductList(Map<String, Object> map);
 	public List<Product> 	selectAllProductList(Page page);
 	
 	public Map<String, Object> 			selectProduct(int plantNo);

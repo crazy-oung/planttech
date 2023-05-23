@@ -1,14 +1,17 @@
 package com.planttech.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.planttech.domain.shop.Product;
 import com.planttech.domain.user.User;
 import com.planttech.domain.user.UserMileage;
 import com.planttech.domain.user.UserNotification;
 
 public interface UserService {
+	
 	// 유저
 	public User 	getUserByUserId(String userId);
 	public User 	getUserByUserEmail(String userEmail); 	
@@ -27,6 +30,8 @@ public interface UserService {
 	public int 						removeUserNotification(UserNotification userNotification);
 	public List<UserNotification>	getUserNotificationList(User user);
 	
+	// 유저 입찰 내역
+	public List<Product> 	getUserProductList(User user, Map<String, Object> page);
 	
 	
 	// 유저 패스워드 인코더

@@ -1,6 +1,8 @@
 package com.planttech.service.Impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -9,11 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.planttech.domain.shop.Product;
 import com.planttech.domain.user.User;
 import com.planttech.domain.user.UserMileage;
 import com.planttech.domain.user.UserNotification;
+import com.planttech.mapper.ProductMapper;
 import com.planttech.mapper.UserMapper;
 import com.planttech.service.UserService;
+import com.planttech.util.StringUtil;
 
 @Service
 @Transactional
@@ -134,7 +139,21 @@ public class UserServiceImpl implements UserService {
 		userNotification.setUserNotificationActive(2);
 		return userMapper.updateUserNotification(userNotification);
 	}
-
+	
+	
+	// ==== 유저 입찰 ================================================================================
+	@Autowired private ProductMapper productMapper;
+	
+	@Override
+	public List<Product> getUserProductList(User user, Map<String, Object> page) {
+		page.put("userNo", user.getUserNo());
+		if (page.get("beginPage") 	== null) page.put("beginPage", 0);
+		if (page.get("pageSize") 	== null) page.put("pageSize", 10);
+		return productMapper.selectUserProductList(page);
+	}
+	
+	
+	
 	
 	
 	

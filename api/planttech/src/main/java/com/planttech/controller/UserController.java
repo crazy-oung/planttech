@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -171,26 +172,16 @@ public class UserController {
 	@GetMapping("/notification")
 	public ResponseEntity getUserNotification(HttpSession session) throws LoginException {
 		if(!UserUtil.isUser(session)) throw new LoginException();
-        try {
-			return new ResponseEntity<>(userService.getUserNotificationList(UserUtil.getUser(session)), HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new ErrorMessage("Server Error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		return new ResponseEntity<>(userService.getUserNotificationList(UserUtil.getUser(session)), HttpStatus.OK);
 	}
 	
 	@Operation(summary = "유저 알림 추가", description = "식물 환경 정보/마일리지/ 구매 입찰 정보에 대한 알림을 등록합니다.")
 	@PostMapping("/notification")
 	public ResponseEntity addUserNotification(HttpSession session, @RequestBody @Valid UserNotification userNotification) throws LoginException {
 		if(!UserUtil.isUser(session)) throw new LoginException();
-		try {
-			userNotification.setUserNo(UserUtil.getUser(session).getUserNo());
-			userService.addUserNotification(userNotification);
-			return new ResponseEntity<>(userNotification.getUserNotificationNo(),  HttpStatus.CREATED);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new ErrorMessage("Server Error", e.getClass().getSimpleName()), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		userNotification.setUserNo(UserUtil.getUser(session).getUserNo());
+		userService.addUserNotification(userNotification);
+		return new ResponseEntity<>(userNotification.getUserNotificationNo(),  HttpStatus.CREATED);
 		
 	}
 	
@@ -198,30 +189,34 @@ public class UserController {
 	@PutMapping("/notification")
 	public ResponseEntity readUserNotification(HttpSession session, @RequestBody @Valid UserNotification userNotification) throws LoginException {
 		if(!UserUtil.isUser(session)) throw new LoginException();
-		try {
-			userNotification.setUserNo(UserUtil.getUser(session).getUserNo());
-			userService.readUserNotification(userNotification);
-			return new ResponseEntity<>(new Message(HttpStatus.CREATED,"알림 업데이트 완료", userNotification),  HttpStatus.CREATED);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new ErrorMessage("Server Error", e.getClass().getSimpleName()), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		userNotification.setUserNo(UserUtil.getUser(session).getUserNo());
+		userService.readUserNotification(userNotification);
+		return new ResponseEntity<>(new Message(HttpStatus.CREATED,"알림 업데이트 완료", userNotification),  HttpStatus.CREATED);
+		
 	}
 	
 	@Operation(summary = "유저 알림 삭제 처리", description = "알림 리스트에서 뜨지않도록 가림처리 합니다.")
 	@DeleteMapping("/notification")
 	public ResponseEntity removeUserNotification(HttpSession session, @RequestBody @Valid UserNotification userNotification) throws LoginException {
 		if(!UserUtil.isUser(session)) throw new LoginException();
-		try {
-			userNotification.setUserNo(UserUtil.getUser(session).getUserNo());
-			userService.removeUserNotification(userNotification);
-			return new ResponseEntity<>(new Message(HttpStatus.CREATED,"알림 업데이트 완료", userNotification.getUserMileageNo()),  HttpStatus.CREATED);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new ErrorMessage("Server Error", e.getClass().getSimpleName()), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		userNotification.setUserNo(UserUtil.getUser(session).getUserNo());
+		userService.removeUserNotification(userNotification);
+		return new ResponseEntity<>(new Message(HttpStatus.CREATED,"알림 업데이트 완료", userNotification.getUserMileageNo()),  HttpStatus.CREATED);
 	}
-
+	
+	// ==== 유저 입찰 내역 ================================================================================
+	@Operation(summary = "유저 입찰 내역 조회", description = "로그인시 사용 가능")
+	@GetMapping("/my/bid")
+	public ResponseEntity getUserBidList( 	@RequestParam @Schema(description = "페이지 번호(ex. 2에 pageSize 10이면, 2페이지 조회. 즉, 11번째 정보부터 10개가 출력되는 셈)", example="0") int beginPage, 
+											@RequestParam @Schema(description = "페이지 당 조회할 데이터 개수", example="10") int  pageSize, 
+											HttpSession session ) throws LoginException {
+		if(!UserUtil.isUser(session)) throw new LoginException();
+		Map<String, Object> page = new HashMap<String, Object>(){{
+			put("beginPage", beginPage);
+			put("pageSize", pageSize);
+		}};
+		return new ResponseEntity<>(userService.getUserProductList(UserUtil.getUser(session), page), HttpStatus.OK);
+	}
 	
 }
 
