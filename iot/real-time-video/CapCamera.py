@@ -25,22 +25,22 @@ def message(data):
     print('received message: ' + data)
 
 class camera :
-    frame = None
-    state = None
+    state = None   # 식물 상태
     cam_list = [] # 연결된 카메라 리스트
-    cam_num = 0
-    img_path = r'C:\Users\user\Desktop\SendCamera\SendCamera'
-    now = datetime.now()
+    cam_num = 0 # 카메라 개수
+    img_path = r'C:\Users\user\Desktop\SendCamera\SendCamera'   # 이미지 기본 저장 경로
+    now = datetime.now()   # 현재 시간
 
-    def connect_camera(self) : # 연결된 카메라 검사 함수
-        self.cam_num = 0
-        while True :
-            cam = cv2.VideoCapture(self.cam_num)
+    def connect_camera(self) : # 연결된 카메라 검사 함수(0번 노트북, 1~n : 웹캠)
+        cam_index = 1   # 0번은 노트북 카메라 이므로 1번부터 시작
+        while True : # 1번(웹캠 호출 시작)
+            cam = cv2.VideoCapture(cam_index)
             if not cam.isOpened() :
                 break
             self.cam_list.append(cam) # 카메라 추가
             print("%d번 카메라 추가" %(self.cam_num))
             self.cam_num += 1
+            cam_index += 1
 
     # Flask-SocketIO 서버로 영상을 전송하는 함수
     def send_video(self, frame, cam_index):
@@ -49,8 +49,8 @@ class camera :
             _, buffer = cv2.imencode('.jpg', frame)
             data = base64.b64encode(buffer).decode('utf-8')
 
-            # 'video' 이벤트를 사용하여 영상 데이터를 Flask-SocketIO 서버로 전송
-            event_name = "camera" + str(cam_index-1) # 추후 수정<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            # 영상 데이터를 Flask-SocketIO 서버로 전송
+            event_name = "camera" + str(cam_index)
             sio.emit(event_name, data)
 
     def get_today_state(self) : # 하루에 한 번씩 정해진 시간마다 상태 얻기
@@ -59,32 +59,33 @@ class camera :
             file_name = self.img_path + '\\test' + str(i) + '.png'
             cv2.imwrite(file_name, frame)
 
-            rem_file_name = remove_bg(self.img_path, file_name, i)
-
-            self.state, avg_color = get_state(rem_file_name)
+            self.state, avg_color = get_state(file_name)
             print(self.state)
             print(avg_color)
 
         sio.emit('state', self.state)
-        #self.send_api()
+        self.send_api(i, self.state)
 
-    def send_api(self) : # api로 식물 상태 데이터 보내는 함수
+    def send_api(self, cam_index, state) : # api로 식물 상태 데이터 보내는 함수
 
-        url = "http://dayounghan.com/v0.2/api/ai-data/pic"
+        url = "http://dayounghan.com/ai/plant/color-analysis"
 
         headers = {"Content-Type": "application/json"}
 
-        state = json.dumps(self.state)
-        response = requests.post(url, headers=headers, data=state)
+        temp = {
+            "plantWarehouseNo": cam_index,
+            "plantColorGrade": state
+        }
+
+        data = json.dumps(temp)
+        response = requests.post(url, headers=headers, data=data)
 
         print("response: ", response)
         print("response.text: ", response.text)
             
-    def cap_camera(self) :
+    def cap_camera(self) :   # 카메라 영상 호출 함수
 
         self.connect_camera()
-        # IP 카메라 영상 호출
-        #cap = cv2.VideoCapture('rtsp://admin:uoclab2023@192.168.0.36:10554/tcp/av0_0')
     
         while True :
             for cam_index in range(self.cam_num) :
@@ -107,19 +108,19 @@ class camera :
         
         th1 = Thread(target=self.cap_camera)
 
-        schedule.every().day.at("04:43:50").do(self.get_today_state) # 매일 정해진 시간에 상태 출력
+        schedule.every().day.at("18:15:50").do(self.get_today_state) # 매일 정해진 시간에 상태 출력
 
         th1.start()
         while True :
             schedule.run_pending()
             time.sleep(0.05)
 
-        for i in range(len(self.cam_list)) :
-            self.cam_list[i].release
-
-        cv2.destroyAllWindows()
-
 if __name__ == "__main__" :
     sio.connect('http://220.68.82.79:4000')     # Nas의 Flask-SocketIO 서버에 연결
     NewCamera = camera()
     NewCamera.run()
+
+    for i in range(len(NewCamera.cam_list)) :   # 등록된 카메라 해제
+        NNewCamera.cam_list[i].release
+
+    cv2.destroyAllWindows()
