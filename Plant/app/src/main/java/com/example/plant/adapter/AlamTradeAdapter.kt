@@ -21,7 +21,6 @@ class AlamTradeAdapter(var mylist: List<AlamContent>) : RecyclerView.Adapter<Ala
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = mylist[position].alamTitle
-        holder.content.text = mylist[position].alamContent
         holder.date.text = mylist[position].alamDate
         /*
         holder.itemView.setOnClickListener { v ->
@@ -42,7 +41,6 @@ class AlamTradeAdapter(var mylist: List<AlamContent>) : RecyclerView.Adapter<Ala
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.alam_title)
-        val content: TextView = itemView.findViewById(R.id.alam_content)
         val date: TextView = itemView.findViewById(R.id.alam_date)
         // 이미지도 포함???
     }

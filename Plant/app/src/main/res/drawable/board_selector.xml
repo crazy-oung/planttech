@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="false"
+        android:drawable="@drawable/boader_board_button"></item>
+    <item android:drawable="@drawable/boader_board_selected_button"></item>
+</selector>

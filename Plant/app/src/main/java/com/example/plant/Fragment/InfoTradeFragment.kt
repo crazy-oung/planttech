@@ -1,14 +1,21 @@
 package com.example.plant.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.example.plant.R
+import com.example.plant.api.ApiClient
+import com.example.plant.api.NetworkUtil
 import com.example.plant.databinding.FragmentInfoBinding
 import com.example.plant.databinding.FragmentInfoTradeBinding
+import com.example.plant.model.UserMeResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class InfoTradeFragment : Fragment() {
 
@@ -18,6 +25,35 @@ class InfoTradeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentInfoTradeBinding.inflate(inflater, container, false)
+
+        val service = ApiClient.getApiInterface()
+
+        service.userInfo().enqueue(object : Callback<UserMeResponse> {
+            override fun onResponse(call: Call<UserMeResponse>, response: Response<UserMeResponse>) {
+                if (response.isSuccessful) {
+                    // 정상적으로 통신이 성공된 경우
+                    Log.d("Gooood", response.body()!!.toString())
+
+                    val infoResponse = response.body()!!
+
+                    binding.infoMileageNumTv.text = infoResponse.userMileage.toString()
+                    binding.infoMileageChargeTv.text = infoResponse.userMileage.toString()
+
+
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                    Log.d("Baaaad", response.toString())
+
+                }
+            }
+
+
+            override fun onFailure(call: Call<UserMeResponse>, t: Throwable) {
+                Log.d("Real Baaaad", "onResponse 대실패")
+
+            }
+        })
 
         binding.infoBuyMoreBtn.setOnClickListener {
             val activity = it.context as AppCompatActivity

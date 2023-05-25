@@ -117,20 +117,45 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="Very Good"
+                            android:text="Bad"
                             android:textColor="@color/black"
                             android:textSize="26dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp">
+                        <ImageView
+                            android:id="@+id/plant_info_state_photo_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="Plant name"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/pngwing_com" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/talk_banner_tail"
+                            android:layout_gravity="center"
+                            />
                     <TextView
                         android:id="@+id/plant_info_state_exp_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:layout_margin="20dp"
-                        android:text="정말 좋아요 아주 좋아요!"
-                        android:textSize="18dp" />
+                        android:gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="목이 말라요! 물을 주세요...ㅠㅠ"
+                        android:textSize="18dp"
+                        android:background="@drawable/talk_rectangle"
+                        />
+
+
+                </LinearLayout>
                 </LinearLayout>
 
                 <View

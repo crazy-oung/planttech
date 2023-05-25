@@ -39,18 +39,24 @@
                     android:layout_height="wrap_content"
                     android:text="로그인 보안 알림"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/alam_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="새로운 환경에서 로그인되었습니다."
+                    android:text=""
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/alam_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="어제"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/alam_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="어제"

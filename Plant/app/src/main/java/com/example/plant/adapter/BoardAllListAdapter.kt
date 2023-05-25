@@ -36,6 +36,8 @@ class BoardAllListAdapter(var mylist: List<Board>) : RecyclerView.Adapter<BoardA
         holder.itemView.setOnClickListener {
             val activity = it.context as AppCompatActivity
             val bundle = Bundle()
+            bundle.putInt("plantNumber", mylist[position].plantNo)
+
             val boardInfoFragment = BoardInfoFragment()
             boardInfoFragment.arguments = bundle
             activity!!.supportFragmentManager.beginTransaction()

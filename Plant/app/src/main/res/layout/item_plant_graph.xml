@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:text="습도 or 온도"
+        android:text="시세"
         />
 
     <com.github.mikephil.charting.charts.LineChart

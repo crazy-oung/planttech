@@ -1,18 +1,14 @@
 package com.example.plant.api
 
+import com.example.plant.Fragment.GetUserPlantResponse
 import com.example.plant.model.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Query
+import retrofit2.Retrofit
+import retrofit2.http.*
 
 interface RetrofitService {
 
-    @GET("test")
-    fun getPlant(): Call<List<PlantInfo>>
+/*
 
     @POST("SensorControl/LED")
     fun LEDRequest(@Query("userNo") userNo: Int, @Query("ledTf") ledTf: Int ): Call<LedResponse>
@@ -39,6 +35,121 @@ interface RetrofitService {
 
     @POST("sensor-control/humidifier")
     fun humiRequest(@Query("userNo") userNo: Int, @Query("humidifierTf") humidifierTf: Int ): Call<LedResponse>
+*/
+
+// User
+    @GET("user/check/email")
+    fun checkEmail(@Query("userId") id: String): Call<UserInfo>
+
+    @GET("user/check/id")
+    fun checkId(@Query("userId") id: String): Call<UserInfo>
+
+    @POST("user/find/password")
+    fun findPassword(
+        @Body findPasswordRequest: FindPasswordRequest
+    ) : Call<FindPasswordResponse>
+
+    @POST("user/login")
+    fun userLogin(
+        @Body loginRequest : LoginRequest
+    ) : Call<LoginCall>
+
+    @GET("user/logout")
+    fun userLogout() // 반응 보류
+
+    @POST("user/me")
+    fun userInfo() : Call<UserMeResponse>
+
+    @GET("user/milage")
+    fun userMilage() : Call<UserMilageResponse>
+
+    @GET("user/notification")
+    fun userNotificationGet() : Call<UserNotificationResponse>
+
+    @PUT("user/notification")
+    fun userNotificationPut(
+        @Body userNotificationPutRequest: UserNotificationPutRequest
+    ) : Call<UserNotificationPutResponse>
+
+    @POST("user/notification")
+    fun userNotificationPost(
+        @Body userNotificationPostRequest: UserNotificationPostRequest
+    )
+
+    @DELETE("user/notification")
+    fun userNotificationDelete(
+        @Body userNotificationPostRequest: UserNotificationPostRequest
+    ) : Call<UserNotificationDeleteResponse>
+
+    @POST("user/register")
+    fun userRegister(
+        @Body userRegisterRequest: UserRegisterRequest
+    ) : Call<LoginResponseFail>
+
+    @GET("user/my/plant")
+    fun getUserPlant() : Call<GetUserPlantResponse>
+
+    // Plant
+
+    @GET("plant")
+    fun plantList(
+        @Query("beginPage") beginPage: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("plantNo") plantNo: Int
+    ) : Call<PlantListResponse>
+
+    @GET("plant/category")
+    fun plantCategory() : Call<PlantCategoryResponse>
+
+
+    // product 입찰 거래
+    @GET("product")
+    fun getProductList(
+        @Query("beginPage") beginPage: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("plantNo") plantNo: Int,
+        @Query("searchKeyword") searchKeyword : String
+    ) : Call<BoardProductResponse>
+
+
+
+
+    @GET("product/type/{productActive}")
+    fun getProductTypeList(
+        @Path("productActive") productActive : String,
+        @Query("productType") productType : Int,
+        @Query("plantNo") plantNo : Int
+    ) : Call<GetProductTypeListResponse>
+
+
+    //AI(사용X)
+/*
+    @GET("ai/bid")
+    fun getBidList(
+        @Query("beginPage") beginPage: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("plantNo") plantNo: Int
+    ) : Call<GetBidListResponse>
+
+*/
+
+
+    @GET("ai/plant/color-analysis")
+    fun plantImage(
+        @Query("beginPage") beginPage: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("plantNo") plantNo: Int,
+        @Query("plantWarehouseNo") plantWarehouseNo: Int,
+        @Query("searchKeyword") searchKeyword: String,
+        @Query("tab") tab: String
+    ) : Call<PlantImageGetResponse>
+
+    @GET("bid")
+    fun getBidList(
+        @Query("plantNo") plantNo: Int,
+        @Query("searchDate") searchDate: Int,
+        @Query("plantScoreNo") plantScoreNo: Int
+    ) : Call<BidListGetResponse>
 }
 
 
