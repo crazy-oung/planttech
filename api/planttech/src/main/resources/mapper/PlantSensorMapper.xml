@@ -40,22 +40,49 @@
 	
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
-	<select id="selectPlantSensorList" parameterType="com.planttech.domain.search.Page" resultMap="plantSensor">
-		SELECT    PLANT_SR_NO
-				, PLANT_NO
-				, WH_PLANT_NO
-				, SR_DHT_NO
-				, SR_PR_NO
-				, SR_WT_NO
-				, PLANT_SR_HUMI
-				, PLANT_SR_TEMP
-				, PLANT_SR_WT
-				, PLANT_SR_LIGHT
-				, SR_CTRL_TIME
-				, PLANT_SR_CREATETIME
-		  FROM PLANT_SR 
-	  ORDER BY PLANT_SR_CREATETIME DESC
-	  	 LIMIT #{beginPage}, #{pageSize}
+	<select id="selectAllPlantSensorList" resultMap="plantSensor"> <!-- 아두이노 확인용 -->
+	<![CDATA[
+		SELECT    PS.PLANT_SR_NO					AS PLANT_SR_NO
+				, PS.PLANT_NO						AS PLANT_NO
+				, PS.WH_PLANT_NO					AS WH_PLANT_NO
+				, PS.SR_DHT_NO						AS SR_DHT_NO
+				, PS.SR_PR_NO						AS SR_PR_NO
+				, PS.SR_WT_NO						AS SR_WT_NO
+				, PS.PLANT_SR_HUMI 					AS PLANT_SR_HUMI
+				, PS.PLANT_SR_TEMP 					AS PLANT_SR_TEMP
+				, PS.PLANT_SR_WT					AS PLANT_SR_WT
+				, PS.PLANT_SR_LIGHT 				AS PLANT_SR_LIGHT
+				, PS.PLANT_SR_CREATETIME 			AS PLANT_SR_CREATETIME
+		  FROM 	  PLANT_SR 	AS PS
+	  ORDER BY 	  PS.PLANT_SR_CREATETIME 	DESC
+	  	 LIMIT	  0, 100
+  	]]>
+	</select>
+	
+	<select id="selectPlantSensorList" parameterType="map" resultMap="plantSensor">
+	<![CDATA[
+		SELECT    PS.PLANT_SR_NO					AS PLANT_SR_NO
+				, PS.PLANT_NO						AS PLANT_NO
+				, PS.WH_PLANT_NO					AS WH_PLANT_NO
+				, PS.SR_DHT_NO						AS SR_DHT_NO
+				, PS.SR_PR_NO						AS SR_PR_NO
+				, PS.SR_WT_NO						AS SR_WT_NO
+				, FORMAT(AVG(PS.PLANT_SR_HUMI), 2) 	AS PLANT_SR_HUMI
+				, FORMAT(AVG(PS.PLANT_SR_TEMP), 2) 	AS PLANT_SR_TEMP
+				, FORMAT(AVG(PS.PLANT_SR_WT), 2) 	AS PLANT_SR_WT
+				, FORMAT(AVG(PS.PLANT_SR_LIGHT), 2) AS PLANT_SR_LIGHT
+				, DATE(PS.PLANT_SR_CREATETIME) 		AS PLANT_SR_CREATETIME
+		  FROM 	  PLANT_SR 	AS PS
+	INNER JOIN 	  WH_PLANT 	AS WH
+	INNER JOIN	  USER 		AS U
+			ON	  WH.WH_PLANT_NO 	= PS.WH_PLANT_NO
+		   AND	  WH.USER_NO		= U.USER_NO
+		 WHERE    PS.PLANT_SR_CREATETIME > DATE_SUB(NOW(), INTERVAL #{searchDate} DAY)
+		   AND	  WH.USER_NO 		= #{userNo}
+		   AND	  PS.WH_PLANT_NO	= #{warehousePlantNo}
+	  GROUP BY 	  DATE(PS.PLANT_SR_CREATETIME)
+	  ORDER BY 	  PS.PLANT_SR_CREATETIME 	DESC
+  	]]>
 	</select>
 	
 	<insert id="insertPlantSensor" parameterType="com.planttech.domain.factory.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">

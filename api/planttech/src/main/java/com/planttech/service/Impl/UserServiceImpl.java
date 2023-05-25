@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.planttech.domain.plant.UserPlant;
 import com.planttech.domain.shop.Product;
 import com.planttech.domain.user.User;
 import com.planttech.domain.user.UserMileage;
@@ -152,6 +153,10 @@ public class UserServiceImpl implements UserService {
 		return productMapper.selectUserProductList(page);
 	}
 	
+	@Override
+	public List<UserPlant> getUserPlantList(User user) {
+		return userMapper.selectUserPlantList(user);
+	}
 	
 	
 	

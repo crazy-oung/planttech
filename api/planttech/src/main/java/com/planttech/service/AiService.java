@@ -16,7 +16,7 @@ public interface AiService {
 	
 	// 수요 공급 분석 
 	public List<Product> 		getAllBidList(Page page);
-	
+	public int 					addProduct(Product product);
 	
 	// 색채분석
 	public List<PlantColor> 	getPlantColorAnalysisList(Page page);

@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 public class Plant {
 	
-	@Schema(description = "식물 종 고유번호", example = "0", deprecated = false)
-	private int plantNo;
+	@Schema(description = "식물 종 고유번호", deprecated = false)
+	private Object plantNo;
 	@Schema(description = "식물 한글명", example = "스킨답서스", deprecated = false)
 	private String plantKoreanName;
 	@Schema(description = "식물 유통명", example = "스킨다비스, 신답서스", deprecated = false)
@@ -25,7 +25,6 @@ public class Plant {
 	private String plantOrigin;
 	@Schema(description = "식물 기르는 팁", example = "행잉이용", deprecated = false)
 	private String plantCultivateTip;
-	
 	
 	
 	@Schema(description = "식물 등록 날짜", deprecated = true)

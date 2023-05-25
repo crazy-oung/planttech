@@ -1,6 +1,7 @@
 package com.planttech.service.Impl;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,16 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getProductList(Page page) {
 		return productMapper.selectProductList(page);
+	}
+	
+	@Override
+	public List<Product> getBidListByType(String productActive, int productType, int plantNo) {
+		Map map = new HashMap<>() {{
+			put("productActive", productActive);
+			put("productType", productType);
+			put("plantNo", plantNo);
+		}};
+		return productMapper.selectBidListByType(map);
 	}
 
 	@Override
@@ -48,5 +59,18 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public int removeProduct(Product product) {
 		return productMapper.deleteProduct(product);
+	}
+	
+	
+	// 입찰 체결 내역 조회 
+	@Override
+	public List<Product> getProductBidList(int plantNo, int searchDay, int plantScoreNo) {
+		Map map = new HashMap<>() {{
+			put("plantNo", plantNo);
+			put("searchDay", searchDay);
+			put("plantScoreNo", plantScoreNo);
+		}};
+		
+		return productMapper.selectProductBidList(map);
 	}
 }

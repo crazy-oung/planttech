@@ -15,6 +15,10 @@ import com.planttech.domain.user.User;
 public interface ProductMapper {
 
 	public List<Product> 	selectProductList(Page page);
+	public List<Product> 	selectBidListByType(Map<String, Object> map);
+	
+	
+	public List<Product> 	selectProductBidList(Map<String, Object> map);
 	public List<Product> 	selectUserProductList(Map<String, Object> map);
 	public List<Product> 	selectAllProductList(Page page);
 	
@@ -25,5 +29,9 @@ public interface ProductMapper {
 	public int updateProduct(Product product);
 	public int deleteProduct(Product product);
 
+	
+	// 인공지능 용
+	public int insertBidProduct(Product product);
+	
 }
 

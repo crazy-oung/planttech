@@ -40,8 +40,12 @@
 				PLANT_CREATETIME, 
 				PLANT_MODIFYTIME 
 		  FROM 	PLANT 
+		 WHERE	PLANT_NM != ""
 		<if test="searchKeyword != null">
-		 WHERE 	PLANT_NM LIKE CONCAT('%',#{searchKeyword},'%')
+		   AND 	PLANT_NM LIKE CONCAT('%',#{searchKeyword},'%')
+		</if>	
+		<if test="plantNo != null">
+		   AND 	PLANT_NO = #{plantNo}
 		</if>	
 	  ORDER BY 	<choose>
 				 	<when test="tab == '이름순'">

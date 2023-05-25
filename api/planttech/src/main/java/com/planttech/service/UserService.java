@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.planttech.domain.plant.UserPlant;
 import com.planttech.domain.shop.Product;
 import com.planttech.domain.user.User;
 import com.planttech.domain.user.UserMileage;
@@ -18,6 +19,10 @@ public interface UserService {
 	public int 		findUserPassword(User user); 
 	public User 	verifyUser(User user); 
 	public int 		addUser(User user); 
+	
+	// user plant
+	public List<UserPlant> getUserPlantList(User user);
+	
 	
 	// 유저 마일리지
 	public List<UserMileage>	getUserMileageList(User user);

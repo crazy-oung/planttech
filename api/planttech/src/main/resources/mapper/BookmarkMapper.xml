@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.planttech.mapper.BookmarkMapper">
+
+	<resultMap type="com.planttech.domain.ai.PlantColor" id="plantColor">
+		<result column="USER_BOOKMARK_NO" property="bookrmarkNo" />
+		<result column="PLANT_NO" property="userNo" />
+		<result column="PRODUCT_NO" property="plantNo" />
+		<result column="USER_BOOKMARK_TYPE" property="bookmarkType"/>
+		<result column="USER_BOOKMARK CREATETIME" property="bookmarkCreatetime"/>
+	</resultMap>
+	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+
+
+	<select id="selectPlantColorList" parameterType="com.planttech.domain.search.Page" resultMap="plantColor">
+		SELECT    PLANT_COLOR_NO
+				, WH_PLANT_NO
+				, PLANT_COLOR_GRADE
+				, PLANT_COLOR_CREATETIME
+		  FROM 	PLANT_COLOR 
+  		
+	</select>
+	
+	<insert id="insertPlantColor" parameterType="com.planttech.domain.ai.PlantColor" useGeneratedKeys="true" keyProperty="plantColorNo">
+		INSERT INTO 
+	  USER_BOOKMARK ( USER_BOOKMARK_NO
+		   			, PLANT_NO
+		   			, PRODUCT_NO
+		   			, USER_BOOKMARK_TYPE
+		   			, USER_BOOKMARK CREATETIME	) 			
+			VALUES (  #{bookrmarkNo}
+					, #{userNo}
+					, #{plantNo}
+					, #{bookmarkType}
+					, #{bookmarkCreatetime}		)			
+	</insert>
+	
+</mapper>

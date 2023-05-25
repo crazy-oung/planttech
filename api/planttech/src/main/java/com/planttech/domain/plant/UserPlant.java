@@ -18,6 +18,9 @@ public class UserPlant extends Plant{
 	@Schema(description = "유저 식물 별명", example = "0", deprecated = false)
 	private String userPlantName;
 	
+	@Schema(description = "유저 식물 별명", example = "0", deprecated = false)
+	private int userPlantActive;
+	
 	@Schema(description = "유저 식물 지정일시", deprecated = true)
 	private Timestamp userPlantCreatetime;
 	@Schema(description = "유저 식물 수정일시", deprecated = true)

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.planttech.domain.response.ErrorMessage;
 import com.planttech.domain.response.Message;
+import com.planttech.domain.shop.Product;
 import com.planttech.domain.user.User;
 import com.planttech.domain.user.UserNotification;
 import com.planttech.exception.LoginException;
@@ -214,9 +215,31 @@ public class UserController {
 		Map<String, Object> page = new HashMap<String, Object>(){{
 			put("beginPage", beginPage);
 			put("pageSize", pageSize);
+			put("userNo", UserUtil.getUser(session).getUserNo());
 		}};
 		return new ResponseEntity<>(userService.getUserProductList(UserUtil.getUser(session), page), HttpStatus.OK);
 	}
+	
+	// ==== 유저 화분 소유 내역 ================================================================================
+	@Operation(summary = "유저 소유 화분 조회", description = "로그인시 사용 가능")
+	@GetMapping("/my/plant")
+	public ResponseEntity getUserPlantList (HttpSession session) throws LoginException {
+		if(!UserUtil.isUser(session)) throw new LoginException();
+		return new ResponseEntity<>(userService.getUserPlantList(UserUtil.getUser(session)), HttpStatus.OK);
+	}
+	
+	
+	
+	// ==== 유저 북마킹 ================================================================================
+	@Operation(summary = "관심목록 등록", description = "유저만 관심목록 이용 가능")
+	@PostMapping("/bookmark")
+	public ResponseEntity getUserBidList( @RequestBody Product product,HttpSession session ) throws LoginException {
+		if(!UserUtil.isUser(session)) throw new LoginException();
+		
+		return new ResponseEntity<>( product, HttpStatus.OK);
+	}
+	
+	
 	
 }
 

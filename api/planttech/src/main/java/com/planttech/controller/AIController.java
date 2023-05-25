@@ -55,7 +55,7 @@ public class AIController {
 	@Operation(summary = "입찰 내역 데이터 추가 ", description = "입찰내역을 추가합니다.")
 	@PostMapping("/bid")
 	public ResponseEntity getPlantBidAverageList(@RequestBody Product product) {
-		productService.addProduct(product);
+		aiService.addProduct(product);
 		return new ResponseEntity<>(new SuccessMessage(product), HttpStatus.OK);
 	}
 	
@@ -71,7 +71,7 @@ public class AIController {
 	@PostMapping("/plant/color-analysis")
 	public ResponseEntity addPlantColorAnalysis(@RequestBody PlantColor plantColor) {
 		aiService.addPlantColorAnalysis(plantColor);
-		return new ResponseEntity<>(new SuccessMessage(plantColor.getPlantColorNo()), HttpStatus.OK);
+		return new ResponseEntity<>(new SuccessMessage(plantColor), HttpStatus.OK);
 	}
 	
 }

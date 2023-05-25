@@ -1,6 +1,7 @@
 package com.planttech.service.Impl;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class AiServiceImpl implements AiService {
 	public List<Product> getAllBidList(Page page) {
 		return productMapper.selectAllProductList(page);
 	}
+	
+	@Override
+	public int addProduct(Product product) {
+		return productMapper.insertBidProduct(product);
+	}
 
 	
 	// ==== 색채 분석 ================================================================================
@@ -52,8 +58,16 @@ public class AiServiceImpl implements AiService {
 
 	@Override
 	public int addPlantColorAnalysis(PlantColor plantColor) {
+		int len = plantColor.getPlantColorPic().length();
+		// 몰라
+		plantColor.setPlantColorPic1(plantColor.getPlantColorPic().substring(0,len/3));
+		plantColor.setPlantColorPic2(plantColor.getPlantColorPic().substring(len/3 , len/3*2));
+		plantColor.setPlantColorPic3(plantColor.getPlantColorPic().substring(len/3*2 , len));
+		
 		return plantColorMapper.insertPlantColor(plantColor);
 	}
+
+
 
 
 }

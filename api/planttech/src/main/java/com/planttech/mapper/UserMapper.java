@@ -22,7 +22,7 @@ public interface UserMapper {
 	public User selectUserByUserEmail(String userEmail);
 	
 	// 유저 식물
-	public UserPlant selectUserPlantList(User user);
+	public List<UserPlant> selectUserPlantList(User user);
 	
 	// 유저 마일리지
 	public int insertUserMileage(UserMileage userMileage);

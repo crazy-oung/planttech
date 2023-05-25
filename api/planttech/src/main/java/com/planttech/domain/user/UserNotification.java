@@ -18,7 +18,7 @@ public class UserNotification {
 	@Schema(description = "유저 고유번호", example = "0", deprecated = false)
 	private int userNo;
 	@Schema(description = "화분 고유번호", example = "0", deprecated = false)
-	private int warehoustPlantNo;
+	private Object warehousePlantNo;
 	@Schema(description = "입찰 고유번호", example = "0", deprecated = false)
 	private int productNo;
 	@Schema(description = "유저 식물 고유번호", example = "0", deprecated = false)

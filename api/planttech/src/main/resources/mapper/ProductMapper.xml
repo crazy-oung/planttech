@@ -10,6 +10,9 @@
 		<result column="USER_NO" property="userNo"></result>
 		<result column="PLANT_NO" property="plantNo"></result>
 		<result column="PLANT_SCORE_NO" property="plantScoreNo"></result>
+		<result column="WH_PLANT_NO" property="warehousePlantNo"></result>
+		<result column="PRODUCT_BID_USER_NO" property="productBidUserNo"></result>
+		<result column="PRODUCT_BID_MILEAGE" property="productBidMileage"></result>
 		
 		<result column="PRODUCT_NAME" property="productName"></result>
 		<result column="PRODUCT_TYPE" property="productType"></result>
@@ -29,47 +32,117 @@
 		SELECT 	  COUNT(*) 				AS productCount
 				, PR.PLANT_NO			AS plantNo
 				, PL.PLANT_NM 			AS productName 
-				, MIN(PRODUCT_PRICE) 	AS productPrice
+				, (	SELECT 	MIN(PRODUCT_PRICE)
+					FROM	PRODUCT
+					WHERE	PLANT_NO = PR.PLANT_NO
+					AND		PRODUCT_ACTIVE 	= 1 
+					AND		PRODUCT_TYPE	= 0
+				  ) 					AS productPrice
+				, IF((	SELECT 	COUNT(*) 
+						FROM 	USER_BOOKMARK 
+						WHERE 	USER_NO 	= PR.USER_NO 
+						AND 	PLANT_NO 	= PR.PLANT_NO ) > 0 
+					, 1
+					, 0
+				  ) 					AS isBookmark 
 		  FROM 	  PRODUCT 				AS PR
 	INNER JOIN 	  PLANT 				AS PL
+	 		ON 	  PR.PLANT_NO 	 		= PL.PLANT_NO
 		 WHERE 	  PRODUCT_ACTIVE 		!= 0 
 		   AND	  PRODUCT_TYPE 	 		= 0
-		   AND 	  PR.PLANT_NO 	 		= PL.PLANT_NO
 		<if test="searchKeyword != null">
-		   AND 	  PR.PRODUCT_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+		   AND 	  PL.PLANT_NM LIKE CONCAT('%',#{searchKeyword},'%')
+		</if>	
+		<if test="plantNo != null">
+		   AND 	  PR.PLANT_NO = #{plantNo}
 		</if>	
 	  GROUP BY	  PR.PLANT_NO
-		<if test="tab == '최신순' or tab == null">
+		<if test="tab == '최신순'">
 	  ORDER BY    PR.PRODUCT_CREATETIME DESC
+		</if>
+		<if test="tab == '거래량순'">
+	  ORDER BY    productCount DESC
+		</if>
+		<if test="tab == null">
+	  ORDER BY    PL.PLANT_NM ASC
 		</if>
 	     LIMIT	  #{beginPage}, #{pageSize}
 	</select>
 	
-	<select id="selectAllProductList" parameterType="com.planttech.domain.search.Page" resultMap="product">
-		SELECT 	  PR.PRODUCT_NO 		AS PRODUCT_NO
-				, PR.USER_NO			AS USER_NO
-				, PR.PLANT_NO			AS PLANT_NO
-				, PR.WH_PLANT_NO		AS WH_PLANT_NO
-				, PR.PLANT_SCORE_NO		AS PLANT_SCORE_NO
-				, PL.PLANT_NM 			AS PRODUCT_NAME 
-				, PR.PRODUCT_TYPE		AS PRODUCT_TYPE
-				, PR.PRODUCT_INSTANT	AS PRODUCT_INSTANT
-				, PR.PRODUCT_ACTIVE		AS PRODUCT_ACTIVE
-				, PR.PRODUCT_WEEKDAY_TF	AS PRODUCT_WEEKDAY_TF
-				, PR.PRODUCT_EXPTIME	AS PRODUCT_EXPTIME
-				, PR.PRODUCT_PRICE		AS PRODUCT_PRICE
-				, PR.PRODUCT_CREATETIME		AS PRODUCT_CREATETIME
-				, PR.PRODUCT_MODIFYTIME		AS PRODUCT_MODIFYTIME
-		  FROM 	  PRODUCT AS PR
-	INNER JOIN 	  PLANT AS PL
-			ON	  PR.PLANT_NO 	 = PL.PLANT_NO
-		 WHERE 	  PRODUCT_ACTIVE != 0 
-		   AND	  PRODUCT_TYPE 	 = 0
+	<select id="selectBidListByType" parameterType="map" resultType="map">
+		SELECT 	  COUNT(PR.PLANT_SCORE_NO) 			AS productCount
+				, PR.PRODUCT_NO						AS productNo
+				, PS.PLANT_SCORE_NO					AS plantScoreNo
+				, PS.PLANT_SCORE_VAL 				AS plantScoreVal
+				, PS.PLANT_SCORE_NM					AS plantScoreName
+				, MIN(PR.PRODUCT_PRICE)				AS productPrice
+				, IFNULL((	SELECT 	PRODUCT_INSTANT 
+							FROM 	PRODUCT 
+							WHERE	PRODUCT_PRICE 	= MIN(PR.PRODUCT_PRICE) 
+							AND 	PRODUCT_INSTANT = 1 
+							LIMIT 	0 ,1)
+							, 0)					AS hasInstant
+		  FROM 	  PRODUCT 				AS PR
+	INNER JOIN 	  PLANT 				AS PL
+	INNER JOIN	  PRODUCT_SCORE			AS PS
+			ON	  PR.PLANT_NO 	 		= PL.PLANT_NO
+		   AND	  PR.PLANT_SCORE_NO		= PS.PLANT_SCORE_NO
+		<if test="productActive == 'bid'">
+		 WHERE 	  PRODUCT_ACTIVE 		= 1 
+		   AND	  PR.PRODUCT_TYPE		= #{productType}
+		</if>
+		<if test="productActive == 'sold'">
+		 WHERE 	  PRODUCT_ACTIVE 		= 2
+		</if>
+		   AND	  PR.PLANT_NO			= #{plantNo}
+	  GROUP BY    PR.PLANT_SCORE_NO
+	  ORDER BY 	  PS.PLANT_SCORE_VAL DESC
+	</select>
+	
+	<select id="selectAllProductList" parameterType="com.planttech.domain.search.Page" resultType="map">
+		SELECT 	  PR.PRODUCT_NO 			AS productNo
+				, PR.USER_NO				AS userNo
+				, PR.PLANT_NO				AS plantNo
+				, PR.WH_PLANT_NO			AS warehousePlantNo
+				, PR.PLANT_SCORE_NO			AS plantScoreNo
+				, PR.PRODUCT_BID_USER_NO	AS productBidUser
+				, PL.PLANT_NM 				AS productName 
+				, PR.PRODUCT_TYPE			AS productType
+				, PR.PRODUCT_INSTANT		AS productInstant
+				, PR.PRODUCT_ACTIVE			AS productActive
+				, PR.PRODUCT_WEEKDAY_TF		AS productWeekdayTf
+				, PR.PRODUCT_EXPTIME		AS productExpirationTime
+				, PR.PRODUCT_PRICE			AS productPrice
+				, PR.PRODUCT_CREATETIME		AS productCreatetime
+				, PR.PRODUCT_MODIFYTIME		AS productModifytime
+				, ( SELECT 	PLANT_COLOR_GRADE
+					FROM 	PLANT_COLOR 
+				    WHERE 	WH_PLANT_NO = 0
+				    ORDER 	BY PLANT_COLOR_CREATETIME DESC
+				    LIMIT 	1 ) AS plantColorName
+		  FROM 	  PRODUCT 				AS PR
+	INNER JOIN 	  PLANT 				AS PL
+			ON	  PR.PLANT_NO 	 		= PL.PLANT_NO
+		 WHERE 	  PRODUCT_ACTIVE 		!= 0
 	  ORDER BY    PRODUCT_CREATETIME 	DESC
 	     LIMIT	  #{beginPage}, #{pageSize}
 	</select>
 	
-	
+	<select id="selectProductBidList" parameterType="map" resultType="map">
+		SELECT 	  DATE(PRODUCT_MODIFYTIME)	as productBidDate
+				, MIN(PRODUCT_PRICE) 		AS productPrice
+		  FROM 	  PRODUCT 					AS PR
+	INNER JOIN 	  PLANT 					AS PL
+	 		ON 	  PR.PLANT_NO 	 			= PL.PLANT_NO
+		 WHERE 	  PRODUCT_ACTIVE 			= 2
+		   AND 	  PR.PRODUCT_MODIFYTIME		<![CDATA[ > ]]> DATE_SUB(NOW(), INTERVAL #{searchDay} DAY)
+		   AND	  PR.PRODUCT_MODIFYTIME 	<![CDATA[ <= ]]> NOW()
+		   AND	  PR.PLANT_NO				= #{plantNo}
+		   AND	  PR.PLANT_SCORE_NO			= #{plantScoreNo}
+	  GROUP BY	  PR.PRODUCT_MODIFYTIME
+	  ORDER BY    PR.PRODUCT_MODIFYTIME ASC
+	</select>
+
 	<select id="selectProduct" parameterType="int" resultType="map">
 		SELECT 	  PR.PLANT_NO			AS plantNo
 				, PL.PLANT_NM 			AS productName 
@@ -110,30 +183,74 @@
 		INSERT INTO 
 		    PRODUCT ( USER_NO
 					, PLANT_NO
+					, WH_PLANT_NO
 					, PLANT_SCORE_NO
 					, PRODUCT_NAME
 					, PRODUCT_TYPE
 					, PRODUCT_INSTANT
 					, PRODUCT_PRICE	
-					, PRODUCT_EXPTIME
+					, PRODUCT_BID_USER_NO
+					, PRODUCT_EXPTIME	
 					, PRODUCT_WEEKDAY_TF			) 			
 			VALUES (  #{userNo}
 					, #{plantNo}
+					, #{warehousePlantNo}
 					, #{plantScoreNo}
-					, #{productName}
+					, ( SELECT PLANT_NM 
+						FROM PLANT 
+						WHERE PLANT_NO = #{plantNo}	)
 					, #{productType}
 					, #{productInstant}
 					, #{productPrice} 
+					, #{productBidUser} 
 					, #{productExpirationTime} 
+					, IF(WEEKDAY(NOW()) > 4, 0, 1)	)			
+	</insert>
+	
+	<insert id="insertBidProduct" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
+		INSERT INTO 
+		    PRODUCT ( USER_NO
+					, PLANT_NO
+					, WH_PLANT_NO
+					, PLANT_SCORE_NO
+					, PRODUCT_NAME
+					, PRODUCT_TYPE
+					, PRODUCT_INSTANT
+					, PRODUCT_PRICE	
+					, PRODUCT_BID_USER_NO
+					, PRODUCT_EXPTIME	
+					, PRODUCT_CREATETIME
+					, PRODUCT_MODIFYTIME
+					, PRODUCT_ACTIVE
+					, PRODUCT_WEEKDAY_TF			) 			
+			VALUES (  #{userNo}
+					, #{plantNo}
+					, #{warehousePlantNo}
+					, #{plantScoreNo}
+					, ( SELECT PLANT_NM 
+						FROM PLANT 
+						WHERE PLANT_NO = #{plantNo}	)
+					, #{productType}
+					, #{productInstant}
+					, #{productPrice} 
+					, #{productBidUser} 
+					, #{productExpirationTime} 
+					, #{productCreatetime} 
+					, #{productModifytime} 
+					, #{productActive} 
 					, IF(WEEKDAY(NOW()) > 4, 0, 1)	)			
 	</insert>
 	
 	<update id="updateProduct" parameterType="com.planttech.domain.shop.Product" useGeneratedKeys="true" keyProperty="productNo">
 		UPDATE 	PRODUCT 
-		   SET 	PRODUCT_NAME			= #{productName}
-		   	  , PLANT_NO				= #{plantNo}
-		   	  , PRODUCT_TYPE			= #{productType}
+		   SET 	PLANT_NO				= #{plantNo}
+		   	  , WH_PLANT_NO				= #{warehousePlantNo}
 		   	  , PRODUCT_PRICE 			= #{productPrice}
+		   	  , PRODUCT_TYPE			= #{productType}
+		   	  , PRODUCT_INSTANT 		= #{productInstant}
+		   	  , PRODUCT_ACTIVE 			= #{productActive}
+		   	  , PRODUCT_BID_USER_NO		= #{producBidUserNo}
+		   	  , PRODUCT_BID_MILEAGE		= #{PRODUCT_BID_MILEAGE}
     	 WHERE 	USER_NO 				= #{userNo} 
     	   AND  PRODUCT_NO 				= #{productNo} 
     	   AND  PRODUCT_ACTIVE			= 1
@@ -146,37 +263,43 @@
     	   AND  PRODUCT_NO 		= #{productNo}				
 	</update>
 	
-	<!-- == 유저 입찰 ================================================================================ -->
+	<!-- == 유저 입찰 내역 ================================================================================ -->
 	<select id="selectUserProductList" parameterType="hashMap" resultType="hashMap">
-		SELECT 	  COUNT(*) 				AS productCount
-				, PR.PLANT_NO			AS plantNo
-				, PR.USER_NO			AS userNo
-				, PR.WH_PLANT_NO		AS warehousePlantNo
-				, PR.USER_PLANT_NO		AS userPlantNo
-				, IFNULL((	SELECT USER_PLANT_NM 
-					FROM USER_PLANT 
-					WHERE USER_PLANT_NO = PR.USER_PLANT_NO
-				  ), NULL)				AS userPlantName
-				, PL.PLANT_NM 			AS productName 
-				, PS.PLANT_SCORE_NO		AS productScoreNo
-				, PS.PLANT_SCORE_NM		AS productScoreName
-				, PR.PRODUCT_PRICE 		AS productPrice
-				, PR.PRODUCT_TYPE		AS productType
-				, PR.PRODUCT_INSTANT	AS productInstant
-				, PR.PRODUCT_ACTIVE		AS productActive
-				, PR.PRODUCT_WEEKDAY_TF AS productWeekday
-				, PR.PRODUCT_CREATETIME	AS productCreatetime
-				, PR.PRODUCT_MODIFYTIME	AS productModifytime
-				, PR.PRODUCT_BID_MILEAGE	AS productMileageUsed
-		  FROM 	  PRODUCT 				AS PR
-	INNER JOIN 	  PLANT 				AS PL
-	INNER JOIN 	  USER 					AS U
-	INNER JOIN	  PRODUCT_SCORE			AS PS
-			ON	  PL.PLANT_NO 	 		= PR.PLANT_NO
-		   AND    U.USER_NO				= PR.USER_NO
-		   AND	  PS.PLANT_SCORE_NO	= PR.PLANT_SCORE_NO
-		 WHERE 	  PR.USER_NO 			= #{userNo}
-	  ORDER BY    PR.PRODUCT_CREATETIME DESC
+			SELECT 	  PR.PLANT_NO			AS plantNo
+					, PR.USER_NO			AS userNo
+					, PR.WH_PLANT_NO		AS warehousePlantNo
+					, PR.USER_PLANT_NO		AS userPlantNo
+					, (	SELECT USER_PLANT_NM 
+						FROM USER_PLANT 
+						WHERE USER_PLANT_NO = PR.USER_PLANT_NO
+					  )						AS userPlantName
+					, PL.PLANT_NM 			AS productName 
+					, PS.PLANT_SCORE_NO		AS productScoreNo
+					, PS.PLANT_SCORE_NM		AS productScoreName
+					, PR.PRODUCT_PRICE 		AS productPrice
+					, PR.PRODUCT_TYPE		AS productType
+					, PR.PRODUCT_INSTANT	AS productInstant
+					, PR.PRODUCT_ACTIVE		AS productActive
+					, PR.PRODUCT_WEEKDAY_TF AS productWeekday
+					, PR.PRODUCT_CREATETIME	AS productCreatetime
+					, PR.PRODUCT_MODIFYTIME	AS productModifytime
+					, (	SELECT USER_ID 
+						FROM USER 
+						WHERE USER_NO = PR.PRODUCT_BID_USER_NO
+					  ) 						AS productBidUserId
+					, PR.PRODUCT_BID_MILEAGE	AS productMileage
+			  FROM 	  PRODUCT 				AS PR
+		INNER JOIN 	  PLANT 				AS PL
+		INNER JOIN 	  USER 					AS U
+		INNER JOIN	  PRODUCT_SCORE			AS PS
+				ON	  PL.PLANT_NO 	 		= PR.PLANT_NO
+			   AND    U.USER_NO				= PR.USER_NO
+			   AND	  PS.PLANT_SCORE_NO		= PR.PLANT_SCORE_NO
+			 WHERE 	  	PR.USER_NO 				= #{userNo}
+			    		OR	  
+			    		PR.PRODUCT_BID_USER_NO	= #{userNo} 
+			   AND 	  PRODUCT_ACTIVE != 0
+		  ORDER BY    PR.PRODUCT_CREATETIME DESC
 	     LIMIT	  #{beginPage}, #{pageSize}
 	</select>
 	

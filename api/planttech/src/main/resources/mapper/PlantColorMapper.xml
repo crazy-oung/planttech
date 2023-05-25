@@ -7,21 +7,24 @@
 
 	<!-- 객체 -->
 	<resultMap type="com.planttech.domain.ai.PlantColor" id="plantColor">
-		<result column="PLANT_COLOR_NO" property="plantColorNo"></result>
-		<result column="WH_PLANT_NO" property="plantWarehouseNo"></result>
-		<result column="PLANT_COLOR_GRADE" property="plantColorGrade"></result>
-														  
-		<result column="PLANT_COLOR_CREATETIME" property="plantColorCreatetime"></result>
+		<result column="PLANT_COLOR_NO" property="plantColorNo"/>
+		<result column="WH_PLANT_NO" property="plantWarehouseNo"/>
+		<result column="PLANT_COLOR_GRADE" property="plantColorGrade"/>
+		<result column="PLANT_COLOR_PIC" property="plantColorPic"/>
+		<result column="PLANT_COLOR_CREATETIME" property="plantColorCreatetime"/>
 	</resultMap>
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
 
 	<select id="selectPlantColorList" parameterType="com.planttech.domain.search.Page" resultMap="plantColor">
+	<![CDATA[
 		SELECT    PLANT_COLOR_NO
 				, WH_PLANT_NO
 				, PLANT_COLOR_GRADE
+				, CONCAT(PLANT_COLOR_PIC1, PLANT_COLOR_PIC2, PLANT_COLOR_PIC3) AS PLANT_COLOR_PIC
 				, PLANT_COLOR_CREATETIME
 		  FROM 	PLANT_COLOR 
+  	]]>
   		<if test="plantWarehouseNo != null">
 		 WHERE	WH_PLANT_NO = #{plantWarehouseNo}
 		</if>	
@@ -50,9 +53,15 @@
 	<insert id="insertPlantColor" parameterType="com.planttech.domain.ai.PlantColor" useGeneratedKeys="true" keyProperty="plantColorNo">
 		INSERT INTO 
 		PLANT_COLOR ( WH_PLANT_NO
-		   			, PLANT_COLOR_GRADE ) 			
+					, PLANT_COLOR_PIC1
+					, PLANT_COLOR_PIC2
+					, PLANT_COLOR_PIC3
+		   			, PLANT_COLOR_GRADE 	) 			
 			VALUES (  #{plantWarehouseNo}
-					, #{plantColorGrade})			
+					, #{plantColorPic1}			
+					, #{plantColorPic2}			
+					, #{plantColorPic3}			
+					, #{plantColorGrade}	)			
 	</insert>
 	
 </mapper>

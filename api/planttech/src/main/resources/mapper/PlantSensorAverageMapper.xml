@@ -14,9 +14,10 @@
 		<result column="SR_PR_NO" property="photoRegistorNo"/>
 		<result column="SR_WT_NO" property="waterTempNo"/>
 
-		<result column="PLANT_SR_TEMP_AVG" property="tempAverage"/>
-		<result column="PLANT_SR_LIGHT_AVG" property="waterTempAverage"/>
-		<result column="PLANT_SR_WT_AVG" property="lightAverage"/>
+		<result column="PLANT_SR_AVG_HUMI" property="humiAverage"/>
+		<result column="PLANT_SR_AVG_TEMP" property="tempAverage"/>
+		<result column="PLANT_SR_AVG_WT" property="waterTempAverage"/>
+		<result column="PLANT_SR_AVG_LIGHT" property="lightAverage"/>
 		
 		<result column="PLANT_SR_AVG_SEASON" property="averageSeason"/>
 		<result column="PLANT_SR_AVG_DAY" property="avergaeDay"/>

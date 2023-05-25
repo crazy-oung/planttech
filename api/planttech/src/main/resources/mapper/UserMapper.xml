@@ -18,6 +18,19 @@
 		<result column="USER_TYPE" property="userType" />
 	</resultMap>
 	
+	<resultMap type="com.planttech.domain.plant.UserPlant" id="userPlant">
+		<result column="USER_PLANT_NO" property="userPlantNo" />
+		<result column="USER_NO" property="userNo" />
+		<result column="PLANT_NO" property="plantNo" />
+		<result column="WH_PLANT_NO" property="warehousePlantNo" />
+		<result column="USER_PLANT_NM" property="userPlantName" />
+		<result column="PLANT_NM" property="plantKoreanName" />
+		<result column="PLANT_CATEGORY" property="plantCategory" />
+		<result column="USER_PLANT_ACTIVE" property="userPlantActive" />
+		<result column="USER_MILEAGE_CREATETIME" property="userPlantCreatetime" />
+		<result column="USER_PLANT_MODIFYTIME" property="userPlantModifytime" />
+	</resultMap>
+	
 	<resultMap type="com.planttech.domain.user.UserMileage" id="userMileage">
 		<result column="USER_MILEAGE_NO" property="userMileageNo" />
 		<result column="USER_NO" property="userNo" />
@@ -31,7 +44,7 @@
 	<resultMap type="com.planttech.domain.user.UserNotification" id="userNotification">
 		<result column="USER_MILEAGE_NO" property="userNotificationNo" />
 		<result column="USER_NO" property="userNo" />
-		<result column="WH_PLANT_NO" property="warehoustPlantNo" />
+		<result column="WH_PLANT_NO" property="warehousePlantNo" />
 		<result column="PRODUCT_NO" property="productNo" />
 		<result column="USER_PLANT_NO" property="userPlantNo" />
 		<result column="USER_MILEAGE_NO" property="userMileageNo" />
@@ -126,6 +139,45 @@
 	</select>
 	
 	
+	<!-- == 유저 식물 ========================================================================================== -->
+	<select id="selectUserPlantList" parameterType="com.planttech.domain.plant.UserPlant" resultMap="userPlant">
+		SELECT   UP.USER_PLANT_NO		AS USER_PLANT_NO
+			   , UP.PLANT_NO			AS PLANT_NO
+			   , UP.WH_PLANT_NO			AS WH_PLANT_NO
+			   , UP.USER_PLANT_NM		AS PLANT_MN
+			   , UP.USER_PLANT_MODIFYTIME	AS USER_PLANT_MODIFYTIME
+			   , P.PLANT_NM				AS PLANT_NM
+			   , P.PLANT_CATEGORY		AS PLANT_CATEGORY
+		  FROM	 USER_PLANT 			AS UP
+	INNER JOIN   PLANT 					AS P
+		 	ON	 P.PLANT_NO				= UP.PLANT_NO
+  	 	 WHERE 	 USER_NO 				= #{userNo}
+  	 	   AND	 USER_PLANT_ACTIVE 		= 1
+  	  ORDER BY 	 USER_PLANT_CREATETIME 	DESC
+	</select>
+	
+	<insert id="insertUserPlant" parameterType="com.planttech.domain.plant.UserPlant" useGeneratedKeys="true" keyProperty="userPlantNo">
+		INSERT INTO 
+		 USER_PLANT ( USER_NO
+		  			, PLANT_NO
+		  			, WH_PLANT_NO
+		  			, USER_PLANT_NM	) 
+  			 VALUES ( #{userNo}
+  			 		, #{plantNo}
+  			 		, #{warehousePlantNo}
+  			 		, #{userPlantName}		)		
+	</insert>
+	<insert id="updateUserPlant" parameterType="com.planttech.domain.plant.UserPlant" useGeneratedKeys="true" keyProperty="userPlantNo">
+		UPDATE	 USER_PLANT 
+		   SET   PLANT_NO 		= #{plantNo}
+			   , WH_PLANT_NO 	= #{warehousePlantNo}
+		  	   , USER_PLANT_NM 	= #{userPlantName}	
+		  	   , USER_ACTIVE	= #{userActive}
+  		WHERE	 USER_NO 		= #{userNo}
+  		  AND	 WH_PLANT_NO 	= #{warehousePlantNo}
+	</insert>
+	
+	
 	<!-- == 유저 알림 ========================================================================================== -->
 	<insert id="insertUserNotification" parameterType="com.planttech.domain.user.UserNotification" useGeneratedKeys="true" keyProperty="userNotificationNo">
 		INSERT INTO 
@@ -135,15 +187,14 @@
 		  			 , USER_PLANT_NO
 		  			 , USER_MILEAGE_NO
 		  			 , USER_NOTI_CONTENT
-		  			 , USER_NOTI_TYPE
-		  			 , USER_NOTI_ACTIVE 		) 			
-			 VALUES (  SELECT IFNULL(#{userNo} , (SELECT USER_NO FROM WH_PLANT WHERE WH_PLANT_NO = #{warehousePlantNo} ))
-			 		 , #{userPlantNo} 
+		  			 , USER_NOTI_TYPE			) 			
+			 VALUES (  #{userNo}
+			 		 , #{warehousePlantNo} 
+			 		 , #{productNo} 
 			 		 , #{userPlantNo} 
 			 		 , #{userMileageNo} 
 			 		 , #{userNotificationContent} 
-			 		 , #{userNotificationType} 
-			 		 , #{userNotificationActive})		
+			 		 , #{userNotificationType} )		
 	</insert>
 	
 	<update id="updateUserNotification" parameterType="com.planttech.domain.user.UserNotification" useGeneratedKeys="true" keyProperty="userNotificationNo">

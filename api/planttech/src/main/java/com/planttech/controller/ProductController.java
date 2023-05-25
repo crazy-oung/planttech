@@ -18,9 +18,10 @@ import com.planttech.domain.shop.Product;
 import com.planttech.service.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Product", description = "식물 경매/거래")
+@Tag(name = "Product", description = "입찰/거래")
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -32,6 +33,15 @@ public class ProductController {
 	@GetMapping()
 	public ResponseEntity getProductList(Page page) {
 		return new ResponseEntity<>(productService.getProductList(page), HttpStatus.OK);
+	}
+	
+	@Operation(summary = "입찰 타입별 가격 목록 조회", description = "식물 고유번호에 따라 해당 식물의 거래중인/거래된 최저가를 확인 가능합니다. (체결내역/판매입찰/구매입찰/)")
+	@GetMapping("/type/{productActive}")
+	public ResponseEntity getProductList ( @PathVariable @Parameter(description = "거래 종류 (sold:체결, bid: 입찰)") String productActive
+										 , @RequestParam @Parameter(description = "입찰 종류 (0: 판매입찰, 1: 구매입찰)") int productType
+										 , @RequestParam @Parameter(description = "식물 고유 번호") int plantNo ) {
+		
+		return new ResponseEntity<>(productService.getBidListByType(productActive, productType, plantNo), HttpStatus.OK);
 	}
 	
 	@Operation(summary = "입찰 상세", description = "해당 상품에 대한 상세 입찰 정보를 조회합니다.")
@@ -60,7 +70,7 @@ public class ProductController {
 		return new ResponseEntity<>(productService.removeProduct(product), HttpStatus.OK);
 	}
 	
-	@Operation(summary = "판매 입찰 추가", description = "입찰을 추가합니다. productType|입찰 타입 - 거래 유형 (0: 판매, 1: 구매), productInstant|거래 유형 - 즉시 거래 여부 (0: 입찰상품, 1: 즉시거래상품) 타입에 유의합니다. ")
+	@Operation(summary = "입찰 추가", description = "입찰을 추가합니다. productType|입찰 타입 - 거래 유형 (0: 판매, 1: 구매), productInstant|거래 유형 - 즉시 거래 여부 (0: 입찰상품, 1: 즉시거래상품) 타입에 유의합니다. ")
 	@PostMapping()
 	public ResponseEntity addProduct(@RequestBody  Product product) {
 		return new ResponseEntity<>(productService.addProduct(product), HttpStatus.OK);
@@ -71,6 +81,8 @@ public class ProductController {
 	public ResponseEntity modifyProduct(@RequestBody Product product) {
 		return new ResponseEntity<>(productService.modifyProduct(product), HttpStatus.OK);
 	}
+	
+	
 	
 	
 	

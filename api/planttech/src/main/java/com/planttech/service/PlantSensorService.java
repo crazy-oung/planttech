@@ -5,10 +5,12 @@ import java.util.List;
 import com.planttech.domain.factory.PlantSensor;
 import com.planttech.domain.factory.SensorControlTf;
 import com.planttech.domain.search.Page;
+import com.planttech.domain.user.User;
 
 public interface PlantSensorService {
 
-	public List<PlantSensor> 	getPlantSensorList(Page page);
+	public List<PlantSensor> 	getAllPlantSensorList();
+	public List<PlantSensor> 	getPlantSensorList(int warehousePlantNo, int plantNo, User user);
 	public int 					addPlantSensor(PlantSensor PlantSensor);
 	
 	public SensorControlTf 	getUserSensorControl(int userNo);
