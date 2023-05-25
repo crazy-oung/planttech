@@ -6,103 +6,83 @@
 <mapper namespace="com.planttech.mapper.PlantSensorAverageMapper">
 
 	<!-- 객체 -->
-	<resultMap type="com.planttech.domain.PlantSensorAverage" id="plantSensorAverage">
-		<result column="PLANT_SR_NO" property="plantSensorNo"></result>
-		<result column="PLANT_NO" property="plantNo"></result>
-		<result column="WH_PLANT_NO" property="warehousePlantNo"></result>
-		<result column="SR_DHT_NO" property="dhtNo"></result>
-		<result column="SR_PR_NO" property="photoRegistorNo"></result>
-		<result column="SR_WT_NO" property="waterTempNo"></result>
+	<resultMap type="com.planttech.domain.ai.PlantSensorAverage" id="plantSensorAverage">
+		<result column="PLANT_SR_NO" property="plantSensorAverageNo"/>
+		<result column="PLANT_NO" property="plantNo"/>
+		<result column="WH_PLANT_NO" property="warehousePlantNo"/>
+		<result column="SR_DHT_NO" property="dhtNo"/>
+		<result column="SR_PR_NO" property="photoRegistorNo"/>
+		<result column="SR_WT_NO" property="waterTempNo"/>
 
-		<result column="PLANT_SR_HUMI" property="humi"></result>
-		<result column="PLANT_SR_TEMP" property="temp"></result>
-		<result column="PLANT_SR_LIGHT" property="light"></result>
-		<result column="PLANT_SR_WT" property="waterTemp"></result>
+		<result column="PLANT_SR_AVG_HUMI" property="humiAverage"/>
+		<result column="PLANT_SR_AVG_TEMP" property="tempAverage"/>
+		<result column="PLANT_SR_AVG_WT" property="waterTempAverage"/>
+		<result column="PLANT_SR_AVG_LIGHT" property="lightAverage"/>
 		
-		<result column="PLANT_SR_CREATETIME" property="plantSensorCreatetime"></result>
+		<result column="PLANT_SR_AVG_SEASON" property="averageSeason"/>
+		<result column="PLANT_SR_AVG_DAY" property="avergaeDay"/>
+		<result column="PLANT_SR_AVG_TIMESTAMP" property="plantSensorAverageTimestamp" />
+		
+		<result column="PLANT_SR_AVG_CREATETIME" property="plantSensorAverageCreatetime" />
 	</resultMap>
-	
-	<resultMap type="com.planttech.domain.SensorControlTf" id="sensorControlTf">
-		<result column="SR_CTRL_NO" property="sensorControlNo"></result>
-		<result column="USER_NO" property="userNo"></result>
-		
-		<result column="SR_WP_TF" property="waterPumpTf"></result>
-		<result column="SR_HUMD_TF" property="humidifierTf"></result>
-		
-		<result column="SR_CREATETIME" property="sensorCreatetime"></result>
-		<result column="SR_MODIFYTIME" property="sensorModifytime"></result>
-	</resultMap>
-
 	
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
-	<select id="selectPlantSensorList" parameterType="com.planttech.domain.Page" resultMap="plantSensorAverage">
-		SELECT    PLANT_SR_NO
+	<select id="selectPlantSensorAverageList" parameterType="com.planttech.domain.search.Page" resultMap="plantSensorAverage">
+		<![CDATA[ 
+		SELECT	  PLANT_SR_AVG_NO
 				, PLANT_NO
 				, WH_PLANT_NO
 				, SR_DHT_NO
 				, SR_PR_NO
 				, SR_WT_NO
-				, PLANT_SR_HUMI
-				, PLANT_SR_TEMP
-				, PLANT_SR_WT
-				, PLANT_SR_LIGHT
-				, PLANT_SR_CREATETIME
-		  FROM PLANT_SR 
-	  ORDER BY PLANT_SR_CREATETIME DESC
-	  	 LIMIT #{beginPage}, #{pageSize}
+				, PLANT_SR_AVG_HUMI
+				, PLANT_SR_AVG_TEMP
+				, PLANT_SR_AVG_WT
+				, PLANT_SR_AVG_LIGHT
+				, CASE
+						WHEN MONTH(PLANT_SR_AVG_TIMESTAMP) < 6
+						THEN 'spring'
+						WHEN MONTH(PLANT_SR_AVG_TIMESTAMP) > 5 AND MONTH(PLANT_SR_AVG_TIMESTAMP) < 9
+						THEN 'summer'
+						WHEN  MONTH(PLANT_SR_AVG_TIMESTAMP) > 8 AND MONTH(PLANT_SR_AVG_TIMESTAMP) < 12
+						THEN 'fall'
+						ELSE 'winter'
+				   END 	AS PLANT_SR_AVG_SEASON 
+				, PLANT_SR_AVG_DAY
+				, PLANT_SR_AVG_TIMESTAMP
+				, PLANT_SR_AVG_CREATETIME
+		  FROM 	PLANT_SR_AVG
+	  ORDER BY 	PLANT_SR_AVG_CREATETIME DESC
+	  	 LIMIT 	#{beginPage}, #{pageSize}
+  	 	]]>
 	</select>
 	
-	<insert id="insertPlantSensor" parameterType="com.planttech.domain.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
-		
-		INSERT INTO 
-		  PLANT_SR (  PLANT_NO
-		  			, WH_PLANT_NO
+	<insert id="insertPlantSensorAverage" parameterType="com.planttech.domain.ai.PlantSensorAverage" useGeneratedKeys="true" keyProperty="plantSensorAverageNo">
+		INSERT INTO
+	   PLANT_SR_AVG ( PLANT_NO
+					, WH_PLANT_NO
 					, SR_DHT_NO
 					, SR_PR_NO
 					, SR_WT_NO
-					, PLANT_SR_HUMI
-					, PLANT_SR_TEMP
-					, PLANT_SR_LIGHT
-					, PLANT_SR_WT	) 			
+					, PLANT_SR_AVG_HUMI
+					, PLANT_SR_AVG_TEMP
+					, PLANT_SR_AVG_WT
+					, PLANT_SR_AVG_LIGHT
+					, PLANT_SR_AVG_DAY
+					, PLANT_SR_AVG_TIMESTAMP ) 			
 			VALUES (  #{plantNo}
 					, #{warehousePlantNo}
 					, #{dhtNo}
 					, #{photoRegistorNo}
 					, #{waterTempNo}
-					, #{humi}
-					, #{temp}
-					, #{light}
-					, #{waterTemp} 			)			
+					, #{humiAverage}
+					, #{tempAverage}
+					, #{waterTempAverage}
+					, #{lightAverage}
+					, #{avergaeDay} 			
+					, #{plantSensorAverageTimestamp} )			
 	</insert>
 	
 	
-	<select id="selectSensorControl" resultMap="sensorControlTf">
-		SELECT    SR_CTRL_NO
-				, USER_NO
-				, SR_WP_NO
-				, SR_HUMD_NO
-				, SR_WP_TF
-				, SR_HUMD_TF
-				, SR_CREATETIME
-				, SR_MODIFYTIME
-		  FROM SR_CTRL
-	     WHERE USER_NO = #{userNo}
-	</select>
-	
-	<update id="updatePlantSensorWaterPump" >
-		UPDATE SR_CTRL 
-		   SET SR_WP_TF = #{waterPumpTf} 		
-		 WHERE USER_NO = #{userNo}		
-	</update>
-	
-	<update id="updatePlantSensorHumidifier" >
-		UPDATE SR_CTRL 
-		   SET SR_HUMD_TF = #{humidifierTf} 		
-		 WHERE USER_NO = #{userNo}		
-	</update>
-	
-	
-	
-
 </mapper>

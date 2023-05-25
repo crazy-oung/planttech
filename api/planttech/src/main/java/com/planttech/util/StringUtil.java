@@ -1,6 +1,7 @@
 package com.planttech.util;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class StringUtil {
 	public static boolean isNull	(String s) 								{ return (s == null); }
@@ -15,4 +16,6 @@ public class StringUtil {
 	public static String  null2string(Object o)								{ return o == null ? ""  : o.toString(); }
 	
 	public static String int2String(int i)									{ return i+"";}
+	
+	public static boolean isEmail(String s)									{ return Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", s);	}
 }

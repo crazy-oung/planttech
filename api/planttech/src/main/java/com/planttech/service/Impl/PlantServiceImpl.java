@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.planttech.domain.Page;
-import com.planttech.domain.Plant;
+import com.planttech.domain.plant.Plant;
+import com.planttech.domain.plant.PlantCategory;
+import com.planttech.domain.search.Page;
 import com.planttech.mapper.PlantMapper;
 import com.planttech.service.PlantService;
 
@@ -20,12 +21,16 @@ public class PlantServiceImpl implements PlantService {
 	@Autowired 
 	private PlantMapper plantMapper;
 	
-	//Report 카테고리 가져오기
+	// 식물 모두 조회
 	@Override
 	public List<Plant> getPlantList(Page page) {
-		System.out.println("::: - getPlantList :::");
-		
-		return plantMapper.selectPlantList();
+		return plantMapper.selectPlantList(page);
+	}
+	
+	// 식물 카테고리 조회 
+	@Override
+	public List<PlantCategory> getPlantCategoryList() {
+		return plantMapper.selectPlantCategoryList();
 	}
 	
 

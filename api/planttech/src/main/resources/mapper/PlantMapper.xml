@@ -5,7 +5,7 @@
 
 <mapper namespace="com.planttech.mapper.PlantMapper">
 
-	<resultMap type="com.planttech.domain.Plant" id="Plant">
+	<resultMap type="com.planttech.domain.plant.Plant" id="plant">
 		<result column="PLANT_NO" property="plantNo"></result>
 		<result column="PLANT_NM" property="plantKoreanName"></result>
 		<result column="PLANT_DIST_NM" property="plantDistributionName"></result>
@@ -17,12 +17,18 @@
 		<result column="PLANT_CREATETIME" property="plantCreatetime"></result>
 		<result column="PLANT_MODIFYTIME" property="plantModifytime"></result>
 	</resultMap>
+	
+	<resultMap type="com.planttech.domain.plant.PlantCategory" id="plantCategory">
+		<result column="PLANT_CATEGORY_NO" property="plantCategoryNo" />
+		<result column="PLANT_CATEGORY_NM" property="plantCategoryName" />
+		<result column="PLANT_CATEGORY_TMSP" property="plantCategoryTimestamp" />
+	</resultMap>
 
 
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
 	
-	<select id="selectPlantList" resultMap="Plant" parameterType="com.planttech.domain.Page">
+	<select id="selectPlantList" resultMap="plant" parameterType="com.planttech.domain.search.Page">
 		SELECT  PLANT_NO, 
 				PLANT_NM, 
 				PLANT_DIST_NM, 
@@ -34,8 +40,12 @@
 				PLANT_CREATETIME, 
 				PLANT_MODIFYTIME 
 		  FROM 	PLANT 
+		 WHERE	PLANT_NM != ""
 		<if test="searchKeyword != null">
-		 WHERE 	PLANT_NM LIKE CONCAT('%',#{searchKeyword},'%')
+		   AND 	PLANT_NM LIKE CONCAT('%',#{searchKeyword},'%')
+		</if>	
+		<if test="plantNo != null">
+		   AND 	PLANT_NO = #{plantNo}
 		</if>	
 	  ORDER BY 	<choose>
 				 	<when test="tab == '이름순'">
@@ -61,6 +71,12 @@
 				 		 	   10
 				 	</otherwise>
 				  </choose>
+	</select>
+	
+	<select id="selectPlantCategoryList" resultType="map">
+		SELECT	PLANT_CATEGORY_NO AS plantCategoryNo, 
+				PLANT_CATEGORY_NM AS plantCategoryName
+		  FROM 	PLANT_CATEGORY
 	</select>
 	
 	

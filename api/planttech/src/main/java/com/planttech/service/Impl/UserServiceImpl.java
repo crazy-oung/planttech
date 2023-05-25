@@ -1,7 +1,8 @@
 package com.planttech.service.Impl;
 
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -10,43 +11,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.planttech.domain.User;
-import com.planttech.domain.UserMileage;
+import com.planttech.domain.plant.UserPlant;
+import com.planttech.domain.shop.Product;
+import com.planttech.domain.user.User;
+import com.planttech.domain.user.UserMileage;
+import com.planttech.domain.user.UserNotification;
+import com.planttech.mapper.ProductMapper;
 import com.planttech.mapper.UserMapper;
 import com.planttech.service.UserService;
-import com.planttech.util.IntUtil;
-import com.planttech.util.UserUtil;
-
+import com.planttech.util.StringUtil;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
-	@Autowired private UserMapper userMapper;
-	
-	// 패스워드 인코더
+	// ==== 패스워드 인코더  ================================================================================
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	@Override public PasswordEncoder passwordEncoder() {
 		return this.passwordEncoder;
 	}
 	
-	@Override
-	public User verifyUser(User user) {
-		System.out.println("::: - verifyUser :::");
-		String userPw = user.getUserPw();
-		
-		user = userMapper.selectUserByUserId(user.getUserId());
-		
-		if (passwordEncoder.matches(userPw, user.getUserPw())) {
-			user.setUserPw("PROTECTED");
-			user.setUserMileage(userMapper.selectUserTotalMileage(user));
-			
-			return user;
-		}
-		
-		return null;
-	}
 	
+	// ==== 유저 ================================================================================
+	@Autowired private UserMapper userMapper;
+
 	@Override
 	public User getUserByUserId(String userId) {
 		System.out.println("::: - getUserByUserId :::");
@@ -67,7 +55,7 @@ public class UserServiceImpl implements UserService {
 		user.setUserPw(passwordEncoder.encode(user.getUserPw()));
 		return userMapper.updateUserPassword(user);
 	}
-
+	
 	@Override
 	public int addUser(User user) {
 		System.out.println("::: - addUser :::");
@@ -97,6 +85,25 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public User verifyUser(User user) {
+		System.out.println("::: - verifyUser :::");
+		String userPw = user.getUserPw();
+		
+		user = userMapper.selectUserByUserId(user.getUserId());
+		
+		if (passwordEncoder.matches(userPw, user.getUserPw())) {
+			user.setUserPw("PROTECTED");
+			user.setUserMileage(userMapper.selectUserTotalMileage(user));
+			
+			return user;
+		}
+		
+		return null;
+	}
+	
+	
+	// ==== 유저 마일리지 ================================================================================
+	@Override
 	public List<UserMileage> getUserMileageList(User user) {
 		return userMapper.selectUserMileageList(user);
 	}
@@ -110,5 +117,49 @@ public class UserServiceImpl implements UserService {
 	public int addUserMileage(UserMileage userMileage) {
 		return  userMapper.insertUserMileage(userMileage);
 	}
+
+	
+	// ==== 유저 알림 ================================================================================
+	@Override
+	public List<UserNotification> getUserNotificationList(User user) {
+		return userMapper.selectUserNotificationList(user);
+	}
+	
+	@Override
+	public int addUserNotification(UserNotification userNotification) {
+		return userMapper.insertUserNotification(userNotification);
+	}
+
+	@Override
+	public int readUserNotification(UserNotification userNotification) {
+		return userMapper.updateUserNotification(userNotification);
+	}
+
+	@Override
+	public int removeUserNotification(UserNotification userNotification) {
+		userNotification.setUserNotificationActive(2);
+		return userMapper.updateUserNotification(userNotification);
+	}
+	
+	
+	// ==== 유저 입찰 ================================================================================
+	@Autowired private ProductMapper productMapper;
+	
+	@Override
+	public List<Product> getUserProductList(User user, Map<String, Object> page) {
+		page.put("userNo", user.getUserNo());
+		if (page.get("beginPage") 	== null) page.put("beginPage", 0);
+		if (page.get("pageSize") 	== null) page.put("pageSize", 10);
+		return productMapper.selectUserProductList(page);
+	}
+	
+	@Override
+	public List<UserPlant> getUserPlantList(User user) {
+		return userMapper.selectUserPlantList(user);
+	}
+	
+	
+	
+	
 	
 }

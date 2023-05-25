@@ -5,7 +5,7 @@
 
 <mapper namespace="com.planttech.mapper.UserMapper">
 
-	<resultMap type="com.planttech.domain.User" id="user">
+	<resultMap type="com.planttech.domain.user.User" id="user">
 		<result column="USER_NO" property="userNo" />
 		<result column="USER_ID" property="userId" />
 		<result column="USER_EMAIL" property="userEmail" />
@@ -18,7 +18,20 @@
 		<result column="USER_TYPE" property="userType" />
 	</resultMap>
 	
-	<resultMap type="com.planttech.domain.UserMileage" id="userMileage">
+	<resultMap type="com.planttech.domain.plant.UserPlant" id="userPlant">
+		<result column="USER_PLANT_NO" property="userPlantNo" />
+		<result column="USER_NO" property="userNo" />
+		<result column="PLANT_NO" property="plantNo" />
+		<result column="WH_PLANT_NO" property="warehousePlantNo" />
+		<result column="USER_PLANT_NM" property="userPlantName" />
+		<result column="PLANT_NM" property="plantKoreanName" />
+		<result column="PLANT_CATEGORY" property="plantCategory" />
+		<result column="USER_PLANT_ACTIVE" property="userPlantActive" />
+		<result column="USER_MILEAGE_CREATETIME" property="userPlantCreatetime" />
+		<result column="USER_PLANT_MODIFYTIME" property="userPlantModifytime" />
+	</resultMap>
+	
+	<resultMap type="com.planttech.domain.user.UserMileage" id="userMileage">
 		<result column="USER_MILEAGE_NO" property="userMileageNo" />
 		<result column="USER_NO" property="userNo" />
 		<result column="USER_MILEAGE_VAL" property="userMileageValue" />
@@ -27,10 +40,53 @@
 		<result column="USER_MILEAGE_ABLE" property="userMileageAble" />
 		<result column="USER_MILEAGE_CREATETIME" property="userMileageCreatetime" />
 	</resultMap>
-
-
-	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
+	<resultMap type="com.planttech.domain.user.UserNotification" id="userNotification">
+		<result column="USER_MILEAGE_NO" property="userNotificationNo" />
+		<result column="USER_NO" property="userNo" />
+		<result column="WH_PLANT_NO" property="warehousePlantNo" />
+		<result column="PRODUCT_NO" property="productNo" />
+		<result column="USER_PLANT_NO" property="userPlantNo" />
+		<result column="USER_MILEAGE_NO" property="userMileageNo" />
+		<result column="USER_NOTI_CONTENT" property="userNotificationContent" />
+		<result column="USER_NOTI_TYPE" property="userNotificationType" />
+		<result column="USER_NOTI_ACTIVE" property="userNotificationActive" />
+		<result column="USER_NOTI_READIME" property="userNotificatinReadtime" />
+		<result column="USER_NOTI_CREATETIME" property="userNotificatinCreatetime" />
+	</resultMap>
+	
+	
+	<!-- == 유저 ========================================================================================== -->
+	<insert id="insertUser" parameterType="com.planttech.domain.user.User" useGeneratedKeys="true" keyProperty="userNo">
+		INSERT INTO 
+		  	   USER (  USER_ID
+		  			 , USER_EMAIL
+		  			 , USER_NM
+		  			 , USER_NICKNM
+		  			 , USER_PW
+		  			 , USER_BIRTHDATE
+		  			 , USER_TYPE 	) 			
+			 VALUES (  #{userId}
+			 		 , #{userEmail} 
+			 		 , #{userName} 
+			 		 , #{userNickname} 
+			 		 , #{userPw} 
+			 		 , #{userBirthdate} 
+			 		 , 0 			)		
+			 		 
+		<selectKey keyProperty="userNo" resultType="Integer">
+		  SELECT LAST_INSERT_ID() 
+		</selectKey>
+	</insert>
+	
+	<update id="updateUserPassword" parameterType="com.planttech.domain.user.User" useGeneratedKeys="true" keyProperty="userNo">
+		UPDATE	USER 
+		   SET	USER_PW 		= #{userPw}
+		 WHERE 	USER_ID 		= #{userId} 
+		   AND	USER_BIRTHDATE 	= #{userBirthdate}
+		   AND	USER_NM 		= #{userName}
+		   AND	USER_EMAIL		= #{userEmail}
+	</update>
 	
 	<select id="selectUserId" resultMap="user">
 		SELECT  USER_ID
@@ -53,6 +109,19 @@
   	 	 WHERE 	USER_EMAIL = #{userEmail}
 	</select>
 	
+
+	<!-- == 유저 마일리지 ========================================================================================== -->
+	<insert id="insertUserMileage" parameterType="com.planttech.domain.user.UserMileage" useGeneratedKeys="true" keyProperty="userMileageNo">
+		INSERT INTO 
+  	   USER_MILEAGE (  USER_NO
+		  			 , USER_MILEAGE_VAL
+		  			 , USER_MILEAGE_CONTENT
+		  			 , USER_MILEAGE_PAYMENT ) 			
+			 VALUES (  #{userNo}
+			 		 , #{userMileageValue} 
+			 		 , #{userMileageContent} 
+			 		 , #{userMileagePayment} )		
+	</insert>
 	
 	<select id="selectUserTotalMileage" resultType="int">
 		SELECT  IFNULL(SUM(USER_MILEAGE_VAL), 0) AS TOT
@@ -66,50 +135,109 @@
 		  FROM 	USER_MILEAGE
   	 	 WHERE 	USER_NO = #{userNo}
   	 	   AND	USER_MILEAGE_ABLE = 1
+  	  ORDER BY 	USER_MILEAGE_CREATETIME DESC
 	</select>
 	
-	<insert id="insertUser" parameterType="com.planttech.domain.User" useGeneratedKeys="true" keyProperty="userNo">
+	
+	<!-- == 유저 식물 ========================================================================================== -->
+	<select id="selectUserPlantList" parameterType="com.planttech.domain.plant.UserPlant" resultMap="userPlant">
+		SELECT   UP.USER_PLANT_NO		AS USER_PLANT_NO
+			   , UP.PLANT_NO			AS PLANT_NO
+			   , UP.WH_PLANT_NO			AS WH_PLANT_NO
+			   , UP.USER_PLANT_NM		AS PLANT_MN
+			   , UP.USER_PLANT_MODIFYTIME	AS USER_PLANT_MODIFYTIME
+			   , P.PLANT_NM				AS PLANT_NM
+			   , P.PLANT_CATEGORY		AS PLANT_CATEGORY
+		  FROM	 USER_PLANT 			AS UP
+	INNER JOIN   PLANT 					AS P
+		 	ON	 P.PLANT_NO				= UP.PLANT_NO
+  	 	 WHERE 	 USER_NO 				= #{userNo}
+  	 	   AND	 USER_PLANT_ACTIVE 		= 1
+  	  ORDER BY 	 USER_PLANT_CREATETIME 	DESC
+	</select>
+	
+	<insert id="insertUserPlant" parameterType="com.planttech.domain.plant.UserPlant" useGeneratedKeys="true" keyProperty="userPlantNo">
 		INSERT INTO 
-		  	   USER (  USER_ID
-		  			 , USER_EMAIL
-		  			 , USER_NM
-		  			 , USER_NICKNM
-		  			 , USER_PW
-		  			 , USER_BIRTHDATE
-		  			 , USER_TYPE 	) 			
-			 VALUES (  #{userId}
-			 		 , #{userEmail} 
-			 		 , #{userName} 
-			 		 , #{userNickname} 
-			 		 , #{userPw} 
-			 		 , #{userBirthdate} 
-			 		 , 0 			)		
-			 		 
-		<selectKey keyProperty="userNo" resultType="Integer">
-		  SELECT LAST_INSERT_ID() 
-		</selectKey>
+		 USER_PLANT ( USER_NO
+		  			, PLANT_NO
+		  			, WH_PLANT_NO
+		  			, USER_PLANT_NM	) 
+  			 VALUES ( #{userNo}
+  			 		, #{plantNo}
+  			 		, #{warehousePlantNo}
+  			 		, #{userPlantName}		)		
+	</insert>
+	<insert id="updateUserPlant" parameterType="com.planttech.domain.plant.UserPlant" useGeneratedKeys="true" keyProperty="userPlantNo">
+		UPDATE	 USER_PLANT 
+		   SET   PLANT_NO 		= #{plantNo}
+			   , WH_PLANT_NO 	= #{warehousePlantNo}
+		  	   , USER_PLANT_NM 	= #{userPlantName}	
+		  	   , USER_ACTIVE	= #{userActive}
+  		WHERE	 USER_NO 		= #{userNo}
+  		  AND	 WH_PLANT_NO 	= #{warehousePlantNo}
 	</insert>
 	
-	<insert id="insertUserMileage" parameterType="com.planttech.domain.UserMileage" useGeneratedKeys="true" keyProperty="userMileageNo">
+	
+	<!-- == 유저 알림 ========================================================================================== -->
+	<insert id="insertUserNotification" parameterType="com.planttech.domain.user.UserNotification" useGeneratedKeys="true" keyProperty="userNotificationNo">
 		INSERT INTO 
-  	   USER_MILEAGE (  USER_NO
-		  			 , USER_MILEAGE_VAL
-		  			 , USER_MILEAGE_CONTENT
-		  			 , USER_MILEAGE_PAYMENT ) 			
+		  USER_NOTI (  USER_NO
+		  			 , WH_PLANT_NO
+		  			 , PRODUCT_NO
+		  			 , USER_PLANT_NO
+		  			 , USER_MILEAGE_NO
+		  			 , USER_NOTI_CONTENT
+		  			 , USER_NOTI_TYPE			) 			
 			 VALUES (  #{userNo}
-			 		 , #{userMileageValue} 
-			 		 , #{userMileageContent} 
-			 		 , #{userMileagePayment} )		
+			 		 , #{warehousePlantNo} 
+			 		 , #{productNo} 
+			 		 , #{userPlantNo} 
+			 		 , #{userMileageNo} 
+			 		 , #{userNotificationContent} 
+			 		 , #{userNotificationType} )		
 	</insert>
 	
-	<update id="updateUserPassword" parameterType="com.planttech.domain.User" useGeneratedKeys="true" keyProperty="userNo">
-		UPDATE	USER 
-		   SET	USER_PW 		= #{userPw}
-		 WHERE 	USER_ID 		= #{userId} 
-		   AND	USER_BIRTHDATE 	= #{userBirthdate}
-		   AND	USER_NM 		= #{userName}
-		   AND	USER_EMAIL		= #{userEmail}
-		 
+	<update id="updateUserNotification" parameterType="com.planttech.domain.user.UserNotification" useGeneratedKeys="true" keyProperty="userNotificationNo">
+		UPDATE	USER_NOTI 
+		   SET	USER_NOTI_ACTIVE 	= #{userNotificationActive}
+		 WHERE 	USER_NO 			= #{userNo} 
+		   AND  USER_NOTI_NO 		= #{userNotificationNo}
 	</update>
-
+	
+	<select id="selectUserNotificationList" resultType="map" parameterType="com.planttech.domain.user.User"  >
+	<![CDATA[
+		SELECT  USER_NOTI_NO 			AS userNotificationNo
+			  , USER_NO					AS userNo
+			  , WH_PLANT_NO				AS warehouseNo
+			  , PRODUCT_NO 				AS productNo
+			  , USER_PLANT_NO			AS userPlantNo
+			  , USER_MILEAGE_NO			AS userMileageNo
+			  , USER_NOTI_CONTENT		AS userNotificationContent
+			  , USER_NOTI_TYPE			AS userNotificationType
+			  , USER_NOTI_ACTIVE		AS userNotificationActive
+			  , USER_NOTI_CREATETIME	AS userNotificationCreatetime
+			  , USER_NOTI_READTIME		AS userNotificationReadtime
+		  	  , IFNULL(( 	SELECT 	USER_PLANT_NM AS userPlantName
+  							FROM 	USER_PLANT 
+  							WHERE 	USER_NO 	= #{userNo}
+  							AND 	WH_PLANT_NO = UN.WH_PLANT_NO		)
+						, (	SELECT 	PLANT_NM AS plantName
+  							FROM 	PLANT 
+							WHERE 	PLANT_NO = (SELECT 	PLANT_NO 
+			  									FROM 	USER_PLANT 
+			  									WHERE 	USER_NO 	= #{userNo}
+			  									AND 	WH_PLANT_NO = UN.WH_PLANT_NO)
+				)) AS userPlantName
+		  	  , ( 	SELECT 	P.PRODUCT_NAME AS productName
+		  	  		FROM 	PRODUCT	AS P 
+		  	  	    WHERE 	P.PRODUCT_NO = UN.PRODUCT_NO	
+		  	  	) AS productName
+		  FROM 	USER_NOTI 			AS UN	
+  	 	 WHERE 	USER_NO 			= #{userNo}
+  	 	   AND	USER_NOTI_ACTIVE 	!= 2 
+ 	 ORDER BY 	USER_NOTI_CREATETIME DESC
+ 	 ]]>
+	</select>
+	
+	
 </mapper>

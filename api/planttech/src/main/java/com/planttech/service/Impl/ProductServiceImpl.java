@@ -1,14 +1,16 @@
 package com.planttech.service.Impl;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.planttech.domain.Product;
-import com.planttech.domain.Page;
+import com.planttech.domain.search.Page;
+import com.planttech.domain.shop.Product;
 import com.planttech.mapper.ProductMapper;
 import com.planttech.service.ProductService;
 
@@ -16,55 +18,59 @@ import com.planttech.service.ProductService;
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
+	
 	@Autowired private ProductMapper productMapper;
 
-
 	@Override
-	public List<Product> getArticleList(Page page) {
-		System.out.println("::: - getArticleList :::");
-		
-		return productMapper.selectArticleList(page);
+	public List<Product> getProductList(Page page) {
+		return productMapper.selectProductList(page);
 	}
-
-	@Override
-	public int addArticle(Product product) {
-		System.out.println("::: - addArticle :::");
-		
-		try {
-			return productMapper.insertArticle(product);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return 0;
-	}
-
-	@Override
-	public int modifyArticle(Product product) {
-		System.out.println("::: - modifyArticle :::");
-		
-		try {
-			return productMapper.updateArticle(product);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return 0;
-	}
-
-	@Override
-	public int removeArticle(Product product) {
-		System.out.println("::: - removeArticle :::");
-		
-		try {
-			return productMapper.deleteArticle(product);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return 0;
-	}
-
 	
+	@Override
+	public List<Product> getBidListByType(String productActive, int productType, int plantNo) {
+		Map map = new HashMap<>() {{
+			put("productActive", productActive);
+			put("productType", productType);
+			put("plantNo", plantNo);
+		}};
+		return productMapper.selectBidListByType(map);
+	}
 
+	@Override
+	public Map<String, Object> getProduct(int plantNo) {
+		return productMapper.selectProduct(plantNo);
+	}
+	
+	@Override
+	public List<Map<String, Object>>  getProductPriceListByGrade(Product product) {
+		return productMapper.selectProductPriceListByGrade(product);
+	}
+	
+	@Override
+	public int addProduct(Product product) {
+		return productMapper.insertProduct(product);
+	}
+
+	@Override
+	public int modifyProduct(Product product) {
+		return productMapper.updateProduct(product);
+	}
+
+	@Override
+	public int removeProduct(Product product) {
+		return productMapper.deleteProduct(product);
+	}
+	
+	
+	// 입찰 체결 내역 조회 
+	@Override
+	public List<Product> getProductBidList(int plantNo, int searchDay, int plantScoreNo) {
+		Map map = new HashMap<>() {{
+			put("plantNo", plantNo);
+			put("searchDay", searchDay);
+			put("plantScoreNo", plantScoreNo);
+		}};
+		
+		return productMapper.selectProductBidList(map);
+	}
 }

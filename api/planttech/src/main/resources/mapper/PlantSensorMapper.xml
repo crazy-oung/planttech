@@ -6,7 +6,7 @@
 <mapper namespace="com.planttech.mapper.PlantSensorMapper">
 
 	<!-- 객체 -->
-	<resultMap type="com.planttech.domain.PlantSensor" id="plantSensor">
+	<resultMap type="com.planttech.domain.factory.PlantSensor" id="plantSensor">
 		<result column="PLANT_SR_NO" property="plantSensorNo"></result>
 		<result column="PLANT_NO" property="plantNo"></result>
 		<result column="WH_PLANT_NO" property="warehousePlantNo"></result>
@@ -22,39 +22,70 @@
 		<result column="PLANT_SR_CREATETIME" property="plantSensorCreatetime"></result>
 	</resultMap>
 	
-	<resultMap type="com.planttech.domain.SensorControlTf" id="sensorControlTf">
+	<resultMap type="com.planttech.domain.factory.SensorControlTf" id="sensorControlTf">
 		<result column="SR_CTRL_NO" property="sensorControlNo"></result>
 		<result column="USER_NO" property="userNo"></result>
+		<result column="WH_PLANT_NO" property="warehousePlantNo"></result>
+		
+		<result column="SR_PR_NO" property="photoRegistorNo"></result>
+		<result column="SR_HUMD_NO" property="humidifierNo"></result>
 		
 		<result column="SR_WP_TF" property="waterPumpTf"></result>
 		<result column="SR_HUMD_TF" property="humidifierTf"></result>
 		
+		<result column="SR_CTRL_TIME" property="sensorControlTime"></result>
 		<result column="SR_CREATETIME" property="sensorCreatetime"></result>
-		<result column="SR_MODIFYTIME" property="sensorModifytime"></result>
 	</resultMap>
 
 	
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
-	<select id="selectPlantSensorList" parameterType="com.planttech.domain.Page" resultMap="plantSensor">
-		SELECT    PLANT_SR_NO
-				, PLANT_NO
-				, WH_PLANT_NO
-				, SR_DHT_NO
-				, SR_PR_NO
-				, SR_WT_NO
-				, PLANT_SR_HUMI
-				, PLANT_SR_TEMP
-				, PLANT_SR_WT
-				, PLANT_SR_LIGHT
-				, PLANT_SR_CREATETIME
-		  FROM PLANT_SR 
-	  ORDER BY PLANT_SR_CREATETIME DESC
-	  	 LIMIT #{beginPage}, #{pageSize}
+	<select id="selectAllPlantSensorList" resultMap="plantSensor"> <!-- 아두이노 확인용 -->
+	<![CDATA[
+		SELECT    PS.PLANT_SR_NO					AS PLANT_SR_NO
+				, PS.PLANT_NO						AS PLANT_NO
+				, PS.WH_PLANT_NO					AS WH_PLANT_NO
+				, PS.SR_DHT_NO						AS SR_DHT_NO
+				, PS.SR_PR_NO						AS SR_PR_NO
+				, PS.SR_WT_NO						AS SR_WT_NO
+				, PS.PLANT_SR_HUMI 					AS PLANT_SR_HUMI
+				, PS.PLANT_SR_TEMP 					AS PLANT_SR_TEMP
+				, PS.PLANT_SR_WT					AS PLANT_SR_WT
+				, PS.PLANT_SR_LIGHT 				AS PLANT_SR_LIGHT
+				, PS.PLANT_SR_CREATETIME 			AS PLANT_SR_CREATETIME
+		  FROM 	  PLANT_SR 	AS PS
+	  ORDER BY 	  PS.PLANT_SR_CREATETIME 	DESC
+	  	 LIMIT	  0, 100
+  	]]>
 	</select>
 	
-	<insert id="insertPlantSensor" parameterType="com.planttech.domain.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
-		
+	<select id="selectPlantSensorList" parameterType="map" resultMap="plantSensor">
+	<![CDATA[
+		SELECT    PS.PLANT_SR_NO					AS PLANT_SR_NO
+				, PS.PLANT_NO						AS PLANT_NO
+				, PS.WH_PLANT_NO					AS WH_PLANT_NO
+				, PS.SR_DHT_NO						AS SR_DHT_NO
+				, PS.SR_PR_NO						AS SR_PR_NO
+				, PS.SR_WT_NO						AS SR_WT_NO
+				, FORMAT(AVG(PS.PLANT_SR_HUMI), 2) 	AS PLANT_SR_HUMI
+				, FORMAT(AVG(PS.PLANT_SR_TEMP), 2) 	AS PLANT_SR_TEMP
+				, FORMAT(AVG(PS.PLANT_SR_WT), 2) 	AS PLANT_SR_WT
+				, FORMAT(AVG(PS.PLANT_SR_LIGHT), 2) AS PLANT_SR_LIGHT
+				, DATE(PS.PLANT_SR_CREATETIME) 		AS PLANT_SR_CREATETIME
+		  FROM 	  PLANT_SR 	AS PS
+	INNER JOIN 	  WH_PLANT 	AS WH
+	INNER JOIN	  USER 		AS U
+			ON	  WH.WH_PLANT_NO 	= PS.WH_PLANT_NO
+		   AND	  WH.USER_NO		= U.USER_NO
+		 WHERE    PS.PLANT_SR_CREATETIME > DATE_SUB(NOW(), INTERVAL #{searchDate} DAY)
+		   AND	  WH.USER_NO 		= #{userNo}
+		   AND	  PS.WH_PLANT_NO	= #{warehousePlantNo}
+	  GROUP BY 	  DATE(PS.PLANT_SR_CREATETIME)
+	  ORDER BY 	  PS.PLANT_SR_CREATETIME 	DESC
+  	]]>
+	</select>
+	
+	<insert id="insertPlantSensor" parameterType="com.planttech.domain.factory.PlantSensor" useGeneratedKeys="true" keyProperty="plantSensorNo">
 		INSERT INTO 
 		  PLANT_SR (  PLANT_NO
 		  			, WH_PLANT_NO
@@ -84,11 +115,27 @@
 				, SR_HUMD_NO
 				, SR_WP_TF
 				, SR_HUMD_TF
-				, SR_CREATETIME
-				, SR_MODIFYTIME
+				, SR_CTRL_TIME
+				, SR_CREATETIME	
 		  FROM SR_CTRL
 	     WHERE USER_NO = #{userNo}
 	</select>
+	
+	<insert id="insertPlantSensorCtrl" parameterType="com.planttech.domain.factory.SensorControlTf" useGeneratedKeys="true" keyProperty="sensorControlNo">
+		INSERT INTO 
+		    SR_CTRL ( USER_NO
+		  			, WH_PLANT_NO
+					, SR_WP_NO
+					, SR_HUMD_NO
+					, SR_WP_TF
+					, SR_HUMD_TF		) 			
+			VALUES (  #{userNo}
+					, #{warehousePlantNo}
+					, #{waterPumpNo}
+					, #{humidifierNo}
+					, #{waterPumpTf}
+					, #{humidifierTf}	)			
+	</insert>
 	
 	<update id="updatePlantSensorWaterPump" >
 		UPDATE SR_CTRL 
@@ -102,7 +149,4 @@
 		 WHERE USER_NO = #{userNo}		
 	</update>
 	
-	
-	
-
 </mapper>

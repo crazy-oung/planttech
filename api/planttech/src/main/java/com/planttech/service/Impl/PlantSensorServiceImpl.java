@@ -1,15 +1,18 @@
 package com.planttech.service.Impl;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.planttech.domain.PlantSensor;
-import com.planttech.domain.SensorControlTf;
-import com.planttech.domain.Page;
+import com.planttech.domain.factory.PlantSensor;
+import com.planttech.domain.factory.SensorControlTf;
+import com.planttech.domain.search.Page;
+import com.planttech.domain.user.User;
 import com.planttech.mapper.PlantSensorMapper;
 import com.planttech.service.PlantSensorService;
 
@@ -17,21 +20,30 @@ import com.planttech.service.PlantSensorService;
 @Service
 @Transactional
 public class PlantSensorServiceImpl implements PlantSensorService {
-	@Autowired private PlantSensorMapper PlantSensorMapper;
+	@Autowired private PlantSensorMapper plantSensorMapper;
 
 
 	@Override
-	public List<PlantSensor> getPlantSensorList(Page page) {
-		System.out.println("::: PlantSensorServiceImpl - getPlantSensorList :::");
+	public List<PlantSensor> getAllPlantSensorList() {
+		return plantSensorMapper.selectAllPlantSensorList();
+	}
+	
+	@Override
+	public List<PlantSensor> getPlantSensorList(int warehousePlantNo, int searchDate, User user) {
 		
-		return PlantSensorMapper.selectPlantSensorList(page);
+		Map map = new HashMap<>() {{
+			put("warehousePlantNo", warehousePlantNo);
+			put("searchDate", searchDate-1);
+			put("userNo", user.getUserNo());
+		}};
+		
+		return plantSensorMapper.selectPlantSensorList(map);
 	}
 
 	@Override
 	public int addPlantSensor(PlantSensor plantSensor) {
 		try {
-			return PlantSensorMapper.insertPlantSensor(plantSensor);
-//			System.out.println(plantSensor.toString());
+			return plantSensorMapper.insertPlantSensor(plantSensor);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -40,10 +52,11 @@ public class PlantSensorServiceImpl implements PlantSensorService {
 	}
 
 	
+	
 	@Override
 	public SensorControlTf getUserSensorControl(int userNo) {
 		try {
-			return PlantSensorMapper.selectSensorControl(userNo);
+			return plantSensorMapper.selectSensorControl(userNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,9 +64,14 @@ public class PlantSensorServiceImpl implements PlantSensorService {
 	}
 	
 	@Override
+	public SensorControlTf addUserSensorControl(SensorControlTf sensorControlTf) {
+		return plantSensorMapper.insertPlantSensorCtrl(sensorControlTf);
+	}
+	
+	@Override
 	public int addPlantSensorWataerPump(int userNo, int waterPumpTf) {
 		try {
-			return PlantSensorMapper.updatePlantSensorWaterPump(userNo, waterPumpTf);
+			return plantSensorMapper.updatePlantSensorWaterPump(userNo, waterPumpTf);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,15 +81,12 @@ public class PlantSensorServiceImpl implements PlantSensorService {
 	@Override
 	public int addPlantSensorHumidifier(int userNo, int humidifierTf) {
 		try {
-			return PlantSensorMapper.updatePlantSensorHumidifier(userNo, humidifierTf);
+			return plantSensorMapper.updatePlantSensorHumidifier(userNo, humidifierTf);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
-	
-
-	
 
 }
