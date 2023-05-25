@@ -35,7 +35,7 @@ public class PlantSensorAverage {
 	private float lightAverage;
 	
 	@Schema(description = "센서 평균 일차", example = "1", deprecated = false)
-	private int avergaeDay;
+	private int averageDay;
 	@Schema(description = "계절", example = "spring", deprecated = false)
 	private String averageSeason;
 

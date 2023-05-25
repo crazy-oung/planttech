@@ -9,33 +9,32 @@
 		<result column="USER_BOOKMARK_NO" property="bookrmarkNo" />
 		<result column="PLANT_NO" property="userNo" />
 		<result column="PRODUCT_NO" property="plantNo" />
+		<result column="PLANT_SCORE_NO" property="plantScoreNo" />
 		<result column="USER_BOOKMARK_TYPE" property="bookmarkType"/>
 		<result column="USER_BOOKMARK CREATETIME" property="bookmarkCreatetime"/>
 	</resultMap>
 	<!-- 객체정리 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 
 
-	<select id="selectPlantColorList" parameterType="com.planttech.domain.search.Page" resultMap="plantColor">
+	<select id="selectUserBookmarkList" parameterType="com.planttech.domain.user.User" resultType="map">
 		SELECT    PLANT_COLOR_NO
 				, WH_PLANT_NO
 				, PLANT_COLOR_GRADE
 				, PLANT_COLOR_CREATETIME
-		  FROM 	PLANT_COLOR 
-  		
+		  FROM 	  USER_BOOKMARK 
+  		 WHERE	  USER_NO
 	</select>
 	
-	<insert id="insertPlantColor" parameterType="com.planttech.domain.ai.PlantColor" useGeneratedKeys="true" keyProperty="plantColorNo">
+	<insert id="isnertUserBookmarkList" parameterType="com.planttech.domain.user.UserBookmark" useGeneratedKeys="true" keyProperty="bookrmarkNo">
 		INSERT INTO 
-	  USER_BOOKMARK ( USER_BOOKMARK_NO
-		   			, PLANT_NO
-		   			, PRODUCT_NO
-		   			, USER_BOOKMARK_TYPE
-		   			, USER_BOOKMARK CREATETIME	) 			
-			VALUES (  #{bookrmarkNo}
-					, #{userNo}
+	  USER_BOOKMARK ( USER_NO
+	  				, PLANT_NO
+		   			, PLANT_SCORE_NO
+		   			, USER_BOOKMARK_TYPE	) 			
+			VALUES (  #{userNo}
 					, #{plantNo}
-					, #{bookmarkType}
-					, #{bookmarkCreatetime}		)			
+					, #{plantScoreNo}
+					, #{bookmarkType}		)			
 	</insert>
 	
 </mapper>

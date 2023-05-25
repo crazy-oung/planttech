@@ -20,7 +20,7 @@
 		<result column="PLANT_SR_AVG_LIGHT" property="lightAverage"/>
 		
 		<result column="PLANT_SR_AVG_SEASON" property="averageSeason"/>
-		<result column="PLANT_SR_AVG_DAY" property="avergaeDay"/>
+		<result column="PLANT_SR_AVG_DAY" property="averageDay"/>
 		<result column="PLANT_SR_AVG_TIMESTAMP" property="plantSensorAverageTimestamp" />
 		
 		<result column="PLANT_SR_AVG_CREATETIME" property="plantSensorAverageCreatetime" />
