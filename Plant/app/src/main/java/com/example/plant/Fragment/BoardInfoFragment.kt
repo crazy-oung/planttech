@@ -35,6 +35,9 @@ class BoardInfoFragment : Fragment() {
     lateinit var boardOtherPlantAdapter : BoardOtherPlantAdapter
     lateinit var boardTradeListPlantRecyclerView: RecyclerView
     lateinit var boardTradeListPlantAdapter : BoardTradeListPlantAdapter
+    var sellPrice = 0
+    var buyPrice = 0
+    var productNumber = 0
     /*
     lateinit var boardSellListPlantRecyclerView: RecyclerView
     lateinit var boardSellListPlantAdapter : BoardSellListPlantAdapter
@@ -47,9 +50,11 @@ class BoardInfoFragment : Fragment() {
     ): View? {
         val binding = FragmentBoardInfoBinding.inflate(inflater, container, false)
         val service = ApiClient.getApiInterface()
-
-        //val plantNumberResult = arguments?.getInt("plantNumber")
-        val plantNumberResult = 0
+        val plantNumberResult = arguments?.getInt("plantNumber")
+        val plantCategory = arguments?.getString("plantCategory")
+        val productNumberResult = arguments?.getInt("productNumber")
+        var state = 1
+        //val plantNumberResult = 0
         val plantData = mutableListOf<PlantMoreInfo>()
         val decimal = DecimalFormat("#,###")
 
@@ -57,7 +62,14 @@ class BoardInfoFragment : Fragment() {
             mainActivity, R.array.plantStateItemList, R.layout.spinner_item)
 
 
-        service.plantList(0, 317, plantNumberResult).enqueue(object : Callback<PlantListResponse> {
+
+
+        service.plantList(
+            0,
+            317,
+            plantNumberResult!!,
+            plantCategory!!,
+            "").enqueue(object : Callback<PlantListResponse> {
             override fun onResponse(call: Call<PlantListResponse>, response: Response<PlantListResponse>) {
                 if (response.isSuccessful) {
                     // 정상적으로 통신이 성공된 경우
@@ -73,8 +85,7 @@ class BoardInfoFragment : Fragment() {
                         }
                     }
 
-
-            service.getProductList(0, 100, plantNumberResult, "").enqueue(object : Callback<BoardProductResponse> {
+            service.getProductList(0, 100, "최신순", plantNumberResult, "").enqueue(object : Callback<BoardProductResponse> {
                 @SuppressLint("SetTextI18n")
                 override fun onResponse(call: Call<BoardProductResponse>, response: Response<BoardProductResponse>) {
                     if (response.isSuccessful) {
@@ -85,7 +96,7 @@ class BoardInfoFragment : Fragment() {
 
                         binding.boardInfoNameTv.text = callResponseBid[0].productName
                         binding.boardInfoSubNameTv.text = decimal.format(callResponseBid[0].productCount) + "개"
-                        bid(1, service, plantNumberResult,
+                        bid(5, service, plantNumberResult,
                             binding.boardInfoQuoteRcv,
                             binding.boardInfoTradeListRcv,
                             binding.boardInfoPriceTv,
@@ -94,6 +105,25 @@ class BoardInfoFragment : Fragment() {
                             binding.boardInfoBuyTradeBtn,
                             binding.boardInfoTradePriceTv
                         )
+                        // 즉시 거래, 판매가
+                        buttonTextBuySell(
+                            service,
+                            plantNumberResult,
+                            0,
+                            binding.boardInfoSellNowTv,
+                            5,
+                            binding.boardInfoBuyNowTv
+                        )
+
+                        buttonTextBuySell(
+                            service,
+                            plantNumberResult,
+                            1,
+                            binding.boardInfoSellNowTv,
+                            5,
+                            binding.boardInfoBuyNowTv
+                        )
+
                         binding.boardStateSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                             override fun onNothingSelected(parent: AdapterView<*>?) {
                             }
@@ -111,6 +141,23 @@ class BoardInfoFragment : Fragment() {
                                             binding.boardInfoBuyTradeBtn,
                                             binding.boardInfoTradePriceTv
                                         )
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            0,
+                                            binding.boardInfoSellNowTv,
+                                            5,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            1,
+                                            binding.boardInfoSellNowTv,
+                                            5,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        state = 1
                                     }
                                     1 -> {
                                         bid(4, service, plantNumberResult, binding.boardInfoQuoteRcv,
@@ -119,6 +166,23 @@ class BoardInfoFragment : Fragment() {
                                             binding.boardInfoSellTradeBtn,
                                             binding.boardInfoBuyTradeBtn,
                                             binding.boardInfoTradePriceTv)
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            0,
+                                            binding.boardInfoSellNowTv,
+                                            4,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            1,
+                                            binding.boardInfoSellNowTv,
+                                            4,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        state = 2
                                     }
                                     2 -> {
                                         bid(3, service, plantNumberResult, binding.boardInfoQuoteRcv,
@@ -127,6 +191,23 @@ class BoardInfoFragment : Fragment() {
                                             binding.boardInfoSellTradeBtn,
                                             binding.boardInfoBuyTradeBtn,
                                             binding.boardInfoTradePriceTv)
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            0,
+                                            binding.boardInfoSellNowTv,
+                                            3,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            1,
+                                            binding.boardInfoSellNowTv,
+                                            3,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        state = 3
                                     }
                                     3 -> {
                                         bid(2, service, plantNumberResult, binding.boardInfoQuoteRcv,
@@ -135,6 +216,23 @@ class BoardInfoFragment : Fragment() {
                                             binding.boardInfoSellTradeBtn,
                                             binding.boardInfoBuyTradeBtn,
                                             binding.boardInfoTradePriceTv)
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            0,
+                                            binding.boardInfoSellNowTv,
+                                            2,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            1,
+                                            binding.boardInfoSellNowTv,
+                                            2,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        state = 4
                                     }
                                     4 -> {
                                         bid(1, service, plantNumberResult, binding.boardInfoQuoteRcv,
@@ -143,6 +241,23 @@ class BoardInfoFragment : Fragment() {
                                             binding.boardInfoSellTradeBtn,
                                             binding.boardInfoBuyTradeBtn,
                                             binding.boardInfoTradePriceTv)
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            0,
+                                            binding.boardInfoSellNowTv,
+                                            1,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        buttonTextBuySell(
+                                            service,
+                                            plantNumberResult,
+                                            1,
+                                            binding.boardInfoSellNowTv,
+                                            1,
+                                            binding.boardInfoBuyNowTv
+                                        )
+                                        state = 5
                                     }
                                     else -> {
                                         bid(1, service, plantNumberResult,
@@ -157,6 +272,22 @@ class BoardInfoFragment : Fragment() {
                                     }
                                 }
                             }
+                        }
+
+                        binding.boardInfoBuyNowBtn.setOnClickListener {
+                            // 식물 정보 전달 값 넣어야함
+                            val activity = it.context as AppCompatActivity
+                            val bundle = Bundle()
+                            bundle.putInt("plantNo", plantNumberResult)
+                            bundle.putInt("state", state)
+                            bundle.putInt("price", buyPrice)
+                            bundle.putInt("productNumber", productNumber)
+                            val buyFragment = BuyFragment()
+                            buyFragment.arguments = bundle
+                            activity!!.supportFragmentManager.beginTransaction()
+                                .add(R.id.fragmentContainer, buyFragment)
+                                .addToBackStack(null)
+                                .commit()
                         }
 
                         plantInfoAdapter = context?.let { PlantInfoAdapter(plantData) }!!
@@ -224,33 +355,50 @@ class BoardInfoFragment : Fragment() {
         })
 
 
+        // 다른 식물 리스트
+        service.plantList(
+            0,
+            10, // 사이즈 변경 필요
+            null,
+            plantCategory!!,
+            "").enqueue(object : Callback<PlantListResponse>{
+            override fun onResponse(
+                call: Call<PlantListResponse>,
+                response: Response<PlantListResponse>
+            ) {
+                if(response.isSuccessful){
+                    val dataPlant = mutableListOf<Plant>()
+                    val callResponsePlant = response.body()!!
+                    Log.d("Gooood", callResponsePlant.toString())
+                    Log.d("Gooood", response.headers().toString())
 
+                    for(i in callResponsePlant) {
+                        dataPlant.add(Plant(i.plantKoreanName, 0, "", i.plantCategory, "", true))
+                    }
+                    boardOtherPlantAdapter = context?.let { BoardOtherPlantAdapter(dataPlant) }!!
+                    binding.boardOtherPlantRcv.adapter = boardOtherPlantAdapter
 
-        val dataPlant = mutableListOf(
-            Plant(plantName = "멋쟁이", plantScore = 100, startDate = "32일째", "토마토","Good", true),
-            Plant(plantName = "새콤달콤", plantScore = 80, startDate = "16일째", "낑깡", "Good", true),
-            Plant(plantName = "길쭉이", plantScore = 0, startDate = "4일째", "바나나","Soso", false),
-            Plant(plantName = "작은멋쟁이", plantScore = 0, startDate = "4일째", "방울토마토","Bad", false)
-        )
+                    boardOtherPlantRecyclerView = binding.boardOtherPlantRcv
+                    boardOtherPlantRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    boardOtherPlantRecyclerView.adapter = BoardOtherPlantAdapter(dataPlant)
+                    binding.boardOtherPlantRcv.setHasFixedSize(true)
+                } else {
+                    Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                    Log.d("Baaaad", response.toString())
 
-        boardOtherPlantAdapter = context?.let { BoardOtherPlantAdapter(dataPlant) }!!
-        binding.boardOtherPlantRcv.adapter = boardOtherPlantAdapter
+                }
+            }
 
-        boardOtherPlantRecyclerView = binding.boardOtherPlantRcv
-        boardOtherPlantRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        boardOtherPlantRecyclerView.adapter = BoardOtherPlantAdapter(dataPlant)
-        binding.boardOtherPlantRcv.setHasFixedSize(true)
+            override fun onFailure(call: Call<PlantListResponse>, t: Throwable) {
+                Log.d("Real Baaaad", "onResponse 대실패")
+            }
+
+        })
+
 
         binding.boardInfoBuyNowBtn.setOnClickListener {
             // 식물 정보 전달 값 넣어야함
-            val activity = it.context as AppCompatActivity
-            val bundle = Bundle()
-            val sellFragment = SellFragment()
-            sellFragment.arguments = bundle
-            activity!!.supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, sellFragment)
-                .addToBackStack(null)
-                .commit()
+
         }
 
         binding.boardInfoSellBtn.setOnClickListener {
@@ -383,8 +531,9 @@ class BoardInfoFragment : Fragment() {
 
                         for (i in callResponseBid)
                             if(i.plantScoreVal == state)
-                                test.add(i.productPrice.toFloat())
-                        priceSortData.addAll(test)
+                                priceSortData.add(i.productPrice.toFloat())
+                                //test.add(i.productPrice.toFloat())
+
                         priceSortData.sort()
 
                         if(priceSortData.isEmpty())
@@ -472,5 +621,59 @@ class BoardInfoFragment : Fragment() {
                 }
             })
 
+    }
+
+    fun buttonTextBuySell(
+        service: RetrofitService,
+        plantNumberResult : Int,
+        productType: Int,
+        buyTextView: TextView,
+        state: Int,
+        sellTextView: TextView){
+        val decimal = DecimalFormat("#,###")
+
+        service.getProductGradesList(
+            plantNumberResult,
+            productType,
+            1
+            ).enqueue( object : Callback<GetProductGradesListResponse>{
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(
+                call: Call<GetProductGradesListResponse>,
+                response: Response<GetProductGradesListResponse>
+            ) {
+                if (response.isSuccessful) {
+                    // 정상적으로 통신이 성공된 경우
+                    val callResponse = response.body()!!
+                    Log.d("Gooood", callResponse.toString())
+                    Log.d("Gooood", response.headers().toString())
+
+                    for (i in callResponse){
+                        if(i.plantScoreNo == state){
+                            if(productType == 1) {
+                                buyTextView.text = decimal.format(i.productPrice) + "원"
+                                buyPrice = i.productPrice
+                                productNumber = i.productNo
+                            }
+                            else {
+                                sellTextView.text = decimal.format(i.productPrice) + "원"
+                                sellPrice = i.productPrice
+                                productNumber = i.productNo
+                            }
+                        }
+                    }
+
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                    Log.d("Baaaad", response.toString())
+                }
+            }
+
+
+            override fun onFailure(call: Call<GetProductGradesListResponse>, t: Throwable) {
+                Log.d("Real Baaaad", "onResponse 대실패")
+            }
+        })
     }
 }

@@ -94,30 +94,9 @@ class InfoProfileFragment : Fragment() {
 
 
 
-        data = mutableListOf(Board(
-            0, 0, 0,
-            "토마토", "Good", "5Kg, 당도 높음", "50,000원", "13:12", "1",
-        ),
-            Board(
-                1, 0, 0,
-                "부레옥잠", "Soso", "수상생물", "30,000원", "2023-05-10", "1",
-            ),
-            Board(
-                2, 0, 0,
-                "난", "Good", "1M, 사진 참고", "100,000원", "2023-05-08", "1",
-            ),
-            Board(
-                0, 0, 0,
-                "토마토", "Good", "5Kg, 당도 높음", "50,000원", "13:12", "1",
-            ),
-            Board(
-                1, 0, 0,
-                "부레옥잠", "Soso", "수상생물", "30,000원", "2023-05-10", "1",
-            ),
-            Board(
-                2, 0, 0,
-                "난", "Good", "1M, 사진 참고", "100,000원", "2023-05-08", "1",
-            ))
+        data = mutableListOf(
+            // 채워야함
+        )
 
         infoProfileAdapter = context?.let { InfoProfileAdapter(data) }!!
         binding.infoProfileMysellRcv.adapter = infoProfileAdapter

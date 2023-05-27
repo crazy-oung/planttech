@@ -5,37 +5,37 @@ import com.google.gson.annotations.SerializedName
 
 data class GetUserPlantResponseItem(
     @SerializedName("plantCategory")
-    val plantCategory: String,
+    val plantCategory: String? = null,
     @SerializedName("plantCreatetime")
-    val plantCreatetime: Any,
+    val plantCreatetime: Any? = null,
     @SerializedName("plantCultivateTip")
-    val plantCultivateTip: Any,
+    val plantCultivateTip: Any? = null,
     @SerializedName("plantDistributionName")
-    val plantDistributionName: Any,
+    val plantDistributionName: Any? = null,
     @SerializedName("plantEnglishName")
-    val plantEnglishName: Any,
+    val plantEnglishName: Any? = null,
     @SerializedName("plantKoreanName")
-    val plantKoreanName: String,
+    val plantKoreanName: String? = null,
     @SerializedName("plantModifytime")
-    val plantModifytime: Any,
+    val plantModifytime: Any? = null,
     @SerializedName("plantNo")
-    val plantNo: Int,
+    val plantNo: Int? = null,
     @SerializedName("plantOrigin")
-    val plantOrigin: Any,
+    val plantOrigin: Any? = null,
     @SerializedName("plantScientificName")
-    val plantScientificName: Any,
+    val plantScientificName: Any? = null,
     @SerializedName("userNo")
-    val userNo: Int,
+    val userNo: Int? = null,
     @SerializedName("userPlantActive")
-    val userPlantActive: Int,
+    val userPlantActive: Int? = null,
     @SerializedName("userPlantCreatetime")
-    val userPlantCreatetime: Any,
+    val userPlantCreatetime: Any? = null,
     @SerializedName("userPlantModifytime")
-    val userPlantModifytime: String,
+    val userPlantModifytime: String? = null,
     @SerializedName("userPlantName")
-    val userPlantName: Any,
+    val userPlantName: Any? = null,
     @SerializedName("userPlantNo")
-    val userPlantNo: Int,
+    val userPlantNo: Int? = null,
     @SerializedName("warehousePlantNo")
-    val warehousePlantNo: Int
+    val warehousePlantNo: Int? = null
 )

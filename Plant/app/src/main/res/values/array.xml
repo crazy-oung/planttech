@@ -28,7 +28,7 @@
     <string-array name="sortShopItemList">
         <item>이름</item>
         <item>가격</item>
-        <item>등록일</item>
+        <item>갯수</item>
     </string-array>
 
     <string-array name="plantCategory1ItemList">

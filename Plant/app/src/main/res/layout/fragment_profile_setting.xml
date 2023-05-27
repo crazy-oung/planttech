@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.ProfileSettingFragment"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/profile_toolbar_setting"
+                android:background="?android:attr/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                app:titleTextColor="@color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="일반"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profile_plant_setting_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbarFadeDuration="0"
+                android:scrollbars="vertical"
+                android:layout_marginBottom="10dp"/>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -60,11 +60,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
                     android:text="200,000"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="즉시 구매가"
+
+                    android:textColor="@color/gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/shop_item_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- 개"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <View

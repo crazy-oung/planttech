@@ -5,20 +5,25 @@ import java.util.Date
 
 data class Board (
     @SerializedName("articleNo")
-    val articleNo : Int,
+    val articleNo : Int? = null,
     @SerializedName("userNo")
-    val userNo : Int,
+    val userNo : Int? = null,
     @SerializedName("plantNo")
-    val plantNo : Int,
+    val plantNo : Int? = null,
     @SerializedName("articleTitle")
-    val articleTitle : String,
+    val articleTitle : String? = null,
     @SerializedName("articleSubject")
-    val articleSubject : String,
+    val articleSubject : String? = null,
     @SerializedName("articleContent")
-    val articleContent : String,
+    val articleContent : String? = null,
     @SerializedName("articleProductPrice")
-    val articleProductPrice : String,
+    val articleProductPrice : String? = null,
     @SerializedName("articleCreatetime")
-    val articleCreatetime :	String,
+    val articleCreatetime :	String? = null,
     @SerializedName("articleModifytime")
-    val articleModifytime :	String)
+    val articleModifytime :	String? = null,
+    @SerializedName("plantCategory")
+    val plantCategory :	String? = null,
+    @SerializedName("plantAmount")
+    val plantAmount : Int? = null
+)

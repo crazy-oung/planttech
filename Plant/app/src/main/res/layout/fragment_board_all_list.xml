@@ -15,18 +15,9 @@
         android:layout_margin="10dp">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/board_all_category_btn"
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:layout_marginRight="5dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/boader_board_button"
-            android:text="카테고리" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/board_all_state_btn"
             android:layout_width="0dp"
-            android:layout_weight="0.6"
+            android:layout_weight="0.4"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
@@ -34,23 +25,19 @@
             android:text="상태" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/board_all_size_btn"
-            android:layout_width="0dp"
-            android:layout_weight="0.7"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/boader_board_button"
-            android:text="사이즈" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/board_all_price_btn"
             android:layout_width="0dp"
-            android:layout_weight="0.6"
+            android:layout_weight="0.4"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:background="@drawable/boader_board_button"
             android:text="가격" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            />
 
     </LinearLayout>
 

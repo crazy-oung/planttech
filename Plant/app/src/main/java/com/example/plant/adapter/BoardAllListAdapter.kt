@@ -1,5 +1,6 @@
 package com.example.plant.adapter
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.example.plant.Fragment.PlantInfoFragment
 import com.example.plant.R
 import com.example.plant.model.Board
 import com.example.plant.model.Plant
+import java.text.DecimalFormat
 
 class BoardAllListAdapter(var mylist: List<Board>) : RecyclerView.Adapter<BoardAllListAdapter.ViewHolder>() {
 
@@ -26,18 +28,22 @@ class BoardAllListAdapter(var mylist: List<Board>) : RecyclerView.Adapter<BoardA
         return mylist.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = mylist[position].articleTitle
         holder.price.text = mylist[position].articleProductPrice
         holder.variety.text = mylist[position].articleContent
         holder.state.text = mylist[position].articleSubject
 
+        val decimal = DecimalFormat("#,###")
+        holder.amount.text = decimal.format(mylist[position].plantAmount) + " 개"
+
 
         holder.itemView.setOnClickListener {
             val activity = it.context as AppCompatActivity
             val bundle = Bundle()
-            bundle.putInt("plantNumber", mylist[position].plantNo)
-
+            bundle.putInt("plantNumber", mylist[position].plantNo!!)
+            bundle.putString("plantCategory", mylist[position].plantCategory)
             val boardInfoFragment = BoardInfoFragment()
             boardInfoFragment.arguments = bundle
             activity!!.supportFragmentManager.beginTransaction()
@@ -52,6 +58,7 @@ class BoardAllListAdapter(var mylist: List<Board>) : RecyclerView.Adapter<BoardA
         val price: TextView = itemView.findViewById((R.id.shop_item_price))
         val variety: TextView = itemView.findViewById(R.id.shop_item_variety)
         val state: TextView = itemView.findViewById(R.id.shop_item_state)
+        val amount : TextView = itemView.findViewById(R.id.shop_item_amount)
     }
 
     interface ItemClickListener{

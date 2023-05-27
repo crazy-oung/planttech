@@ -73,6 +73,58 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
             }
         })
 
+        // api 연결 이후 확인 필요
+        service.getUserMilageList().enqueue(object : Callback<UserMeResponse> {
+            override fun onResponse(call: Call<UserMeResponse>, response: Response<UserMeResponse>) {
+                if (response.isSuccessful) {
+                    // 정상적으로 통신이 성공된 경우
+                    val callResponse = response.body()!!
+                    Log.d("Gooood", callResponse.toString())
+                    Log.d("Gooood", response.headers().toString())
+
+
+
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                    Log.d("Baaaad", response.toString())
+
+                }
+            }
+
+
+            override fun onFailure(call: Call<UserMeResponse>, t: Throwable) {
+                Log.d("Real Baaaad", "onResponse 대실패")
+
+            }
+        })
+
+        // api 연결 이후 확인 필요
+        service.getUserBidList().enqueue(object : Callback<UserMeResponse> {
+            override fun onResponse(call: Call<UserMeResponse>, response: Response<UserMeResponse>) {
+                if (response.isSuccessful) {
+                    // 정상적으로 통신이 성공된 경우
+                    val callResponse = response.body()!!
+                    Log.d("Gooood", callResponse.toString())
+                    Log.d("Gooood", response.headers().toString())
+
+
+
+                } else {
+                    // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
+                    Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                    Log.d("Baaaad", response.toString())
+
+                }
+            }
+
+
+            override fun onFailure(call: Call<UserMeResponse>, t: Throwable) {
+                Log.d("Real Baaaad", "onResponse 대실패")
+
+            }
+        })
+
         viewPager = binding.infoPager
         tabLayout = binding.infoTabLayout
 

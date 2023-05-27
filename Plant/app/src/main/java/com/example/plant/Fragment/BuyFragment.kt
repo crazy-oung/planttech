@@ -16,7 +16,6 @@ import com.example.plant.R
 import com.example.plant.api.ApiClient
 import com.example.plant.api.NetworkUtil
 import com.example.plant.databinding.FragmentBuyBinding
-import com.example.plant.databinding.FragmentSellBinding
 import com.example.plant.model.PlantListResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,13 +25,13 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SellFragment : Fragment() {
+class BuyFragment : Fragment() {
     lateinit var mainActivity: MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSellBinding.inflate(inflater, container, false)
+        val binding = FragmentBuyBinding.inflate(inflater, container, false)
         val plantNumberResult = arguments?.getInt("plantNo")
         val stateResult = arguments?.getInt("state")
         val priceResult = arguments?.getInt("price")
@@ -53,7 +52,7 @@ class SellFragment : Fragment() {
             4 -> stateText = "Bad"
             5 -> stateText = "Very Bad"
         }
-        binding.sellToolbar.title = "판매 진행"
+        binding.buyToolbar.title = "구매 진행"
         // 마감기한
 
         service.plantList(
@@ -69,14 +68,14 @@ class SellFragment : Fragment() {
                     val callResponse = response.body()!!
                     Log.d("Gooood", callResponse.toString())
                     Log.d("Gooood", response.headers().toString())
-                    binding.sellPlantNickNameTv.text = callResponse[0].plantKoreanName
-                    binding.sellPlantTypeTv.text = callResponse[0].plantCategory
-                    binding.sellPlantStateTv.text = "State : $stateText"
+                    binding.buyPlantNickNameTv.text = callResponse[0].plantKoreanName
+                    binding.buyPlantTypeTv.text = callResponse[0].plantCategory
+                    binding.buyPlantStateTv.text = "State : $stateText"
 
-                    binding.sellBtn.setOnClickListener {
+                    binding.buyBtn.setOnClickListener {
                         /*
-                        * 1. @POST /product를 통해 판매 추가
-                        * 2. @PUT /user/me를 통해 마일리지 수정 (즉시 판매 경우)
+                        * 1. @DELETE /product를 통해 삭제 절차
+                        * 2. @PUT /user/me를 통해 마일리지 수정
                         * 3. @PUT /user/my/bid를 통해 유저 입찰 내역 수정
                         * 4. @POST /user/notification을 통해 유저 알림 추가
                         * */
@@ -96,9 +95,9 @@ class SellFragment : Fragment() {
 
         })
 
-        binding.sellDeadlineSpinner.adapter = ArrayAdapter.createFromResource(
+        binding.buyDeadlineSpinner.adapter = ArrayAdapter.createFromResource(
             mainActivity, R.array.sellDeadlineDate, R.layout.spinner_item)
-        binding.sellDeadlineSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.buyDeadlineSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -138,7 +137,7 @@ class SellFragment : Fragment() {
 
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                binding.sellMileageTv.text = decimal.format(priceResult)
+                binding.buyMileageTv.text = decimal.format(priceResult)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -146,38 +145,38 @@ class SellFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.sellMileageTv.text = decimal.format(priceResult)
+                binding.buyMileageTv.text = decimal.format(priceResult)
             }
         }
 
-        binding.sellHopePriceEt.addTextChangedListener(textWatcher)
+        binding.buyHopePriceEt.addTextChangedListener(textWatcher)
 
         // 예측거래가 넣어야함
-        binding.sellPredictionPriceTv.text = "예측 불가" + " 원"
+        binding.buyPredictionPriceTv.text = "예측 불가" + " 원"
 
-        binding.sellNowSellPriceTv.visibility = View.INVISIBLE
-        binding.sellDeadlineTv.visibility = View.VISIBLE
-        binding.sellDeadlineSpinner.visibility = View.VISIBLE
-        binding.sellHopePriceEt.hint = "희망가 입력"
+        binding.buyNowBuyPriceTv.visibility = View.INVISIBLE
+        binding.buyDeadlineTv.visibility = View.VISIBLE
+        binding.buyDeadlineSpinner.visibility = View.VISIBLE
+        binding.buyHopePriceEt.hint = "희망가 입력"
 
         binding.switchOnOff.isChecked=true
         binding.switchOnOff.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-                binding.sellTypeTv.text = "판매 희망가"
-                binding.sellNowSellPriceTv.visibility = View.INVISIBLE
-                binding.sellDeadlineTv.visibility = View.VISIBLE
-                binding.sellDeadlineSpinner.visibility = View.VISIBLE
-                binding.sellHopePriceEt.hint = "희망가 입력"
+                binding.buyTypeTv.text = "구매 희망가"
+                binding.buyNowBuyPriceTv.visibility = View.INVISIBLE
+                binding.buyDeadlineTv.visibility = View.VISIBLE
+                binding.buyDeadlineSpinner.visibility = View.VISIBLE
+                binding.buyHopePriceEt.hint = "희망가 입력"
             }
             else{
-                binding.sellNowSellPriceTv.visibility = View.VISIBLE
-                binding.sellTypeTv.text = "즉시 판매가"
-                binding.sellMileageTv.text = decimal.format(priceResult)
+                binding.buyNowBuyPriceTv.visibility = View.VISIBLE
+                binding.buyTypeTv.text = "즉시 구매가"
+                binding.buyMileageTv.text = decimal.format(priceResult)
                 // 가장 낮은 가격으로
-                binding.sellNowSellPriceTv.text = decimal.format(priceResult)
-                binding.sellDeadlineTv.visibility = View.INVISIBLE
-                binding.sellDeadlineSpinner.visibility = View.INVISIBLE
-                binding.sellHopePriceEt.hint = " "
+                binding.buyNowBuyPriceTv.text = decimal.format(priceResult)
+                binding.buyDeadlineTv.visibility = View.INVISIBLE
+                binding.buyDeadlineSpinner.visibility = View.INVISIBLE
+                binding.buyHopePriceEt.hint = " "
             }
         }
 

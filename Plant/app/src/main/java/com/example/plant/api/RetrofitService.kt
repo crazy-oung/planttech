@@ -3,7 +3,6 @@ package com.example.plant.api
 import com.example.plant.Fragment.GetUserPlantResponse
 import com.example.plant.model.*
 import retrofit2.Call
-import retrofit2.Retrofit
 import retrofit2.http.*
 
 interface RetrofitService {
@@ -60,8 +59,6 @@ interface RetrofitService {
     @POST("user/me")
     fun userInfo() : Call<UserMeResponse>
 
-    @GET("user/milage")
-    fun userMilage() : Call<UserMilageResponse>
 
     @GET("user/notification")
     fun userNotificationGet() : Call<UserNotificationResponse>
@@ -86,8 +83,16 @@ interface RetrofitService {
         @Body userRegisterRequest: UserRegisterRequest
     ) : Call<LoginResponseFail>
 
+    @GET("user/milage")
+    fun userMilage() : Call<UserMilageResponse>
+
+    @GET("user/my/bid")
+    fun getUserBidList()
+
     @GET("user/my/plant")
     fun getUserPlant() : Call<GetUserPlantResponse>
+
+
 
     // Plant
 
@@ -95,7 +100,9 @@ interface RetrofitService {
     fun plantList(
         @Query("beginPage") beginPage: Int,
         @Query("pageSize") pageSize: Int,
-        @Query("plantNo") plantNo: Int
+        @Query("plantNo") plantNo: Int? = null,
+        @Query("plantCategory") plantCategory: String? = null,
+        @Query("searchKeyword") searchKeyword: String? = null
     ) : Call<PlantListResponse>
 
     @GET("plant/category")
@@ -107,12 +114,27 @@ interface RetrofitService {
     fun getProductList(
         @Query("beginPage") beginPage: Int,
         @Query("pageSize") pageSize: Int,
-        @Query("plantNo") plantNo: Int,
-        @Query("searchKeyword") searchKeyword : String
+        @Query("tab") tab : String,
+        @Query("plantNo") plantNo: Int? = null,
+        @Query("searchKeyword") searchKeyword : String? = null
     ) : Call<BoardProductResponse>
+    @POST("product")
+    fun postProductList(
+
+    )
+
+    @DELETE("product")
+    fun deleteProductList(
+        @Query("productNo") productNo : Int
+    )
 
 
-
+    @GET("product/grades/{plantNo}")
+    fun getProductGradesList(
+        @Path("plantNo") plantNo : Int,
+        @Query("productType") productType : Int,
+        @Query("productInstant") productInstant : Int
+    ) : Call<GetProductGradesListResponse>
 
     @GET("product/type/{productActive}")
     fun getProductTypeList(
@@ -120,6 +142,7 @@ interface RetrofitService {
         @Query("productType") productType : Int,
         @Query("plantNo") plantNo : Int
     ) : Call<GetProductTypeListResponse>
+
 
 
     //AI(사용X)

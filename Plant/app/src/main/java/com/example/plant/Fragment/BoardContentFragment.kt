@@ -22,12 +22,16 @@ class BoardContentFragment : Fragment(R.layout.fragment_board_content) {
 
         val binding = FragmentBoardContentBinding.inflate(inflater, container, false)
 
-        boardData = mutableListOf(
-            Board(0,0,0,
-            "방울토마토 5kg 거래합니다!","2","2","50,000원","13:12","1",),
-            Board(1,0,0,
-                "관상용 부레옥잠 입니다","2","2","30,000원","2023-05-10","1",)
-        )
+        boardData = mutableListOf(Board(
+            0, 0, 0,
+            "토마토", "Good", "5Kg, 당도 높음", "50,000원", "13:12", "1",
+            "천남성과"
+        ),
+            Board(
+                1, 0, 1,
+                "부레옥잠", "Soso", "수상생물", "30,000원", "2023-05-10", "1",
+                "천남성과"
+            ))
 
         data = mutableListOf(
             BoardComment("홍길동", "15:12", "구매 의향 있습니다 연락주세요!")
