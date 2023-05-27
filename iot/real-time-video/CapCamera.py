@@ -9,8 +9,8 @@ import requests
 import json
 
 from State import *
-from remove_bg import *
-from rem_bg import *
+# from remove_bg import *
+# from rem_bg import *
 
 sio = socketio.Client()
 
@@ -31,14 +31,14 @@ class camera :
     img_path = r'C:\Users\user\Desktop\SendCamera\SendCamera'   # 이미지 기본 저장 경로
     now = datetime.now()   # 현재 시간
 
-    def connect_camera(self) : # 연결된 카메라 검사 함수(0번 노트북, 1~n : 웹캠)
-        cam_index = 1   # 0번은 노트북 카메라 이므로 1번부터 시작
+    def connect_camera(self) : # 연결된 카메라 검사 함수
+        cam_index = 0   # 0번은 노트북 카메라 이므로 1번부터 시작
         while True : # 1번(웹캠 호출 시작)
             cam = cv2.VideoCapture(cam_index)
             if not cam.isOpened() :
                 break
             self.cam_list.append(cam) # 카메라 추가
-            print("%d번 카메라 추가" %(self.cam_num))
+            print("%d번 카메라 추가" %(self.cam_num+1))
             self.cam_num += 1
             cam_index += 1
 
@@ -62,19 +62,23 @@ class camera :
             self.state, avg_color = get_state(file_name)
             print(self.state)
             print(avg_color)
+            self.send_api(i, self.state, frame)
+        
 
-        sio.emit('state', self.state)
-        self.send_api(i, self.state)
+    def send_api(self, cam_index, state, frame) : # api로 식물 상태 데이터 보내는 함수
 
-    def send_api(self, cam_index, state) : # api로 식물 상태 데이터 보내는 함수
+        _, buffer = cv2.imencode('.jpg', frame)
+        color_img = base64.b64encode(buffer).decode('utf-8')
 
         url = "http://dayounghan.com/ai/plant/color-analysis"
+#        url = "http://192.168.0.21:8080/ai/plant/color-analysis"
 
         headers = {"Content-Type": "application/json"}
 
         temp = {
             "plantWarehouseNo": cam_index,
-            "plantColorGrade": state
+            "plantColorGrade": state,
+            "plantColorPic": color_img
         }
 
         data = json.dumps(temp)
@@ -108,7 +112,7 @@ class camera :
         
         th1 = Thread(target=self.cap_camera)
 
-        schedule.every().day.at("18:15:50").do(self.get_today_state) # 매일 정해진 시간에 상태 출력
+        schedule.every().day.at("18:42:30").do(self.get_today_state) # 매일 정해진 시간에 상태 출력
 
         th1.start()
         while True :
@@ -123,4 +127,5 @@ if __name__ == "__main__" :
     for i in range(len(NewCamera.cam_list)) :   # 등록된 카메라 해제
         NNewCamera.cam_list[i].release
 
+    sio.disconnect('http://220.68.82.79:4000')
     cv2.destroyAllWindows()
