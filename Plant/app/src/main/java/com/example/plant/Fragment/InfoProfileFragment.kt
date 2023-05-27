@@ -33,6 +33,35 @@ class InfoProfileFragment : Fragment() {
         val binding = FragmentInfoProfileBinding.inflate(inflater, container, false)
         val service = ApiClient.getApiInterface()
 
+        binding.infoPlantMoreBtn.setOnClickListener {
+            service.getUserPlant().enqueue(object  : Callback<GetUserPlantResponse>{
+                override fun onResponse(
+                    call: Call<GetUserPlantResponse>,
+                    response: Response<GetUserPlantResponse>
+                ) {
+                    if (response.isSuccessful){
+                        val upResponse = response.body()!!
+
+                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+
+
+                    } else {
+                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                        Log.d("Baaaad", response.toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<GetUserPlantResponse>, t: Throwable) {
+                    Log.d("Real Baaaad", "onResponse 대실패")
+                }
+
+            })
+        }
+
+
+
 
         // 유저 플랜트 정보 목록
         service.getUserPlant().enqueue(object  : Callback<GetUserPlantResponse>{

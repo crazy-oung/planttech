@@ -42,7 +42,7 @@ class BuyFragment : Fragment() {
         val service = ApiClient.getApiInterface()
         var today = Calendar.getInstance()
         today.time = Date()
-        val df: DateFormat = SimpleDateFormat("yyyy-MM-ddT00:00:00" + ".000Z")
+        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd 00:00:00" + ".000Z")
 
         Log.d("productNumber test", productNumberResult.toString())
         when(stateResult){
@@ -134,7 +134,7 @@ class BuyFragment : Fragment() {
             }
         }
 
-
+        // api 연결 이후 확인 필요
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 binding.buyMileageTv.text = decimal.format(priceResult)
@@ -177,6 +177,7 @@ class BuyFragment : Fragment() {
                 binding.buyDeadlineTv.visibility = View.INVISIBLE
                 binding.buyDeadlineSpinner.visibility = View.INVISIBLE
                 binding.buyHopePriceEt.hint = " "
+                binding.buyHopePriceEt.text.clear()
             }
         }
 

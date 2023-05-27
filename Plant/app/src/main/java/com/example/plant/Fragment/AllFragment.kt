@@ -42,7 +42,7 @@ class AllFragment : Fragment() {
                     val callResponse = response.body()!!
                     Log.d("Gooood", callResponse.toString())
                     Log.d("Gooood", response.headers().toString())
-
+/*
                     for(i in callResponse){
                         plantData.add(
                             GetUserPlantResponseItem(
@@ -51,7 +51,7 @@ class AllFragment : Fragment() {
                             )
                         )
                     }
-
+*/
                 } else {
                     // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                     Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())

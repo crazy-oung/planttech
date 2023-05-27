@@ -1,16 +1,29 @@
 package com.example.plant.Fragment
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.plant.adapter.BoardAllListAdapter
 import com.example.plant.adapter.PlantInfoAdapter
 import com.example.plant.adapter.PlantInfoGraphAdapter
+import com.example.plant.api.ApiClient
+import com.example.plant.api.NetworkUtil
 import com.example.plant.databinding.FragmentPlantInfoBinding
+import com.example.plant.model.Board
+import com.example.plant.model.PlantImageGetResponse
+import com.example.plant.model.PlantListResponse
 import com.example.plant.model.PlantMoreInfo
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class PlantInfoFragment : Fragment() {
@@ -23,6 +36,38 @@ class PlantInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentPlantInfoBinding.inflate(inflater, container, false)
+        val service = ApiClient.getApiInterface()
+
+        service.plantImage(0,10, null, 1, null).enqueue( object : Callback<PlantImageGetResponse> {
+            override fun onResponse(
+                call: Call<PlantImageGetResponse>,
+                response: Response<PlantImageGetResponse>
+            ) {
+                if(response.isSuccessful){
+                    val callPhotoResponse = response.body()!!
+                    Log.d("Gooood", callPhotoResponse.toString())
+                    Log.d("Gooood", response.headers().toString())
+                    Log.d("colorNumber", callPhotoResponse[0].plantWarehouseNo.toString())
+                    Log.d("plantColorPic", callPhotoResponse[0].plantColorPic)
+                    binding.plantInfoCameraBtn.setOnClickListener {
+                        val test = Base64.decode(callPhotoResponse[0].plantColorPic, Base64.DEFAULT)
+                        val decode = BitmapFactory.decodeByteArray(test, 0, test.size)
+
+                        binding.plantInfoCameraStateTv.text = "색채 분석 상태 : " +callPhotoResponse[0].plantColorGrade
+                        binding.plantInfoCameraIv.setImageBitmap(decode)
+                    }
+                } else {
+                    Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                    Log.d("Baaaad", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<PlantImageGetResponse>, t: Throwable) {
+                Log.d("Real Baaaad", "onResponse 대실패")
+            }
+
+        })
+
 
         val dataFruit = mutableListOf(
             PlantMoreInfo("품종", "화초"),

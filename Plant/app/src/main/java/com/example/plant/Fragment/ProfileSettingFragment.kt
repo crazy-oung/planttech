@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plant.R
 import com.example.plant.adapter.ProfileSettingAdapter
 
 import com.example.plant.databinding.FragmentProfileSettingBinding
@@ -32,9 +31,9 @@ class ProfileSettingFragment : Fragment() {
 
 
         val dataSetPlant = mutableListOf(
-            ProfileSettingContent("로그인 정보", "가습기, 워터 펌프 등의 센서 작동에 대한 알림"),
-            ProfileSettingContent("알림", "식물의 상태가 변화되는 것에 대한 알림"),
-            ProfileSettingContent("로그아웃", "식물의 상태가 변화되는 것에 대한 알림")
+            ProfileSettingContent("로그인 정보", ),
+            ProfileSettingContent("알림", ),
+            ProfileSettingContent("로그아웃", )
         )
 
 

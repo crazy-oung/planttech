@@ -4,5 +4,5 @@ import android.graphics.Bitmap
 
 data class ProfileSettingContent(
     val profileTitle : String,
-    val profileImage : Bitmap
+    val profileImage : Bitmap? = null
 )

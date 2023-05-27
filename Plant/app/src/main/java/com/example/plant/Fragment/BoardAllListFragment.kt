@@ -26,14 +26,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
-
-
 class BoardAllListFragment : Fragment() {
     lateinit var recyclerView : RecyclerView
     lateinit var boardAllListAdapter: BoardAllListAdapter
     lateinit var mainActivity: MainActivity
-    private lateinit var data : MutableList<Board>
     lateinit var category : String
+    var data = mutableListOf<Board>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,6 +41,19 @@ class BoardAllListFragment : Fragment() {
         var stateNumber = 5
         val decimal = DecimalFormat("#,###")
         var allProductAmount = 0
+        var plantCategory = mutableListOf<String>(
+            "수선화과",
+            "닭의장풀과",
+            "두릅나무과",
+            "두릅나무과",
+            "포도과",
+            "천남성과",
+            "천남성과",
+            "천남성과"
+        )
+        var plantNumber = mutableListOf<Int>(10, 9, 8, 4, 3, 2, 1, 0)
+
+        var plantCount = 0
         binding.boardAllSpinner.adapter = ArrayAdapter.createFromResource(
             mainActivity, R.array.sortShopItemList, R.layout.spinner_item)
         binding.boardAllSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -68,37 +79,52 @@ class BoardAllListFragment : Fragment() {
                     val callPlantResponse = response.body()!!
                     Log.d("Gooood", callPlantResponse.toString())
                     Log.d("Gooood", response.headers().toString())
-
-                    for(i in callPlantResponse){
+/*
+                    for (i in callPlantResponse){
+                        plantNumber.add(i.plantNo)
                         plantCategory(i.plantNo, service)
-                        data.add(
-                            Board(
-                                i.plantNo,
-                                null,
-                                null,
-                                i.productName,
-                                "상태 when으로",
-                                category,
-                                decimal.format(i.productPrice) + " 원",
-                                null,
-                                null,
-                                category,
-                                i.productCount
-                            )
-                        )
-                        allProductAmount += i.productCount
                     }
+*/
+                                for(i in callPlantResponse){
+                                    allProductAmount += i.productCount
+
+                                    data.add(
+                                        Board(
+                                            i.plantNo,
+                                            null,
+                                            i.plantNo,
+                                            i.productName,
+                                            "Very Good",
+                                            plantCategory[plantCount],
+                                            decimal.format(i.productPrice) + " 원",
+                                            null,
+                                            null,
+                                            plantCategory[plantCount],
+                                            allProductAmount
+                                        )
+                                    )
+                                    plantCount += 1
+                                }
+                                    boardAllListAdapter = context?.let { BoardAllListAdapter(data) }!!
+                                    binding.boardAllListRcv.adapter = boardAllListAdapter
+
+                                    // val intent = Intent(this.context, CameraFragment::class.java)
+                                    recyclerView = binding.boardAllListRcv
+                                    recyclerView.layoutManager = GridLayoutManager(context, 2)
+                                    recyclerView.adapter = BoardAllListAdapter(data)
+                                    binding.boardAllListRcv.setHasFixedSize(true)
+
 
                     binding.boardAllListNumTv.text = allProductAmount.toString()
 
 
-
+/*
                     // 이름순
                     data.sortBy { it.articleTitle }
                     // 가격순
                     data.sortBy { it.articleProductPrice }
                     // 갯수순
-                    data.sortBy { it.plantAmount }
+                    data.sortBy { it.plantAmount }*/
                 } else {
                     Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
                     Log.d("Baaaad", response.toString())
@@ -111,25 +137,6 @@ class BoardAllListFragment : Fragment() {
             }
 
         })
-        data = mutableListOf(Board(
-            0, 0, 0,
-            "토마토", "Good", "5Kg, 당도 높음", "50,000원", "13:12", "1",
-            "천남성과"
-        ),
-            Board(
-                1, 0, 1,
-                "부레옥잠", "Soso", "수상생물", "30,000원", "2023-05-10", "1",
-                "천남성과"
-            ))
-
-        boardAllListAdapter = context?.let { BoardAllListAdapter(data) }!!
-        binding.boardAllListRcv.adapter = boardAllListAdapter
-
-        // val intent = Intent(this.context, CameraFragment::class.java)
-        recyclerView = binding.boardAllListRcv
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
-        recyclerView.adapter = BoardAllListAdapter(data)
-        binding.boardAllListRcv.setHasFixedSize(true)
 
 
         return binding.root
@@ -151,8 +158,10 @@ class BoardAllListFragment : Fragment() {
                     val callResponse = response.body()!!
                     Log.d("Gooood", callResponse.toString())
                     Log.d("Gooood", response.headers().toString())
-
-                    category = callResponse[0].plantCategory
+/*
+                    for (i in callResponse){
+                        plantCategory.add(i.plantCategory)
+                    }*/
                 } else {
                     Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
                     Log.d("Baaaad", response.toString())

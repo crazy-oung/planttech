@@ -72,7 +72,7 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
 
             }
         })
-
+/*
         // api 연결 이후 확인 필요
         service.getUserMilageList().enqueue(object : Callback<UserMeResponse> {
             override fun onResponse(call: Call<UserMeResponse>, response: Response<UserMeResponse>) {
@@ -124,7 +124,7 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
 
             }
         })
-
+*/
         viewPager = binding.infoPager
         tabLayout = binding.infoTabLayout
 

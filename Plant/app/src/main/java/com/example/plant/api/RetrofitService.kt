@@ -108,6 +108,10 @@ interface RetrofitService {
     @GET("plant/category")
     fun plantCategory() : Call<PlantCategoryResponse>
 
+    @GET("plant_sensor")
+    fun getPlantSensorList(){
+
+    }
 
     // product 입찰 거래
     @GET("product")
@@ -161,10 +165,9 @@ interface RetrofitService {
     fun plantImage(
         @Query("beginPage") beginPage: Int,
         @Query("pageSize") pageSize: Int,
-        @Query("plantNo") plantNo: Int,
+        @Query("plantNo") plantNo: Int? = null,
         @Query("plantWarehouseNo") plantWarehouseNo: Int,
-        @Query("searchKeyword") searchKeyword: String,
-        @Query("tab") tab: String
+        @Query("searchKeyword") searchKeyword: String? = null
     ) : Call<PlantImageGetResponse>
 
     @GET("bid")

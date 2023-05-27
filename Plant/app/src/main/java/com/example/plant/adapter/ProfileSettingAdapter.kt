@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.R
-import com.example.plant.model.AlamContent
-import com.example.plant.model.AlamSettingContent
+import com.example.plant.model.ProfileSettingContent
 
-class ProfileSettingAdapter(var mylist: List<AlamSettingContent>) : RecyclerView.Adapter<ProfileSettingAdapter.ViewHolder>() {
+class ProfileSettingAdapter(var mylist: MutableList<ProfileSettingContent>) : RecyclerView.Adapter<ProfileSettingAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_alam_setting, parent, false)
@@ -21,8 +20,8 @@ class ProfileSettingAdapter(var mylist: List<AlamSettingContent>) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = mylist[position].alamTitle
-        holder.content.text = mylist[position].alamContent
+        //holder.title.text = mylist[position].alamTitle
+        //holder.content.text = mylist[position].alamContent
         /*
         holder.itemView.setOnClickListener { v ->
             val activity = v!!.context as AppCompatActivity

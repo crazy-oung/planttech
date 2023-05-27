@@ -211,63 +211,25 @@
                         android:text="카메라 관찰"
                         />
 
+                    <TextView
+                        android:id="@+id/plant_info_camera_state_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_margin="10dp"
+                        android:textSize="14dp"
+                        android:text="색채 분석 상태 : -"
+                        />
+
                     <ImageView
+                        android:id="@+id/plant_info_camera_iv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:adjustViewBounds="true"
                         app:srcCompat="@drawable/pngwing_com" />
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_margin="10dp"
-                    android:background="#ECECEC" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_margin="10dp"
-                    android:textSize="18dp"
-                    android:text="판매"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="10dp"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="가격"
-                        android:layout_gravity="center"
-                        />
-                    <EditText
-                        android:id="@+id/profile_edit_intro_et"
-                        android:layout_width="match_parent"
-                        android:layout_weight="0.2"
-                        android:layout_height="40dp"
-                        android:background="@drawable/boader_info"
-                        android:layout_margin="10dp"
-                        android:paddingLeft="10dp"
-                        />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="match_parent"
-                        android:layout_weight="0.8"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/boader_profile_button"
-                        android:text="결정"
-                        />
-
-
-                </LinearLayout>
         </LinearLayout>
         </ScrollView>
 
