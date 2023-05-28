@@ -1,22 +1,17 @@
 package com.example.plant.adapter
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plant.Fragment.BoardContentFragment
-import com.example.plant.Fragment.CameraFragment
 import com.example.plant.R
-import com.example.plant.model.Board
-import com.example.plant.model.Plant
+import com.example.plant.model.ProfilePlantItemData
 
-class InfoProfileAdapter(var mylist: List<Board>) : RecyclerView.Adapter<InfoProfileAdapter.ViewHolder>() {
+class InfoProfileAdapter(var mylist: MutableList<ProfilePlantItemData>) : RecyclerView.Adapter<InfoProfileAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_shop_plant, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_profile_plant, parent, false)
         return ViewHolder(view)
     }
 
@@ -25,10 +20,11 @@ class InfoProfileAdapter(var mylist: List<Board>) : RecyclerView.Adapter<InfoPro
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = mylist[position].articleTitle
-        holder.price.text = mylist[position].articleProductPrice
-        holder.variety.text = mylist[position].articleContent
-        holder.state.text = mylist[position].articleSubject
+        holder.name.text = mylist[position].plantName
+        holder.category.text = mylist[position].plantCategory
+        holder.state.text = mylist[position].plantState
+        holder.temp.text = mylist[position].temp.toString()
+        holder.humi.text = mylist[position].humi.toString()
 
         /*
         holder.itemView.setOnClickListener { v ->
@@ -48,10 +44,11 @@ class InfoProfileAdapter(var mylist: List<Board>) : RecyclerView.Adapter<InfoPro
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.shop_item_name)
-        val price: TextView = itemView.findViewById((R.id.shop_item_price))
-        val variety: TextView = itemView.findViewById(R.id.shop_item_variety)
-        val state: TextView = itemView.findViewById(R.id.shop_item_state)
+        val name: TextView = itemView.findViewById(R.id.profile_item_name_tv)
+        val category: TextView = itemView.findViewById((R.id.profile_item_variety_tv))
+        val state: TextView = itemView.findViewById(R.id.profile_item_state_tv)
+        val temp: TextView = itemView.findViewById(R.id.profile_item_temp_tv)
+        val humi: TextView = itemView.findViewById(R.id.profile_item_humi_tv)
     }
 
     interface ItemClickListener{

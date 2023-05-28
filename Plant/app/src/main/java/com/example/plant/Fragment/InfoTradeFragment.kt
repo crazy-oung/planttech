@@ -11,6 +11,9 @@ import com.example.plant.R
 import com.example.plant.api.ApiClient
 import com.example.plant.api.NetworkUtil
 import com.example.plant.databinding.FragmentInfoTradeBinding
+import com.example.plant.model.GetUserBidListResponse
+import com.example.plant.model.GetUserBidListResponseItem
+import com.example.plant.model.ProfilePlantItemData
 import com.example.plant.model.UserMeResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,6 +21,7 @@ import retrofit2.Response
 
 class InfoTradeFragment : Fragment() {
 
+    private lateinit var data : MutableList<GetUserBidListResponseItem>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,86 +31,15 @@ class InfoTradeFragment : Fragment() {
 
         val service = ApiClient.getApiInterface()
 
-        binding.infoBuyMoreBtn.setOnClickListener {
-            service.getUserPlant().enqueue(object  : Callback<GetUserPlantResponse>{
-                override fun onResponse(
-                    call: Call<GetUserPlantResponse>,
-                    response: Response<GetUserPlantResponse>
-                ) {
-                    if (response.isSuccessful){
-                        val upResponse = response.body()!!
+        var sellCount = 0
+        var buyCount = 0
+        var sellNowCount = 0
+        var sellLaterCount = 0
+        var buyNowCount = 0
+        var buyLaterCount = 0
+        var sellMilage = 0
+        var buyMilage = 0
 
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-
-
-                    } else {
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                        Log.d("Baaaad", response.toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<GetUserPlantResponse>, t: Throwable) {
-                    Log.d("Real Baaaad", "onResponse 대실패")
-                }
-
-            })
-        }
-
-        binding.infoSellMoreBtn.setOnClickListener {
-            service.getUserPlant().enqueue(object  : Callback<GetUserPlantResponse>{
-                override fun onResponse(
-                    call: Call<GetUserPlantResponse>,
-                    response: Response<GetUserPlantResponse>
-                ) {
-                    if (response.isSuccessful){
-                        val upResponse = response.body()!!
-
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-
-
-                    } else {
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                        Log.d("Baaaad", response.toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<GetUserPlantResponse>, t: Throwable) {
-                    Log.d("Real Baaaad", "onResponse 대실패")
-                }
-
-            })
-        }
-
-        binding.infoTradeMoreBtn.setOnClickListener {
-            service.getUserPlant().enqueue(object  : Callback<GetUserPlantResponse>{
-                override fun onResponse(
-                    call: Call<GetUserPlantResponse>,
-                    response: Response<GetUserPlantResponse>
-                ) {
-                    if (response.isSuccessful){
-                        val upResponse = response.body()!!
-
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-
-
-                    } else {
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                        Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                        Log.d("Baaaad", response.toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<GetUserPlantResponse>, t: Throwable) {
-                    Log.d("Real Baaaad", "onResponse 대실패")
-                }
-
-            })
-        }
         service.userInfo().enqueue(object : Callback<UserMeResponse> {
             override fun onResponse(call: Call<UserMeResponse>, response: Response<UserMeResponse>) {
                 if (response.isSuccessful) {
@@ -133,7 +66,68 @@ class InfoTradeFragment : Fragment() {
 
             }
         })
-/*
+
+        // 각 거래 몇개인지
+        service.getUserBidList().enqueue( object : Callback<GetUserBidListResponse> {
+            override fun onResponse(
+                call: Call<GetUserBidListResponse>,
+                response: Response<GetUserBidListResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val bidResponse = response.body()!!
+                    Log.d("Gooood", bidResponse.toString())
+                    Log.d("Gooood", response.headers().toString())
+
+                    for ( i in bidResponse){
+                        // 판매
+                        if( i.productInstant == 0){
+                            sellCount += 1
+                            if(i.productType == 0){
+                                sellNowCount += 1
+                            }
+                            else {
+                                sellLaterCount += 1
+                                sellMilage += i.productPrice!!
+                            }
+                        }
+                        // 구매
+                        else {
+                            buyCount += 1
+                            if(i.productType == 1){
+                                buyNowCount += 1
+                            }
+                            else {
+                                buyLaterCount += 1
+                                buyMilage += i.productPrice!!
+                            }
+                        }
+                        binding.infoSellAllTv.text = sellCount.toString()
+                        binding.infoSellReadyTv.text = sellLaterCount.toString()
+                        binding.infoSellEndTv.text = sellNowCount.toString()
+                        binding.infoTradeSellNumTv.text = sellCount.toString()
+                        binding.infoTradeSellPointTv.text = sellMilage.toString()
+
+                        binding.infoBuyAllTv.text = buyCount.toString()
+                        binding.infoBuyReadyTv.text = buyLaterCount.toString()
+                        binding.infoBuyEndTv.text = buyNowCount.toString()
+                        binding.infoTradeBuyNumTv.text = buyCount.toString()
+                        binding.infoTradeBuyPointTv.text = buyMilage.toString()
+                    }
+
+                } else {
+                    Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                    Log.d("Baaaad", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<GetUserBidListResponse>, t: Throwable) {
+                Log.d("Real Baaaad", "onResponse 대실패")
+            }
+
+        })
+
+
+        // 더보기
         binding.infoBuyMoreBtn.setOnClickListener {
             val activity = it.context as AppCompatActivity
             val bundle = Bundle()
@@ -166,7 +160,7 @@ class InfoTradeFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
-*/
+
 
 
         return binding.root

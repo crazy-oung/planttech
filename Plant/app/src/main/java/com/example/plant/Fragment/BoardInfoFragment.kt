@@ -285,7 +285,7 @@ class BoardInfoFragment : Fragment() {
                             val buyFragment = BuyFragment()
                             buyFragment.arguments = bundle
                             activity!!.supportFragmentManager.beginTransaction()
-                                .add(R.id.fragmentContainer, buyFragment)
+                                .replace(R.id.fragmentContainer, buyFragment)
                                 .addToBackStack(null)
                                 .commit()
                         }
@@ -396,14 +396,6 @@ class BoardInfoFragment : Fragment() {
         })
 
 
-        binding.boardInfoBuyNowBtn.setOnClickListener {
-            // 식물 정보 전달 값 넣어야함
-
-        }
-
-        binding.boardInfoSellBtn.setOnClickListener {
-
-        }
 
 
         // 시세부분

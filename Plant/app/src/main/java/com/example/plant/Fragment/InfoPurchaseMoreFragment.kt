@@ -9,9 +9,15 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.plant.MainActivity
 import com.example.plant.R
 import com.example.plant.adapter.InfoMorePurchasePagerFragmentStateAdapter
+import com.example.plant.api.ApiClient
+import com.example.plant.api.NetworkUtil
 import com.example.plant.databinding.FragmentInfoPurchaseMoreBinding
+import com.example.plant.model.GetUserBidListResponse
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class InfoPurchaseMoreFragment : Fragment(R.layout.fragment_home) {
 
@@ -28,6 +34,13 @@ class InfoPurchaseMoreFragment : Fragment(R.layout.fragment_home) {
                               savedInstanceState: Bundle?): View? {
 
         val binding = FragmentInfoPurchaseMoreBinding.inflate(inflater, container, false)
+        val service = ApiClient.getApiInterface()
+
+
+        var buyCount = 0
+        var buyNowCount = 0
+        var buyLaterCount = 0
+        var buyMilage = 0
 
         viewPager = binding.pager
         tabLayout = binding.infoMoreTabLayout
@@ -48,12 +61,55 @@ class InfoPurchaseMoreFragment : Fragment(R.layout.fragment_home) {
             }
         })
 
-        val tabList = listOf<String>("0\n"+"전체", "0\n"+"입찰 대기", "0\n"+"종료")
-        viewPager?.let {
-            TabLayoutMediator(tabLayout, it){ tab, position ->
-                tab.text = tabList[position]
-            }.attach()
-        }
+        service.getUserBidList().enqueue(object  : Callback<GetUserBidListResponse> {
+            override fun onResponse(
+                call: Call<GetUserBidListResponse>,
+                response: Response<GetUserBidListResponse>
+            ) {
+                if (response.isSuccessful){
+                    val bidResponse = response.body()!!
+
+                    Log.d("Gooood", bidResponse.toString())
+                    Log.d("Gooood", response.headers().toString())
+
+                    for ( i in bidResponse){
+                        if ( i.productInstant == 1) {
+                            buyCount += 1
+                            if (i.productType == 1) {
+                                buyNowCount += 1
+                            } else {
+                                buyLaterCount += 1
+                                buyMilage += i.productPrice!!
+                            }
+                        }
+
+                    val allText = buyCount.toString()
+                    val ingText = buyLaterCount.toString()
+                    val endText = buyNowCount.toString()
+
+                    val tabList = listOf("$allText"+"\n전체", "$ingText"+"\n입찰 대기", "$endText"+"\n종료")
+
+                        viewPager?.let {
+                            TabLayoutMediator(tabLayout, it){ tab, position ->
+                                tab.text = tabList[position]
+                            }.attach()
+                         }
+                    }
+                } else {
+                        Log.d(
+                            "Baaaad",
+                            NetworkUtil.getErrorResponse(response.errorBody()!!).toString()
+                        )
+                        Log.d("Baaaad", response.toString())
+                    }
+
+            }
+
+            override fun onFailure(call: Call<GetUserBidListResponse>, t: Throwable) {
+                Log.d("Real Baaaad", "onResponse 대실패")
+            }
+
+        })
         /*
         val data = mutableListOf(
             Plant(plantName = "토마토", plantScore = 100, startDate = "32일째", "Good"),

@@ -37,36 +37,46 @@ class PlantInfoFragment : Fragment() {
     ): View? {
         val binding = FragmentPlantInfoBinding.inflate(inflater, container, false)
         val service = ApiClient.getApiInterface()
+        val plantName = arguments?.getString("plantName")
+        val plantNo = arguments?.getInt("plantNo")
+        val plantState = arguments?.getString("state")
 
-        service.plantImage(0,10, null, 1, null).enqueue( object : Callback<PlantImageGetResponse> {
-            override fun onResponse(
-                call: Call<PlantImageGetResponse>,
-                response: Response<PlantImageGetResponse>
-            ) {
-                if(response.isSuccessful){
-                    val callPhotoResponse = response.body()!!
-                    Log.d("Gooood", callPhotoResponse.toString())
-                    Log.d("Gooood", response.headers().toString())
-                    Log.d("colorNumber", callPhotoResponse[0].plantWarehouseNo.toString())
-                    Log.d("plantColorPic", callPhotoResponse[0].plantColorPic)
-                    binding.plantInfoCameraBtn.setOnClickListener {
-                        val test = Base64.decode(callPhotoResponse[0].plantColorPic, Base64.DEFAULT)
-                        val decode = BitmapFactory.decodeByteArray(test, 0, test.size)
+        binding.switchOnOff.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked) {
+                service.plantImage(0,10, null, 1, null).enqueue( object : Callback<PlantImageGetResponse> {
+                    override fun onResponse(
+                        call: Call<PlantImageGetResponse>,
+                        response: Response<PlantImageGetResponse>
+                    ) {
+                        if(response.isSuccessful){
+                            val callPhotoResponse = response.body()!!
+                            Log.d("Gooood", callPhotoResponse.toString())
+                            Log.d("Gooood", response.headers().toString())
+                            Log.d("colorNumber", callPhotoResponse[0].plantWarehouseNo.toString())
+                            Log.d("plantColorPic", callPhotoResponse[0].plantColorPic)
+                            binding.plantInfoCameraBtn.setOnClickListener {
+                                val test = Base64.decode(callPhotoResponse[0].plantColorPic, Base64.DEFAULT)
+                                val decode = BitmapFactory.decodeByteArray(test, 0, test.size)
 
-                        binding.plantInfoCameraStateTv.text = "색채 분석 상태 : " +callPhotoResponse[0].plantColorGrade
-                        binding.plantInfoCameraIv.setImageBitmap(decode)
+                                binding.plantInfoCameraStateTv.text = "색채 분석 상태 : " +callPhotoResponse[0].plantColorGrade
+                                binding.plantInfoCameraIv.setImageBitmap(decode)
+                            }
+                        } else {
+                            Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
+                            Log.d("Baaaad", response.toString())
+                        }
                     }
-                } else {
-                    Log.d("Baaaad", NetworkUtil.getErrorResponse(response.errorBody()!!).toString())
-                    Log.d("Baaaad", response.toString())
-                }
-            }
 
-            override fun onFailure(call: Call<PlantImageGetResponse>, t: Throwable) {
-                Log.d("Real Baaaad", "onResponse 대실패")
-            }
+                    override fun onFailure(call: Call<PlantImageGetResponse>, t: Throwable) {
+                        Log.d("Real Baaaad", "onResponse 대실패")
+                    }
 
-        })
+                })
+            } else {
+
+            }
+        }
+
 
 
         val dataFruit = mutableListOf(

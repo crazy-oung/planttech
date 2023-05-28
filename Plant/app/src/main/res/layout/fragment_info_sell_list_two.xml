@@ -35,10 +35,11 @@
         android:layout_width="match_parent"
         />
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/profile_sell_moreinfo_two_rcv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="내역이 존재하지 않습니다." />
-
+        android:layout_marginTop="10dp"
+        android:nestedScrollingEnabled="false">
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

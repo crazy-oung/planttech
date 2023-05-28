@@ -221,6 +221,60 @@
                         android:text="색채 분석 상태 : -"
                         />
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="33dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="10dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_switch"
+                        android:padding="2.5dp">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchOnOff"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:checked="true"
+                            android:textColor="@color/white"
+                            android:thumb="@drawable/thumb_selector"
+                            app:switchMinWidth="140dp"
+                            app:track="@drawable/track_selector" />
+
+                        <LinearLayout
+                            android:layout_width="140dp"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/tvSwitchYes"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="색채 분석"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvSwitchNo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="실시간 화면"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
                     <ImageView
                         android:id="@+id/plant_info_camera_iv"
                         android:layout_width="match_parent"

@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName
 
 data class UserNotificationPostRequest(
     @SerializedName("userMileageNo")
-    val userMileageNo: Int,
+    val userMileageNo: Int? = null,
     @SerializedName("userNo")
     val userNo: Int,
     @SerializedName("userNotificationActive")
-    val userNotificationActive: Int,
+    val userNotificationActive: Int? = null,
     @SerializedName("userNotificationContent")
     val userNotificationContent: String,
     @SerializedName("userNotificationNo")
-    val userNotificationNo: Int,
+    val userNotificationNo: Int? = null,
     @SerializedName("userNotificationType")
     val userNotificationType: Int,
     @SerializedName("userPlantNo")
-    val userPlantNo: Int
+    val userPlantNo: Int? = null
 )

@@ -47,7 +47,7 @@ class BoardAllListAdapter(var mylist: List<Board>) : RecyclerView.Adapter<BoardA
             val boardInfoFragment = BoardInfoFragment()
             boardInfoFragment.arguments = bundle
             activity!!.supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, boardInfoFragment)
+                .replace(R.id.fragmentContainer, boardInfoFragment)
                 .addToBackStack(null)
                 .commit()
         }

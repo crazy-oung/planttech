@@ -14,7 +14,7 @@ import com.example.plant.model.Plant
 class BoardOtherPlantAdapter(var mylist: MutableList<Plant>) : RecyclerView.Adapter<BoardOtherPlantAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_main_plant, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_main_board, parent, false)
         return ViewHolder(view)
     }
 

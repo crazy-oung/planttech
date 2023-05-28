@@ -71,7 +71,7 @@ interface RetrofitService {
     @POST("user/notification")
     fun userNotificationPost(
         @Body userNotificationPostRequest: UserNotificationPostRequest
-    )
+    ) : Call<String>
 
     @DELETE("user/notification")
     fun userNotificationDelete(
@@ -87,7 +87,10 @@ interface RetrofitService {
     fun userMilage() : Call<UserMilageResponse>
 
     @GET("user/my/bid")
-    fun getUserBidList()
+    fun getUserBidList(
+        @Query("beginPage") beginPage : Int = 0,
+        @Query("pageSize") pageSize : Int = 50,
+    ) : Call<GetUserBidListResponse>
 
     @GET("user/my/plant")
     fun getUserPlant() : Call<GetUserPlantResponse>
@@ -109,9 +112,10 @@ interface RetrofitService {
     fun plantCategory() : Call<PlantCategoryResponse>
 
     @GET("plant_sensor")
-    fun getPlantSensorList(){
-
-    }
+    fun getPlantSensorList(
+        @Query("warehousePlantNo") warehousePlantNo : Int,
+        @Query("searchDate") searchDate : Int
+    ) : Call<GetUserPlantSensorListRequest>
 
     // product 입찰 거래
     @GET("product")
@@ -123,9 +127,9 @@ interface RetrofitService {
         @Query("searchKeyword") searchKeyword : String? = null
     ) : Call<BoardProductResponse>
     @POST("product")
-    fun postProductList(
-
-    )
+    fun postProduct(
+        @Body postProductList: PostProductList
+    ) : Call<String>
 
     @DELETE("product")
     fun deleteProductList(
@@ -176,6 +180,11 @@ interface RetrofitService {
         @Query("searchDate") searchDate: Int,
         @Query("plantScoreNo") plantScoreNo: Int
     ) : Call<BidListGetResponse>
+
+    @POST("bid")
+    fun postBidList(
+        @Body postBidRequest: PostBidRequest
+    ) : Call<String>
 }
 
 

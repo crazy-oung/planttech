@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Fragment.ProfileMyPlantTwoFragment">
 
     <LinearLayout
@@ -10,33 +11,31 @@
         android:layout_height="wrap_content">
 
 
-
-
-
         <View
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <Spinner
-            android:id="@+id/info_plant_more_spinner"
+            android:id="@+id/info_plant_more_two_spinner"
             android:layout_width="wrap_content"
-            android:layout_weight="0.1"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"/>
+            android:layout_weight="0.1"
+            android:paddingVertical="10dp" />
 
     </LinearLayout>
 
     <View
-        android:background="#E0E0E0"
-        android:layout_height="5px"
         android:layout_width="match_parent"
-        />
+        android:layout_height="5px"
+        android:background="#E0E0E0" />
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/profile_plant_moreinfo_two_rcv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="키우고 있는 식물이 없습니다." />
+        android:layout_marginTop="10dp"
+        android:nestedScrollingEnabled="false">
 
-</FrameLayout>
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>

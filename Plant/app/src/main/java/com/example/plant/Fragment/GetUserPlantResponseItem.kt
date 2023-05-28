@@ -33,7 +33,7 @@ data class GetUserPlantResponseItem(
     @SerializedName("userPlantModifytime")
     val userPlantModifytime: String? = null,
     @SerializedName("userPlantName")
-    val userPlantName: Any? = null,
+    val userPlantName: String? = null,
     @SerializedName("userPlantNo")
     val userPlantNo: Int? = null,
     @SerializedName("warehousePlantNo")

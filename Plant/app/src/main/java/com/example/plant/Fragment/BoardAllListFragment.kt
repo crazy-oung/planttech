@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plant.MainActivity
@@ -22,11 +25,17 @@ import com.example.plant.databinding.FragmentBoardAllListBinding
 import com.example.plant.model.Board
 import com.example.plant.model.BoardProductResponse
 import com.example.plant.model.PlantListResponse
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
 class BoardAllListFragment : Fragment() {
+    val priceBottomSheet: LinearLayout by lazy{ mainActivity.findViewById<LinearLayout>(R.id.price_bottomview)}
+    val categoriBottomSheet: LinearLayout by lazy{ mainActivity.findViewById<LinearLayout>(R.id.price_bottomview)}
+    lateinit var priceSheetBehavior: BottomSheetBehavior<LinearLayout>
+    lateinit var categoriSheetBehavior: BottomSheetBehavior<LinearLayout>
     lateinit var recyclerView : RecyclerView
     lateinit var boardAllListAdapter: BoardAllListAdapter
     lateinit var mainActivity: MainActivity
@@ -54,18 +63,77 @@ class BoardAllListFragment : Fragment() {
         var plantNumber = mutableListOf<Int>(10, 9, 8, 4, 3, 2, 1, 0)
 
         var plantCount = 0
+        var sortNo = 0
+        var sortReset = false
+        var priceMin = 0
+        var priceMax = 1000000
+
+        /*
+        priceSheetBehavior = BottomSheetBehavior.from(mainActivity.findViewById(R.id.price_bottomview))
+        priceSheetBehavior.setBottomSheetCallback(object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                priceBottomSheet.findViewById<Button>(R.id.price_bottomview_ok_bt).setOnClickListener {
+                    priceSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    sortReset = false
+                }
+                priceBottomSheet.findViewById<Button>(R.id.price_bottomview_reset_bt).setOnClickListener {
+                    priceSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    sortReset = true
+                }
+
+                when(newState){
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        priceMin = priceBottomSheet.findViewById<EditText>(R.id.price_bottomview_min_et).text.toString().toInt()
+                        priceMax = priceBottomSheet.findViewById<EditText>(R.id.price_bottomview_max_et).text.toString().toInt()
+
+                        if(sortReset) {
+                            priceMin = 0
+                            priceMax = 1000000
+                        }
+                        for ( i in data){
+                            val priceText = i.articleProductPrice!!.replace("[^0-9]".toRegex(), "").toInt()
+                            if (priceText < priceMin && priceText > priceMax)
+                                data.remove(i)
+                        }
+                        boardAllListAdapter = context?.let { BoardAllListAdapter(data) }!!
+                        binding.boardAllListRcv.adapter = boardAllListAdapter
+
+                        // val intent = Intent(this.context, CameraFragment::class.java)
+                        recyclerView = binding.boardAllListRcv
+                        recyclerView.layoutManager = GridLayoutManager(context, 2)
+                        recyclerView.adapter = BoardAllListAdapter(data)
+                        binding.boardAllListRcv.setHasFixedSize(true)
+
+                    }
+                }
+
+            }
+
+
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                TODO("Not yet implemented")
+            }
+
+        })
+        categoriSheetBehavior = BottomSheetBehavior.from(categoriBottomSheet)
+        */
+
+        binding.boardAllPriceBtn.setOnClickListener {
+            val priceBottomSheet = PriceBottomViewFragment()
+            priceBottomSheet.show(mainActivity.supportFragmentManager, priceBottomSheet.tag)
+        }
+
+        binding.boardAllStateBtn.setOnClickListener {
+            val categoriBottomSheet = CategoriBottomViewFragment()
+            categoriBottomSheet.show(mainActivity.supportFragmentManager, categoriBottomSheet.tag)
+        }
+
+
+
         binding.boardAllSpinner.adapter = ArrayAdapter.createFromResource(
             mainActivity, R.array.sortShopItemList, R.layout.spinner_item)
-        binding.boardAllSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
 
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?,
-                                        position: Int, id: Long) {
-
-            }
-        }
 
         // 상태, 가격에 따른 정렬 필요
         // 검색 기능 필요
@@ -105,6 +173,25 @@ class BoardAllListFragment : Fragment() {
                                     )
                                     plantCount += 1
                                 }
+
+                    binding.boardAllSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            boardAllListAdapter = context?.let { BoardAllListAdapter(data) }!!
+                            binding.boardAllListRcv.adapter = boardAllListAdapter
+
+                            // val intent = Intent(this.context, CameraFragment::class.java)
+                            recyclerView = binding.boardAllListRcv
+                            recyclerView.layoutManager = GridLayoutManager(context, 2)
+                            recyclerView.adapter = BoardAllListAdapter(data)
+                            binding.boardAllListRcv.setHasFixedSize(true)
+                        }
+
+                        override fun onItemSelected(parent: AdapterView<*>?, view: View?,
+                                                    position: Int, id: Long) {
+                            when(position){
+
+                                0 -> {
+                                    data.sortBy { it.articleTitle }
                                     boardAllListAdapter = context?.let { BoardAllListAdapter(data) }!!
                                     binding.boardAllListRcv.adapter = boardAllListAdapter
 
@@ -113,8 +200,45 @@ class BoardAllListFragment : Fragment() {
                                     recyclerView.layoutManager = GridLayoutManager(context, 2)
                                     recyclerView.adapter = BoardAllListAdapter(data)
                                     binding.boardAllListRcv.setHasFixedSize(true)
+                                }
 
+                                1 -> {
+                                    data.sortBy { it.articleProductPrice }
+                                    boardAllListAdapter = context?.let { BoardAllListAdapter(data) }!!
+                                    binding.boardAllListRcv.adapter = boardAllListAdapter
 
+                                    // val intent = Intent(this.context, CameraFragment::class.java)
+                                    recyclerView = binding.boardAllListRcv
+                                    recyclerView.layoutManager = GridLayoutManager(context, 2)
+                                    recyclerView.adapter = BoardAllListAdapter(data)
+                                    binding.boardAllListRcv.setHasFixedSize(true)
+                                }
+
+                                2 -> {
+                                    data.sortBy { it.plantAmount }
+                                    data.reverse()
+                                    boardAllListAdapter = context?.let { BoardAllListAdapter(data) }!!
+                                    binding.boardAllListRcv.adapter = boardAllListAdapter
+
+                                    // val intent = Intent(this.context, CameraFragment::class.java)
+                                    recyclerView = binding.boardAllListRcv
+                                    recyclerView.layoutManager = GridLayoutManager(context, 2)
+                                    recyclerView.adapter = BoardAllListAdapter(data)
+                                    binding.boardAllListRcv.setHasFixedSize(true)
+                                }
+                            }
+                        }
+                    }
+
+                    data.sortBy { it.articleTitle }
+                    boardAllListAdapter = context?.let { BoardAllListAdapter(data) }!!
+                    binding.boardAllListRcv.adapter = boardAllListAdapter
+
+                    // val intent = Intent(this.context, CameraFragment::class.java)
+                    recyclerView = binding.boardAllListRcv
+                    recyclerView.layoutManager = GridLayoutManager(context, 2)
+                    recyclerView.adapter = BoardAllListAdapter(data)
+                    binding.boardAllListRcv.setHasFixedSize(true)
                     binding.boardAllListNumTv.text = allProductAmount.toString()
 
 
