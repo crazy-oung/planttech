@@ -26,14 +26,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.planttech.domain.response.ErrorMessage;
 import com.planttech.domain.response.Message;
+import com.planttech.domain.response.SuccessMessage;
 import com.planttech.domain.shop.Product;
 import com.planttech.domain.user.User;
 import com.planttech.domain.user.UserNotification;
 import com.planttech.exception.LoginException;
+import com.planttech.exception.PasswordException;
 import com.planttech.service.UserService;
 import com.planttech.util.ErrorCodeEnum;
 import com.planttech.util.StatusEnum;
@@ -41,13 +44,15 @@ import com.planttech.util.StringUtil;
 import com.planttech.util.UserUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperties;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "User", description = "유저")
 @RestController
 @RequestMapping("/user")
-@Slf4j
 @Validated
 public class UserController {
 	
@@ -95,7 +100,6 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity addSession(HttpSession session, @RequestBody @Valid Account account) {
 		if(UserUtil.isUser(session)) {
-			log.info("sessionUser: {}", UserUtil.getUser(session));
 			return new ResponseEntity<>(new ErrorMessage("0", "이미 로그인한 상태입니다."), HttpStatus.BAD_REQUEST);
 		}
 		
@@ -114,58 +118,59 @@ public class UserController {
 	@Operation(summary = "비밀번호 초기화", description = "아이디, 이름, 생일로 정보 확인후 비밀번호 초기화")
 	@PostMapping("/find/password")
 	public ResponseEntity findUserPassword(HttpSession session, @RequestBody @Valid User user) {
-		try {
 			if(userService.findUserPassword(user) != 1) {
 				return new ResponseEntity<>(new ErrorMessage("0","유저를 찾을 수 없습니다."), HttpStatus.UNAUTHORIZED);
 			}
-			return new ResponseEntity<>(new Message(HttpStatus.OK,"비밀번호 변경완료", ""), HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new ErrorMessage("0", e.getMessage()), HttpStatus.UNAUTHORIZED);
-		}
-		
-		
+			return new ResponseEntity<>(new SuccessMessage("비밀번호 변경완료"), HttpStatus.OK);
 	}
 	
 	@Operation(summary = "내정보 조회", description = "로그인 되어 있어야 가능합니다.")
-	@PostMapping("/me")
+	@GetMapping("/me")
 	public ResponseEntity getMyInfo(HttpSession session) throws LoginException {
 		if(!UserUtil.isUser(session)) throw new LoginException();
-	
-		try {
-			UserUtil.getUser(session).setUserMileage(userService.getUserTotalMileage(UserUtil.getUser(session)));
-			return new ResponseEntity<>(UserUtil.getUser(session), HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new ErrorMessage("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		UserUtil.getUser(session).setUserMileage(userService.getUserTotalMileage(UserUtil.getUser(session)));
+		return new ResponseEntity<>(UserUtil.getUser(session), HttpStatus.OK);
 	}
+	
+	// ****************************** 이 지점 북마크 ************************************************************************************************************
+	@Operation(summary = "내정보 수정", description = "로그인 되어 있어야 가능합니다. ")
+	@PutMapping("/me")
+	public ResponseEntity editMyInfo( 	@Schema(  example 		= "{\n"
+																+ "  \"userEmail\": \"test@email.com\",\n"
+																+ "  \"userName\": \"김아무개\",\n"
+																+ "  \"userNickname\": \"뿡뿡이\",\n"
+																+ "  \"userPw\": \"test\",\n"
+																+ "  \"userBirthdate\": \"1999-12-01\"\n"
+																+ "}" 
+												, description 	= "수정할 유저 정보 (변경사항이 없는 값은 그대로 돌려주면 됩니다." ) 
+										@RequestBody User user
+									  , HttpSession session ) throws LoginException, PasswordException {
+		if(!UserUtil.isUser(session)) throw new LoginException();
+		userService.modifyUser(user, UserUtil.getUser(session));
+		
+		if(user.getUserNo() == -1) throw new PasswordException();
+		return new ResponseEntity<>(new SuccessMessage("회원 정보 수정 완료"), HttpStatus.OK);
+	}
+	
+	
 
 	@Operation(summary = "로그아웃", description = "세션을 삭제하여 로그아웃합니다.")
 	@GetMapping("/logout")
 	public ResponseEntity removeSession(HttpSession session) throws LoginException {
+		if (!UserUtil.isLoginned(session)) throw new LoginException();
 		
-		if(UserUtil.isLoginned(session)) {
-			session.invalidate();
-			return new ResponseEntity<>(new Message(HttpStatus.OK,"로그아웃 완료", ""),  HttpStatus.OK);
-		} 
-		
-		throw new LoginException();
+		session.invalidate();
+		return new ResponseEntity<>(new SuccessMessage("로그아웃 완료"),  HttpStatus.OK);
 	}
 	
 	
 	// ==== 유저 마일리지 ================================================================================
-	@Operation(summary = "유저 마일리지 내역 조회", description = "로그인시 사용 가능")
-	@GetMapping("/milage")
-	public ResponseEntity getUserMileageHistory(HttpSession session) throws LoginException {
-		if(!UserUtil.isUser(session)) throw new LoginException();
-        try {
-			return new ResponseEntity<>(new Message(HttpStatus.OK,"내 마일리지 내역", userService.getUserMileageList(UserUtil.getUser(session))), HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new ErrorMessage("Server Error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+//	@Operation(summary = "유저 마일리지 내역 조회", description = "로그인시 사용 가능")
+//	@GetMapping("/milage")
+//	public ResponseEntity getUserMileageHistory(HttpSession session) throws LoginException {
+//		if(!UserUtil.isUser(session)) throw new LoginException();
+//		return new ResponseEntity<>(new Message(HttpStatus.OK,"내 마일리지 내역", userService.getUserMileageList(UserUtil.getUser(session))), HttpStatus.OK);
+//	}
 	
 	
 	// ==== 유저 알림 ================================================================================
@@ -231,13 +236,13 @@ public class UserController {
 	
 	
 	// ==== 유저 북마킹 ================================================================================
-	@Operation(summary = "관심목록 등록", description = "유저만 관심목록 이용 가능")
-	@PostMapping("/bookmark")
-	public ResponseEntity getUserBidList( @RequestBody Product product,HttpSession session ) throws LoginException {
-		if(!UserUtil.isUser(session)) throw new LoginException();
-		
-		return new ResponseEntity<>( product, HttpStatus.OK);
-	}
+//	@Operation(summary = "관심목록 등록", description = "유저만 관심목록 이용 가능")
+//	@PostMapping("/bookmark")
+//	public ResponseEntity getUserBidList( @RequestBody Product product,HttpSession session ) throws LoginException {
+//		if(!UserUtil.isUser(session)) throw new LoginException();
+//		
+//		return new ResponseEntity<>( product, HttpStatus.OK);
+//	}
 	
 	
 	

@@ -16,6 +16,7 @@ public interface UserMapper {
 	
 	// 유저
 	public int 	insertUser(User user);
+	public int 	updateUser(User user);
 	public int 	updateUserPassword(User user);
 	public User selectUserId(User user);
 	public User selectUserByUserId(String userId);

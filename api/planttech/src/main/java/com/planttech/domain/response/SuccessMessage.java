@@ -13,7 +13,7 @@ public class SuccessMessage {
 
     public SuccessMessage(Object data) {
     	success = new HashMap<String, Object>() {{
-            put("data", data);
+            put("message", data);
         }};
     }
     

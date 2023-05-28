@@ -27,8 +27,8 @@ public class ExceptionController {
     public @ResponseBody ResponseEntity<ErrorMessage> methodValidException(MethodArgumentNotValidException e, HttpServletRequest request){
     	log.warn("MethodArgumentNotValidException - url:{}", request.getRequestURI());
     	e.printStackTrace();
-        ErrorMessage errMsg = buildErrorResponse(e.getBindingResult());
-        return new ResponseEntity<ErrorMessage>(errMsg, HttpStatus.BAD_REQUEST);
+    	
+        return new ResponseEntity<ErrorMessage>(buildErrorResponse(e.getBindingResult()), HttpStatus.BAD_REQUEST);
     }
     
     
@@ -36,16 +36,24 @@ public class ExceptionController {
     public @ResponseBody ResponseEntity<ErrorMessage> loginException(LoginException e, HttpServletRequest request){
     	log.warn("LoginException - url:{}", request.getRequestURI());
     	e.printStackTrace();
-        ErrorMessage errMsg = new ErrorMessage("LOGIN", "로그인이 필요합니다.");
-        return new ResponseEntity<ErrorMessage>(errMsg, HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity<ErrorMessage>(new ErrorMessage("LOGIN", "로그인이 필요합니다."), HttpStatus.UNAUTHORIZED);
+    }
+    
+    @ExceptionHandler(PasswordException.class)
+    public @ResponseBody ResponseEntity<ErrorMessage> loginException(PasswordException e, HttpServletRequest request){
+    	log.warn("PasswordException - url:{}", request.getRequestURI());
+    	e.printStackTrace();
+    	
+    	return new ResponseEntity<ErrorMessage>(new ErrorMessage("WRONG_PASSWORD", "비밀번호가 틀렸습니다."), HttpStatus.UNAUTHORIZED);
     }
     
     @ExceptionHandler(RuntimeException.class)
     public @ResponseBody ResponseEntity<ErrorMessage> runtimeException(RuntimeException e, HttpServletRequest request){
     	log.warn("RuntimeException - url:{}", request.getRequestURI());
     	e.printStackTrace();
-    	ErrorMessage errMsg = new ErrorMessage("Server Error", e.getClass().getSimpleName());
-    	return new ResponseEntity<ErrorMessage>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+    	
+    	return new ResponseEntity<ErrorMessage>(new ErrorMessage("SERVER_ERROR", e.getClass().getSimpleName()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
     

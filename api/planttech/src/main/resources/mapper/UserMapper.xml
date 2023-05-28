@@ -79,6 +79,15 @@
 		</selectKey>
 	</insert>
 	
+	<update id="updateUser" parameterType="com.planttech.domain.user.User" useGeneratedKeys="true" keyProperty="userNo">
+		UPDATE	USER 
+		   SET	USER_NICKNM		= #{userNickname}
+		   	  , USER_EMAIL		= #{userEmail}
+		   	  , USER_NM			= #{userName}
+		   	  , USER_BIRTHDATE	= #{userBirthdate}
+		 WHERE 	USER_NO 		= #{userNo}
+	</update>
+	
 	<update id="updateUserPassword" parameterType="com.planttech.domain.user.User" useGeneratedKeys="true" keyProperty="userNo">
 		UPDATE	USER 
 		   SET	USER_PW 		= #{userPw}

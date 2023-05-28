@@ -85,8 +85,22 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public int modifyUser(User user, User userSession) {
+		user.setUserNo(userSession.getUserNo());
+		user.setUserId(userSession.getUserId());
+		
+		if (this.verifyUser(user) != null) {
+			userMapper.updateUser(user);
+			return user.getUserNo();
+		}
+		
+		user.setUserNo(-1);
+		return -1;
+		
+	}
+	
+	@Override
 	public User verifyUser(User user) {
-		System.out.println("::: - verifyUser :::");
 		String userPw = user.getUserPw();
 		
 		user = userMapper.selectUserByUserId(user.getUserId());

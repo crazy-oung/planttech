@@ -19,6 +19,7 @@ public interface UserService {
 	public int 		findUserPassword(User user); 
 	public User 	verifyUser(User user); 
 	public int 		addUser(User user); 
+	public int 		modifyUser(User user, User userSession); 
 	
 	// user plant
 	public List<UserPlant> getUserPlantList(User user);
