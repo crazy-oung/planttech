@@ -27,7 +27,6 @@ public class Product{
 	
 	@Schema(description = "입찰 상품 명 (현재 사용 안함)", example = "스킨답서스", deprecated = false)
 	private String productName;
-	
 	@Schema(description = "입찰 타입 - 거래 유형 (0: 판매, 1: 구매)", example = "0", deprecated = false)
 	private int productType;
 	@Schema(description = "거래 유형 - 즉시 거래 여부 (0: 입찰상품, 1: 즉시거래상품)", example = "0", deprecated = false)

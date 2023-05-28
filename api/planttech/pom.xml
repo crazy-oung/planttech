@@ -8,7 +8,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.planttech</groupId>
-	<artifactId>plantech</artifactId>
+	<artifactId>ROOT</artifactId>
 	<version>0.0.1</version>
 	<name>planttech</name>
 	<packaging>war</packaging>

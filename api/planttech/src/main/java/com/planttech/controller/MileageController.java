@@ -50,20 +50,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperties;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "User Mileage", description = "유저 마일리지")
+@Tag(name = "Mileage", description = "마일리지 API")
 @RestController
-@RequestMapping("/user/milage")
+@RequestMapping("/milage")
 @Validated
-public class UserMileageController {
+public class MileageController {
 	
 	@Autowired private UserService userService;
 	
-	// ==== 유저 마일리지 ================================================================================
-	@Operation(summary = "유저 마일리지 내역 조회", description = "로그인시 사용 가능")
+	@Operation(summary = "임시 - 아무것도 작동 안됨", description = "로그인시 사용 가능")
 	@GetMapping()
 	public ResponseEntity getUserMileageHistory(HttpSession session) throws LoginException {
 		if(!UserUtil.isUser(session)) throw new LoginException();
-		return new ResponseEntity<>(new Message(HttpStatus.OK,"내 마일리지 내역", userService.getUserMileageList(UserUtil.getUser(session))), HttpStatus.OK);
+		return new ResponseEntity<>(new SuccessMessage(""), HttpStatus.OK);
 	}
 	
 	

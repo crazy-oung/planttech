@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.planttech.mapper.PlantImageMapper">
+
+	<resultMap type="com.planttech.domain.plant.PlantImage" id="plantImage">
+		<result column="PLANT_IMG_NO" property="plantImageNo"/>
+		<result column="PLANT_NO" property="plantNo"/>
+		<result column="PLANT_IMG_PIC" property="plantImagePic"/>
+		<result column="PLANT_IMG_CREATETIME" property="plantImageCreatetime"/>
+		<result column="PLANT_IMG_MODIFYTIME" property="plantImageModifytime"/>
+	</resultMap>
+
+	<select id="selectPlantImageList" parameterType="map" resultMap="plantImage">
+	<![CDATA[
+		SELECT    PLANT_IMG_NO 											 
+				, PLANT_NO												 
+				, CONCAT(PLANT_IMG_PIC1, PLANT_IMG_PIC2, PLANT_IMG_PIC3) AS PLANT_IMG_PIC
+				, PLANT_IMG_CREATETIME									 
+				, PLANT_IMG_MODIFYTIME									 
+		  FROM 	PLANT_IMG 
+  	]]>
+  		<if test="plantNo != null and plantNo != -1 and plantNo != -2">
+		 WHERE	PLANT_NO = #{plantNo}
+		</if>	
+		<if test="plantNo == -1">
+		 WHERE	PLANT_NO IS NULL
+		</if>	
+	  ORDER BY    PLANT_IMG_MODIFYTIME DESC
+	     LIMIT	  <choose>
+				 	<when test="beginPage != 0 and beginPage != null">
+				 		 	  #{beginPage}
+				 	</when>
+				 	<otherwise>
+				 			  0
+				 	</otherwise>
+				 </choose>
+				 ,
+	 			 <choose>
+				 	<when test="pageSize != 0 and pageSize != null">
+				 		 	   #{pageSize}
+				 	</when>
+				 	<otherwise>
+				 		 	   1
+				 	</otherwise>
+				 </choose>
+	</select>
+	
+	<insert id="insertPlantImage" parameterType="com.planttech.domain.plant.PlantImage" useGeneratedKeys="true" keyProperty="plantImageNo">
+		INSERT INTO 
+		PLANT_IMG (   PLANT_NO
+					, PLANT_IMG_PIC1
+					, PLANT_IMG_PIC2
+					, PLANT_IMG_PIC3		) 			
+			VALUES (  #{plantNo}
+					, #{plantImagePic1}			
+					, #{plantImagePic2}			
+					, #{plantImagePic3}		)			
+	</insert>
+	
+</mapper>

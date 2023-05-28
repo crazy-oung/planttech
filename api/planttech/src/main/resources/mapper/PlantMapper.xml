@@ -16,6 +16,7 @@
 		<result column="PLANT_TIP" property="plantCultivateTip"></result>
 		<result column="PLANT_CREATETIME" property="plantCreatetime"></result>
 		<result column="PLANT_MODIFYTIME" property="plantModifytime"></result>
+		<result column="PLANT_IMG" property="plantImage"></result>
 	</resultMap>
 	
 	<resultMap type="com.planttech.domain.plant.PlantCategory" id="plantCategory">
@@ -29,17 +30,20 @@
 	
 	
 	<select id="selectPlantList" resultMap="plant" parameterType="com.planttech.domain.search.Page">
-		SELECT  PLANT_NO, 
-				PLANT_NM, 
-				PLANT_DIST_NM, 
-				PLANT_SCI_NM, 
-				PLANT_ENG_NM, 
-				PLANT_CATEGORY, 
-				PLANT_ORIGIN, 
-				PLANT_TIP, 
-				PLANT_CREATETIME, 
-				PLANT_MODIFYTIME 
-		  FROM 	PLANT 
+		SELECT  P.PLANT_NO, 
+				P.PLANT_NM, 
+				P.PLANT_DIST_NM, 
+				P.PLANT_SCI_NM, 
+				P.PLANT_ENG_NM, 
+				P.PLANT_CATEGORY, 
+				P.PLANT_ORIGIN, 
+				P.PLANT_TIP, 
+				P.PLANT_CREATETIME, 
+				P.PLANT_MODIFYTIME, 
+				( SELECT CONCAT( PI.PLANT_IMG_PIC1, PI.PLANT_IMG_PIC2, PI.PLANT_IMG_PIC3) AS PIC					 
+				  FROM 	PLANT_IMG AS PI
+				  WHERE PI.PLANT_NO = P.PLANT_NO ) AS PLANT_IMG
+		  FROM 	PLANT AS P
 		 WHERE	PLANT_NM != ""
 		<if test="searchKeyword != null">
 		   AND 	PLANT_NM LIKE CONCAT('%',#{searchKeyword},'%')

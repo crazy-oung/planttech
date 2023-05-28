@@ -27,6 +27,11 @@ public class Plant {
 	private String plantCultivateTip;
 	
 	
+	@Schema(description = "식물 사진 코드", example = "", deprecated = false)
+	private String plantImage;
+	
+	
+	
 	@Schema(description = "식물 등록 날짜", deprecated = true)
 	private Timestamp plantCreatetime;
 	@Schema(description = "식물 수정 날짜", deprecated = true)
