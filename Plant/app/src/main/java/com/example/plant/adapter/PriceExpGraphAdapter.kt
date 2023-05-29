@@ -16,7 +16,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 
-class PlantInfoGraphAdapter(private val data: List<List<Float>>) : RecyclerView.Adapter<PlantInfoGraphAdapter.ViewHolder>() {
+class PriceExpGraphAdapter(private val data: List<List<Float>>) : RecyclerView.Adapter<PriceExpGraphAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val chart: LineChart = itemView.findViewById(R.id.info_barChart)
@@ -24,19 +24,12 @@ class PlantInfoGraphAdapter(private val data: List<List<Float>>) : RecyclerView.
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_plant_info_graph, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_price_info_graph, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        when(position){
-            0 -> holder.title.text = "온도"
-            1 -> holder.title.text = "습도"
-            2 -> holder.title.text = "물온도"
-            3 -> holder.title.text = "광량"
-            4 -> holder.title.text = "상태 추이"
 
-        }
         val entries = mutableListOf<BarEntry>()
         for (i in data[position].indices) {
             entries.add(BarEntry(i.toFloat(), data[position][i]))

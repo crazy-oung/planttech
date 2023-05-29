@@ -71,14 +71,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 />
-            <ImageButton
-                android:id="@+id/plant_info_star_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/white"
-                android:layout_gravity="center"
-                app:srcCompat="@android:drawable/btn_star_big_off" />
 
         </LinearLayout>
 
@@ -103,7 +95,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="top"
                             android:layout_marginLeft="10dp"
-                            android:text="state"
+                            android:text="상태"
                             android:textSize="18dp" />
 
                         <View
@@ -208,18 +200,10 @@
                         android:layout_gravity="top"
                         android:layout_margin="10dp"
                         android:textSize="18dp"
-                        android:text="카메라 관찰"
+                        android:text="내 식물 관찰하기"
                         />
 
-                    <TextView
-                        android:id="@+id/plant_info_camera_state_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_margin="10dp"
-                        android:textSize="14dp"
-                        android:text="색채 분석 상태 : -"
-                        />
+
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -254,7 +238,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="색채 분석"
+                                android:text="실시간 화면"
                                 android:textColor="@color/black"
                                 android:textSize="12sp" />
 
@@ -265,7 +249,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="실시간 화면"
+                                android:text="색채 분석"
                                 android:textColor="@color/black"
                                 android:textSize="12sp" />
 
@@ -275,10 +259,20 @@
 
                     </RelativeLayout>
 
+                    <TextView
+                        android:id="@+id/plant_info_camera_state_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:textSize="14dp"
+                        android:text="색채 분석 상태 : -"
+                        />
+
                     <ImageView
                         android:id="@+id/plant_info_camera_iv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="400dp"
                         android:layout_margin="10dp"
                         android:adjustViewBounds="true"
                         app:srcCompat="@drawable/pngwing_com" />
@@ -302,14 +296,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/plant_info_camera_btn"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/plant_info_expectation_price_btn"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.4"
                 android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:background="@android:drawable/ic_menu_camera"
-                />
+                android:textSize="12sp"
+                android:text="예측 가격 확인" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/plant_info_water_btn"
@@ -317,7 +311,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
                 android:layout_margin="10dp"
-                android:text="워터 펌프 작동" />
+                android:textSize="12sp"
+                android:text="워터 펌프" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/plant_info_humi_btn"
@@ -325,7 +320,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
                 android:layout_margin="10dp"
-                android:text="가습기 작동"  />
+                android:textSize="12sp"
+                android:text="가습기"  />
 
         </LinearLayout>
 

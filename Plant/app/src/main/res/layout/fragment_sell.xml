@@ -6,7 +6,7 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".Fragment.sellFragment">
+    tools:context=".Fragment.SellFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/sell_toolbar"
@@ -135,7 +135,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="구매 입찰"
+                android:text="판매 입찰"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
@@ -284,6 +284,8 @@
             android:layout_weight="0.9"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+
+            android:elevation="5dp"
             android:background="@drawable/boader_info_button"
             android:orientation="vertical">
 

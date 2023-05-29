@@ -7,35 +7,20 @@ import retrofit2.http.*
 
 interface RetrofitService {
 
-/*
 
-    @POST("SensorControl/LED")
-    fun LEDRequest(@Query("userNo") userNo: Int, @Query("ledTf") ledTf: Int ): Call<LedResponse>
 
-    @POST("userCheck")
-    fun getLogin(@Query("id") id : String, @Query("password") password : String) : Call<LoginResponse>
-
-    @POST("userRegister")
-    fun userRegister(
-        // 유저 정보
-    ) : Call<LoginResponse>
-
-    @POST("article")
-    fun boardUp()
-
-    @GET("article")
-    fun boardGet(): Call<List<Board>>
-
-    @PUT("article")
-    fun boardUpdate()
-
-    @DELETE("article")
-    fun boardDelete()
 
     @POST("sensor-control/humidifier")
-    fun humiRequest(@Query("userNo") userNo: Int, @Query("humidifierTf") humidifierTf: Int ): Call<LedResponse>
-*/
+    fun humiControl(
+        @Query("userNo") userNo: Int,
+        @Query("humidifierTf") humidifierTf: Int
+    ): Call<String>
 
+    @POST("sensor-control/water-pump")
+    fun pumpControl(
+        @Query("userNo") userNo: Int,
+        @Query("waterPumpTf") waterPumpTf: Int
+    )
 // User
     @GET("user/check/email")
     fun checkEmail(@Query("userId") id: String): Call<UserInfo>
@@ -58,7 +43,6 @@ interface RetrofitService {
 
     @POST("user/me")
     fun userInfo() : Call<UserMeResponse>
-
 
     @GET("user/notification")
     fun userNotificationGet() : Call<UserNotificationResponse>
@@ -111,7 +95,7 @@ interface RetrofitService {
     @GET("plant/category")
     fun plantCategory() : Call<PlantCategoryResponse>
 
-    @GET("plant_sensor")
+    @GET("plant-sensor")
     fun getPlantSensorList(
         @Query("warehousePlantNo") warehousePlantNo : Int,
         @Query("searchDate") searchDate : Int
@@ -185,6 +169,17 @@ interface RetrofitService {
     fun postBidList(
         @Body postBidRequest: PostBidRequest
     ) : Call<String>
+
+    // AI 관련
+
+    @GET("state_data")
+    fun stateData() : Call<AiStateDataResponse>
+
+    @GET("price_data")
+    fun priceData() : Call<AiPriceDataResponse>
+
+
+
 }
 
 

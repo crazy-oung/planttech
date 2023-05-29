@@ -1,6 +1,5 @@
 package com.example.plant.Fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plant.MainActivity
 import com.example.plant.adapter.FruitAdapter
 import com.example.plant.adapter.OrnaAdapter
-import com.example.plant.adapter.StarAdapter
 import com.example.plant.adapter.VegiAdapter
 import com.example.plant.databinding.FragmentStarBinding
 import com.example.plant.model.Plant
@@ -48,13 +45,6 @@ class StarFragment : Fragment() {
             Plant(plantName = "가시가시", plantScore = 100, startDate = "32일째", "장미","Good", true)
         )
 
-        fruitAdapter = context?.let { FruitAdapter(dataFruit) }!!
-        binding.homeStarFruitRcv.adapter = fruitAdapter
-
-        fruitRecyclerView = binding.homeStarFruitRcv
-        fruitRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        fruitRecyclerView.adapter = FruitAdapter(dataFruit)
-        binding.homeStarFruitRcv.setHasFixedSize(true)
 
 
 

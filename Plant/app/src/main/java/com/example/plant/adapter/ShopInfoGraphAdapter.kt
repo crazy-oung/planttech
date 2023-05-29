@@ -16,7 +16,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 
-class PlantInfoGraphAdapter(private val data: List<List<Float>>) : RecyclerView.Adapter<PlantInfoGraphAdapter.ViewHolder>() {
+class ShopInfoGraphAdapter(private val data: List<List<Float>>) : RecyclerView.Adapter<ShopInfoGraphAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val chart: LineChart = itemView.findViewById(R.id.info_barChart)
@@ -30,7 +30,7 @@ class PlantInfoGraphAdapter(private val data: List<List<Float>>) : RecyclerView.
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when(position){
-            0 -> holder.title.text = "온도"
+            0 -> holder.title.text = "시세"
             1 -> holder.title.text = "습도"
             2 -> holder.title.text = "물온도"
             3 -> holder.title.text = "광량"

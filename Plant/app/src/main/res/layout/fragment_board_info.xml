@@ -231,7 +231,7 @@
                             android:layout_weight="0.6"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="거래가"
+                            android:text="최근 거래가"
                             />
                         <TextView
                             android:id="@+id/board_info_trade_date_tv"

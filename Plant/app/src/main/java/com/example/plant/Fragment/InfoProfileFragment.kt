@@ -72,8 +72,8 @@ class InfoProfileFragment : Fragment() {
                                             i.plantKoreanName!!,
                                             i.plantCategory!!,
                                             state,
-                                            sensorResponse!![0].temp,
-                                            sensorResponse[0].humi
+                                            sensorResponse!![0].temp!!,
+                                            sensorResponse[0].humi!!
                                         )
                                     )
 

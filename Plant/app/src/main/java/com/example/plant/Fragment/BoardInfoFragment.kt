@@ -30,7 +30,7 @@ class BoardInfoFragment : Fragment() {
     lateinit var plantInfoRecyclerView : RecyclerView
     lateinit var plantInfoAdapter: PlantInfoAdapter
     lateinit var plantInfoGraphRecyclerView : RecyclerView
-    lateinit var plantInfoGraphAdapter: PlantInfoGraphAdapter
+    lateinit var shopInfoGraphAdapter: ShopInfoGraphAdapter
     lateinit var boardOtherPlantRecyclerView: RecyclerView
     lateinit var boardOtherPlantAdapter : BoardOtherPlantAdapter
     lateinit var boardTradeListPlantRecyclerView: RecyclerView
@@ -290,6 +290,21 @@ class BoardInfoFragment : Fragment() {
                                 .commit()
                         }
 
+                        binding.boardInfoSellNowBtn.setOnClickListener {
+                            // 식물 정보 전달 값 넣어야함
+                            val activity = it.context as AppCompatActivity
+                            val bundle = Bundle()
+                            bundle.putInt("plantNo", plantNumberResult)
+                            bundle.putInt("state", state)
+                            bundle.putInt("price", buyPrice)
+                            bundle.putInt("productNumber", productNumber)
+                            val sellFragment = SellFragment()
+                            sellFragment.arguments = bundle
+                            activity!!.supportFragmentManager.beginTransaction()
+                                .replace(R.id.fragmentContainer, sellFragment)
+                                .addToBackStack(null)
+                                .commit()
+                        }
                         plantInfoAdapter = context?.let { PlantInfoAdapter(plantData) }!!
                         binding.boardInfoMoreInfoRcv.adapter = plantInfoAdapter
 
@@ -429,7 +444,7 @@ class BoardInfoFragment : Fragment() {
             productActiveTv : TextView) {
 
 
-        productActiveTv.text = "거래가"
+        productActiveTv.text = "최근 거래가"
         listAdd(
             state,
             service,
@@ -442,7 +457,7 @@ class BoardInfoFragment : Fragment() {
         )
 
         completeBtn.setOnClickListener {
-            productActiveTv.text = "거래가"
+            productActiveTv.text = "최근 거래가"
             listAdd(
                 state,
                 service,
@@ -564,8 +579,8 @@ class BoardInfoFragment : Fragment() {
                                     }
 
                                     val data = listOf(test)
-                                    plantInfoGraphAdapter = context?.let { PlantInfoGraphAdapter(data) }!!
-                                    rcv.adapter = plantInfoGraphAdapter
+                                    shopInfoGraphAdapter = context?.let { ShopInfoGraphAdapter(data) }!!
+                                    rcv.adapter = shopInfoGraphAdapter
                                     plantInfoGraphRecyclerView = rcv
                                     plantInfoGraphRecyclerView.layoutManager = LinearLayoutManager(
                                         requireContext(),

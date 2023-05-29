@@ -6,37 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.AllFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="과일"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:layout_margin="10dp"
-                />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_fruit_rcv"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scrollbarFadeDuration="0"
-                android:layout_marginBottom="10dp"/>
-
-            <View
-                android:background="#DCDCDC"
-                android:layout_height="2px"
-                android:layout_width="match_parent"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 />
+
 
 
         </LinearLayout>
-    </ScrollView>
+
 </FrameLayout>

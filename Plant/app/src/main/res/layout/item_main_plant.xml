@@ -4,18 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
     </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:layout_marginTop="30dp"
+    android:layout_gravity="center">
 
     <LinearLayout
         android:id="@+id/layoutListItem"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:layout_gravity="center"
             android:background="@drawable/plant_list_shape"
             android:scaleType="fitXY"
@@ -23,37 +30,43 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/item_name"
+                    android:id="@+id/item_plant_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:textSize="24sp"
+                    android:text="Plant NickName"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/item_plant_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plant_name"
+                    android:textSize="28sp" />
                 <TextView
                     android:id="@+id/item_variety"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="variety"
-                    android:textSize="14sp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/item_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp"
-                    android:text="Good"
+                    android:text="상태 : -"
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <View
@@ -61,19 +74,38 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <ImageButton
-                android:id="@+id/star_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_margin="10dp"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/item_price"
-                app:layout_constraintTop_toBottomOf="@+id/item_state"
-                app:srcCompat="@android:drawable/btn_star_big_off" />
+
+
         </LinearLayout>
 
 
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text=" - ℃"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/item_humi"
+        />
+
+    <TextView
+        android:id="@+id/item_humi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="10dp"
+        android:text=" - %"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

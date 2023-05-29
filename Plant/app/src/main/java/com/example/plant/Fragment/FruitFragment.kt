@@ -27,13 +27,6 @@ class FruitFragment : Fragment() {
             Plant(plantName = "작은멋쟁이", plantScore = 0, startDate = "4일째", "방울토마토","Bad", false)
         )
 
-        fruitAdapter = context?.let { FruitAdapter(dataFruit) }!!
-        binding.fruitRcv.adapter = fruitAdapter
-
-        fruitRecyclerView = binding.fruitRcv
-        fruitRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        fruitRecyclerView.adapter = FruitAdapter(dataFruit)
-        binding.fruitRcv.setHasFixedSize(true)
 
         return binding.root
     }

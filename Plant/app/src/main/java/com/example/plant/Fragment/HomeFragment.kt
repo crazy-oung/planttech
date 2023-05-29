@@ -41,6 +41,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
         val service = ApiClient.getApiInterface()
 
+        binding.homeToolbar.title = "내 식물"
 
 
         service.userInfo().enqueue(object : Callback<UserMeResponse> {
@@ -71,10 +72,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
         pagerAdapter.addFragment(AllFragment())
-        pagerAdapter.addFragment(StarFragment())
-        pagerAdapter.addFragment(FruitFragment())
-        pagerAdapter.addFragment(VegitableFragment())
-        pagerAdapter.addFragment(OrnamentalFragment())
 
         // adapter 연결
         viewPager?.adapter = pagerAdapter
@@ -85,7 +82,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         })
 
-        val tabList = listOf<String>("전체", "관심", "과일", "채소", "관상식물")
+        val tabList = listOf<String>("전체")
         viewPager?.let {
             TabLayoutMediator(tabLayout, it){ tab, position ->
                 tab.text = tabList[position]

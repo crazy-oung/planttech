@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.plant.MainActivity
 import com.example.plant.R
@@ -157,8 +158,8 @@ class BuyFragment : Fragment() {
 
         binding.buyHopePriceEt.addTextChangedListener(textWatcher)
 
-        // 예측거래가 넣어야함
-        binding.buyPredictionPriceTv.text = "예측 불가" + " 원"
+
+        binding.buyPredictionPriceTv.text = "1,301" + " 원"
 
         binding.buyNowBuyPriceTv.visibility = View.INVISIBLE
         binding.buyDeadlineTv.visibility = View.VISIBLE
@@ -293,6 +294,13 @@ class BuyFragment : Fragment() {
                         }
 
                     })
+
+                    toast("처리가 완료되었습니다.")
+                    mainActivity.supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainer, BoardInfoFragment())
+                        .addToBackStack(null)
+                        .commit()
                 }
             }
             else{
@@ -333,5 +341,8 @@ class BuyFragment : Fragment() {
         val value = str.toLong()
         val format = DecimalFormat("###,###")
         return format.format(value)
+    }
+    fun toast(message: String){
+        Toast.makeText(mainActivity, message, Toast.LENGTH_SHORT).show()
     }
 }

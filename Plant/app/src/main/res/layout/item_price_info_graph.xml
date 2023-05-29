@@ -9,16 +9,13 @@
     >
 
 
-
     <TextView
         android:id="@+id/plant_info_graph_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        android:text="예측 가격 : -"
+        android:layout_marginLeft="20dp"
+        android:text="온도"
         />
 
     <com.github.mikephil.charting.charts.LineChart
